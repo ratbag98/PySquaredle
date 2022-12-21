@@ -129,9 +129,9 @@ The chain recursion will check chains like 0124, 0125, 0145, 0143, 01436 etc.
 
 The chains are converted back to strings by dereferencing the puzzle character
 array (ABCE, ABCF, ABEF, etc.). If the word is in the trie structure it gets
-added to the solution. Ifthere are words in the trie that start with the
-candidate "word" (string ofletters), then we keep searching down the chain (ie
-call the recursive functionwith the chain and add new neighbours).
+added to the solution. If there are words in the trie that start with the
+candidate "word" (string of letters), then we keep searching down the chain (ie
+call the recursive function with the chain and add new neighbours).
 
 If there are no further words in the trie that start with our current chain's
 letters then we go to the next neighbour and recurse into that chain.
@@ -139,28 +139,22 @@ letters then we go to the next neighbour and recurse into that chain.
 The recursion unwinds as chains fail to match anything in the trie.
 
 The recursion is called once per letter in the puzzle grid and once all the
-letters have been checked the `Set` of solutions is returned.
+letters have been checked the set of solutions is returned.
 
-A `Set` is used since the same word can be found in multiple ways sometimes.
+A set is used since the same word can be found in multiple ways sometimes.
 Whilst this is interesting to know, it doesn't help solve the puzzle so
 repetitions are dropped.
 
 ### Possible things to try in the code as mental exercises
 
 - Pass the neighbour list in and avoid an iteration (chop item off local neighbour list as we go)
-- The trie's logic is a little opaque, there may be an optimisation to avoid some recursion.
 - Relax the uniqueness requirement, in case we want to show the solution in some graphical fashion on the grid and to include alternatives.
-- Are Iterators appropriate for the character array? We might have one to iterate in a linear fashion and another to scan through the grid left-to-right, top-to-bottom?
 
 ## Roadmap
 
-- [x] Configuration for `wordListPath`
-- [x] Expose the board and neighbour list via command line flags
-- [x] Optionally Group solutions by word length (as used in the puzzle)
-- [x] Sort solutions alphabetically rather than recursively
+- [ ] Test suite
+- [ ] Make code more idiomatic
 - [ ] Optionally separate results for "common" vs "uncommon" words
-- [x] Command-line help
-- [ ] Command-line argument aggregation (`-dlnw path`)
 - [ ] Keep word list up to date
 - [ ] Some graphical pizazz to show word formation in the grid
 - [ ] Live update of the search like in the movies
@@ -169,7 +163,7 @@ repetitions are dropped.
 ## Contributing
 
 Not looking for contributions right now. This is a learning exercise as
-I start my journey in C#. Once it's "finished" I'll be happy to accept
+I start my journey in Python. Once it's "finished" I'll be happy to accept
 contributions.
 
 ## License
@@ -179,9 +173,9 @@ about English vs American English spelling, thanks.
 
 ## Contact
 
-Project link: <https://github.com/ratbag98/SquaredleSolver.git>
+Project link: <https://github.com/ratbag98/PySquaredle.git>
 
 ## Acknowledgements
 
-- Trie code from: <https://github.com/AndrewMcShane/DevMakingSource>
+- Original C# Trie code from: <https://github.com/AndrewMcShane/DevMakingSource>
 - Word list from: <https://github.com/dwyl/english-words.git>
