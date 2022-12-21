@@ -8,12 +8,10 @@ This is a python rewrite of my
 Same deal, I'm now learning Python so let's do a noddy project in shoddy
 python and refactor until it's good code.
 
-TODO: this README was copied from the C# repo and will gradually be updated.
-
 Noddy Python program to solve the daily
 [Squaredle puzzle](https://squaredle.app/)
 
-The puzzle involve a grid of letters. You start from any letter in the grid
+The puzzle involves a grid of letters. You start from any letter in the grid
 and then join them continuously and without repetition to make words of four
 of more letters. You have to find all the "normal" words in the grid in order
 to complete the puzzle. There are additional "bonus" words, generally less
@@ -24,7 +22,19 @@ Python project does exactly that.
 
 ## Getting Started
 
-Clone the repo. Make sure you've got a recent Python installed (I'm using 3.10.8).
+I use a conda environment, although I don't think there are any dependencies.
+If you want, you can run
+
+```bash
+conda create --name squaredle --file req.txt
+conda activate squaredle
+```
+
+If you're using another package manager, take a quick look at the file and
+see if you're missing anything on the list.
+
+Clone the repo. Make sure you've got a recent Python installed (I'm using
+3.10.8).
 
 ### Running the solver
 
@@ -159,6 +169,7 @@ repetitions are dropped.
 - [ ] Some graphical pizazz to show word formation in the grid
 - [ ] Live update of the search like in the movies
 - [ ] Reverse the logic somewhat in order to generate puzzles
+- [ ] Automate dependency file creation (`conda list -e > req.txt`) on change.
 
 ## Contributing
 
