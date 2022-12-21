@@ -1,6 +1,7 @@
 from trie import Trie
 from itertools import groupby
 import sys
+import math
 
 # represent and solve a Squaredle puzzle (httos://squaredle.app)
 # a bunch of letters
@@ -9,9 +10,18 @@ import sys
 # a recursive chain builder to find solutions in the grid
 
 class Puzzle:
-  def __init__(self, letters, sideLength):
+  def __init__(self, letters):
+    """
+    Create a Squaredle puzzle.
+
+    letters   a string of letters representing the puzzle, left to right, top to bottom
+
+    The letters string's length must be a square number (9, 16, 25 etc).
+    """
+
     self.puzzle = str.upper(letters)
-    self.size = sideLength
+    self.set_size()
+
     self.neighbours = []
     self.tr = Trie()
     self.solutions = set()
@@ -69,17 +79,29 @@ class Puzzle:
 
     self.solution_generated = True
 
-  def print_solutions(self, sort_alpha, group_length):
+  def print_solutions(self, args):
     solutions_list = list(self.solutions)
 
-    if sort_alpha:
+    if args.single_column:
+      divider="\n"
+    else:
+      divider="\t"
+
+    if args.sort:
       solutions_list.sort()
-    # if group_length:
-    #   grouped = [list(i) for j,i in groupby(solutions_list,
-    #                                         lambda a: len(a))]
-    #   print(str(grouped))
-    # else:
-    print(str.join("\n", solutions_list))
+    if args.length:
+      solutions_list.sort(key=len)
+      grouped = [list(i) for j,i in groupby(solutions_list, key=len)]
+
+      for group in grouped:
+        length = len(group[0])
+        if not args.headers:
+          print("===> ",length, " letter words\n")
+        print(str.join(divider, group))
+        if not args.headers:
+          print()
+    else:
+      print(str.join(divider, solutions_list))
 
 
 
@@ -114,3 +136,11 @@ class Puzzle:
       word += self.puzzle[index]
 
     return word
+
+  def set_size(self):
+    sideLength = math.sqrt(len(self.puzzle))
+
+    if sideLength % 1 == 0:
+      self.size = int(sideLength)
+    else:
+      raise Exception("Length of letters must be a square number (9, 16, 25 etc.)")
