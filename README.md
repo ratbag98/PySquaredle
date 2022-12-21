@@ -188,5 +188,5 @@ Project link: <https://github.com/ratbag98/PySquaredle.git>
 
 ## Acknowledgements
 
-- Original C# Trie code from: <https://github.com/AndrewMcShane/DevMakingSource>
-- Word list from: <https://github.com/dwyl/english-words.git>
+- Trie structure: [AskPython](https://www.askpython.com/python/examples/trie-data-structure)
+- Word list from: [dwyl](https://github.com/dwyl/english-words.git)
