@@ -24,6 +24,7 @@ letters = args.letters
 
 sideLength = math.sqrt(len(letters))
 
+# TODO move this into the class
 if sideLength % 1 != 0:
   sys.exit('Length of letters must be a square number, eg 9, 16, 25, 36')
 
@@ -34,11 +35,3 @@ if args.grid:
 
 if args.neighbours:
   print(puzzle.list_neighbours())
-
-
-tr = Trie()
-
-with open('word_list.txt') as wl:
-  Lines = wl.readlines()
-  for line in Lines:
-    tr.insert(line.rstrip())
