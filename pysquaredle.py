@@ -35,3 +35,6 @@ if args.grid:
 
 if args.neighbours:
   print(puzzle.list_neighbours())
+
+puzzle.solve()
+puzzle.print_solutions(args.sort, args.length)
