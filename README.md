@@ -2,14 +2,16 @@
 
 ## About this project
 
-This is a python rewrite of my C# Squaredle solver (https://github.com/ratbag98/SquaredleSolver.git).
+This is a python rewrite of my
+[C# Squaredle solver](https://github.com/ratbag98/SquaredleSolver.git).
 
 Same deal, I'm now learning Python so let's do a noddy project in shoddy
 python and refactor until it's good code.
 
 TODO: this README was copied from the C# repo and will gradually be updated.
 
-Noddy Python program to solve the daily [Squaredle puzzle](https://squaredle.app/)
+Noddy Python program to solve the daily
+[Squaredle puzzle](https://squaredle.app/)
 
 The puzzle involve a grid of letters. You start from any letter in the grid
 and then join them continuously and without repetition to make words of four

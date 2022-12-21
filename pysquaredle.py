@@ -32,6 +32,9 @@ puzzle = Puzzle(letters, int(sideLength))
 if args.grid:
   print(puzzle.grid())
 
+if args.neighbours:
+  print(puzzle.list_neighbours())
+
 
 tr = Trie()
 
