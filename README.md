@@ -1,4 +1,4 @@
-# SquaredleSolver
+# PySquaredle
 
 ## About this project
 
@@ -20,20 +20,11 @@ to complete the puzzle. There are additional "bonus" words, generally less
 common, and these are used to differentiate contestants on the high score table.
 
 The puzzle is susceptible to a recursive word-list "attack" and this simple
-C# project does exactly that.
+Python project does exactly that.
 
 ## Getting Started
 
-The project was built inside Visual Studio for Mac. If you're not using that
-weird beast then I can't help you.
-
-Clone the repo and add the solution to Visual Studio. Build (probably in
-Release configuration) and away you go.). Find the executable (in
-`./SquaredleSolver/SquaredleSolver/bin/Release/net7.0`) and put it somewhere
-useful.
-
-Specify the word list path with the `-w` option. Run the program with the
-`--help` option for more details.
+Clone the repo. Make sure you've got a recent Python installed (I'm using 3.10.8).
 
 ### Running the solver
 
@@ -49,7 +40,7 @@ So we run the solver with the letters, organised as a single string reading
 the grid from left to right, top to bottom:
 
 ```bash
-./SquaredleSolver GACSNEWID
+python pysquaredle.py GACSNEWID
 ```
 
 (upper or lower-case, live a little).
@@ -86,21 +77,21 @@ substitute it. You should trim short words from it (only include four letters
 and more). I used:
 
 ```bash
-rg -Nw '^[a-z]{4,}$' words.txt > ../SquaredleSolver/word_list.txt
+rg -Nw '^[a-z]{4,}$' words.txt > word_list.txt
 ```
 
 to trim the list appropriately.
 
 ## Basic program logic
 
-The board is represented as a character array. Most of the code uses
-indexes into this array. A function is provided that maps between grid
+The puzzle is represented as a string. Most of the code uses
+indexes into this string. A function is provided that maps between grid
 coordinates and indexes.
 
 The word list is stored as a "trie" which allows for efficient searching for
 words that start with a set of letters.
 
-The solution algorithm iterates over each letter in the character array. Using
+The solution algorithm iterates over each letter in the puzzle string. Using
 the character it then recursively generates chains of letters. The next letter
 in the chain is selected from the last item in the chain's "neighbours". For
 example if we have a grid of letters:
@@ -111,14 +102,14 @@ DEF
 GHI
 ```
 
-then the character array looks like:
+then the puzzle string looks like:
 
 ```text
 012345678
 ABCDEFGHI
 ```
 
-(the numbers are the index into the array).
+(the numbers are the index into the string).
 
 We'll start with the first letter, A, index 0. To calculate the neighbours,
 imagine this grid of indexes:
@@ -137,10 +128,10 @@ flattened logic in the function itself.
 The chain recursion will check chains like 0124, 0125, 0145, 0143, 01436 etc.
 
 The chains are converted back to strings by dereferencing the puzzle character
-array (ABCE, ABCF, ABEF, etc.). If the word is in the trie structure it gets added to the solution. If
-there are words in the trie that start with the candidate "word" (string of
-letters), then we keep searching down the chain (ie call the recursive function
-with the chain and add new neighbours).
+array (ABCE, ABCF, ABEF, etc.). If the word is in the trie structure it gets
+added to the solution. Ifthere are words in the trie that start with the
+candidate "word" (string ofletters), then we keep searching down the chain (ie
+call the recursive functionwith the chain and add new neighbours).
 
 If there are no further words in the trie that start with our current chain's
 letters then we go to the next neighbour and recurse into that chain.
@@ -148,9 +139,9 @@ letters then we go to the next neighbour and recurse into that chain.
 The recursion unwinds as chains fail to match anything in the trie.
 
 The recursion is called once per letter in the puzzle grid and once all the
-letters have been checked the `HashSet` of solutions is returned.
+letters have been checked the `Set` of solutions is returned.
 
-A `HashSet` is used since the same word can be found in multiple ways sometimes.
+A `Set` is used since the same word can be found in multiple ways sometimes.
 Whilst this is interesting to know, it doesn't help solve the puzzle so
 repetitions are dropped.
 
