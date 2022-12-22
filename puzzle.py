@@ -10,6 +10,15 @@ import math
 # a recursive chain builder to find solutions in the grid
 
 class Puzzle:
+
+  # neighbour coordinates for a cell
+  DELTAS = [
+                [-1,-1], [0,-1], [1, -1],
+                [-1, 0],         [1, 0],
+                [-1, 1], [0, 1], [1, 1]
+              ]
+
+
   def __init__(self, letters):
     """
     Create a Squaredle puzzle.
@@ -20,16 +29,26 @@ class Puzzle:
     """
 
     self.puzzle = str.upper(letters)
+    self.cell_count = len(self.puzzle)
     self.set_size()
 
-    self.neighbours = []
+    self.neighbours = self.__calculate_neighbours()
+
+
     self.tr = Trie()
     self.solutions = set()
     self.solution_generated = False
 
-    self.__calculate_neighbours()
+
     self.__load_words()
 
+  def set_size(self):
+    sideLength = math.sqrt(self.cell_count)
+
+    if sideLength % 1 == 0:
+      self.size = int(sideLength)
+    else:
+      raise Exception("Length of letters must be a square number (9, 16, 25 etc.)")
 
   def grid(self):
     grid = ''
@@ -39,6 +58,8 @@ class Puzzle:
       grid = grid + self.puzzle[start:end] + "\n"
     return grid
 
+  # smelly string adding
+  # also trailing comma bug
   def list_neighbours(self):
     neighbourhood = ""
     for y in range(self.size):
@@ -47,33 +68,8 @@ class Puzzle:
       neighbourhood += '\n'
     return neighbourhood
 
-  def __idx(self, x, y):
-    return x + (y*self.size)
-
-  def __valid_neighbour(self, ox, oy, dx, dy):
-    valid = (ox + dx) in range(0,self.size) and (oy + dy) in range(0,self.size) and not (dx ==0 and dy==0)
-    return valid
-
-  def __calculate_neighbours(self):
-    for n in range(len(self.puzzle)):
-      self.neighbours.append([])
-
-    for oy in range(self.size):
-      for ox in range(self.size):
-        for dy in range(-1,2):
-          for dx in range(-1,2):
-            if self.__valid_neighbour(ox, oy, dx, dy):
-              self.neighbours[self.__idx(ox,oy)].append(self.__idx(ox+dx, oy+dy))
-
-  def __load_words(self):
-    with open('word_list.txt') as wl:
-      Lines = wl.readlines()
-      for l in [str.upper(line.rstrip()) for line in Lines]:
-        if len(l) <= self.size * self.size:
-          self.tr.insert(l)
-
   def solve(self):
-    for index in range(len(self.puzzle)):
+    for index in range(self.cell_count):
       chain = [index]
       self.__check_letter_chains(chain)
 
@@ -103,7 +99,36 @@ class Puzzle:
     else:
       print(str.join(divider, solutions_list))
 
+  def __idx(self, x, y):
+    return x + (y*self.size)
 
+  def __coord(self, index):
+    return index % self.size, index // self.size
+
+  def __on_grid(self, x, y):
+    return  x in range(0, self.size) and \
+            y in range(0, self.size)
+
+  def __calculate_neighbours(self):
+    """
+    create list of list of neighbouring cells for every cell in the puzzle
+    """
+    neighbours = []
+    for i in range(self.cell_count):
+      neighbours.append([])
+      ox, oy = self.__coord(i)
+      for dx, dy in self.DELTAS:
+        nx, ny = ox+dx, oy+dy
+        if self.__on_grid(nx, ny):
+          neighbours[self.__idx(ox,oy)].append(self.__idx(nx, ny))
+    return neighbours
+
+  def __load_words(self):
+    with open('word_list.txt') as wl:
+      Lines = wl.readlines()
+      for l in [str.upper(line.rstrip()) for line in Lines]:
+        if len(l) <= self.size * self.size:
+          self.tr.insert(l)
 
   def __check_letter_chains(self, chain):
 
@@ -136,11 +161,3 @@ class Puzzle:
       word += self.puzzle[index]
 
     return word
-
-  def set_size(self):
-    sideLength = math.sqrt(len(self.puzzle))
-
-    if sideLength % 1 == 0:
-      self.size = int(sideLength)
-    else:
-      raise Exception("Length of letters must be a square number (9, 16, 25 etc.)")
