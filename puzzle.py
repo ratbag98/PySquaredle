@@ -13,7 +13,12 @@ import math
 class Puzzle:
 
     # neighbour coordinates for a cell
-    DELTAS = [[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]]
+    # format off since it shows the shape of neighbours
+    # fmt: off
+    DELTAS = [[-1, -1], [0, -1],    [1, -1],
+              [-1, 0],              [1, 0],
+              [-1, 1],  [0, 1],     [1, 1]]
+    # fmt: on
 
     def __init__(self, letters):
         """
