@@ -20,7 +20,9 @@ class Puzzle:
               [-1, 1],  [0, 1],     [1, 1]]
     # fmt: on
 
-    def __init__(self, letters):
+    WORD_LIST='./word_list.txt'
+
+    def __init__(self, letters, word_list = WORD_LIST):
         """
         Create a Squaredle puzzle.
 
@@ -38,7 +40,7 @@ class Puzzle:
         self.solutions = set()
         self.solution_generated = False
 
-        self.__load_words()
+        self.__load_words(word_list)
 
     def set_size(self):
         sideLength = math.sqrt(self.cell_count)
@@ -128,8 +130,8 @@ class Puzzle:
                     neighbours[self.__idx(ox, oy)].append(self.__idx(nx, ny))
         return neighbours
 
-    def __load_words(self):
-        with open("word_list.txt") as wl:
+    def __load_words(self, word_list):
+        with open(word_list) as wl:
             lines = wl.readlines()
             for l in [str.upper(line.rstrip()) for line in lines]:
                 if len(l) <= self.size * self.size:

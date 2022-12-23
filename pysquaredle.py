@@ -21,7 +21,11 @@ def main():
         letters = "".join(random.sample(letters, len(letters)))
 
     try:
-        puzzle = Puzzle(letters)
+        if args.word_list:
+            puzzle = Puzzle(letters, args.word_list)
+        else:
+            puzzle = Puzzle(letters)
+
     except Exception as e:
         print("Couldn't create puzzle:", e)
         sys.exit(-1)
