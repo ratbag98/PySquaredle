@@ -31,14 +31,11 @@ class Puzzle:
     self.puzzle = str.upper(letters)
     self.cell_count = len(self.puzzle)
     self.set_size()
-
     self.neighbours = self.__calculate_neighbours()
-
 
     self.tr = Trie()
     self.solutions = set()
     self.solution_generated = False
-
 
     self.__load_words()
 
@@ -68,12 +65,15 @@ class Puzzle:
       neighbourhood += '\n'
     return neighbourhood
 
+
   def solve(self):
     for index in range(self.cell_count):
       chain = [index]
-      self.__check_letter_chains(chain)
+      word = self.puzzle[index]
+      self.__attempt(chain, word)
 
     self.solution_generated = True
+
 
   def print_solutions(self, args):
     solutions_list = list(self.solutions)
@@ -125,39 +125,22 @@ class Puzzle:
 
   def __load_words(self):
     with open('word_list.txt') as wl:
-      Lines = wl.readlines()
-      for l in [str.upper(line.rstrip()) for line in Lines]:
+      lines = wl.readlines()
+      for l in [str.upper(line.rstrip()) for line in lines]:
         if len(l) <= self.size * self.size:
           self.tr.insert(l)
 
-  def __check_letter_chains(self, chain):
 
-    cell_index = chain[-1]
 
-    for neighbour_index in self.neighbours[cell_index]:
 
-      # only one visit to a cell per chain
-      if neighbour_index in chain:
-        continue
+  def __attempt(self, index_chain, word):
+    hits = self.tr.search(word)
 
-      next_chain = chain.copy()
-      next_chain.append(neighbour_index)
+    if hits:
+      if hits[0] == word:
+        self.solutions.add(word)
 
-      # print(str.join(":", [str(index) for index in next_chain]))
-
-      candidate = self.__word_from_chain(next_chain)
-
-      hits = self.tr.search(candidate)
-
-      if len(hits) >0:
-        if hits[0] == candidate:
-          self.solutions.add(candidate)
-
-        self.__check_letter_chains(next_chain)
-
-  def __word_from_chain(self, chain):
-    word = ""
-    for index in chain:
-      word += self.puzzle[index]
-
-    return word
+      for n in self.neighbours[index_chain[-1]]:
+        if not n in index_chain:
+          self.__attempt(index_chain + [n],
+                         word + self.puzzle[n])

@@ -32,6 +32,7 @@ def main():
     print(puzzle.list_neighbours())
 
   puzzle.solve()
+
   puzzle.print_solutions(args)
 
   # be nice to pipelines
