@@ -20,9 +20,9 @@ class Puzzle:
               [-1, 1],  [0, 1],     [1, 1]]
     # fmt: on
 
-    WORD_LIST='./word_list.txt'
+    WORD_LIST = "./word_list.txt"
 
-    def __init__(self, letters, word_list = WORD_LIST):
+    def __init__(self, letters, word_list=WORD_LIST):
         """
         Create a Squaredle puzzle.
 
@@ -33,7 +33,7 @@ class Puzzle:
 
         self.puzzle = str.upper(letters)
         self.cell_count = len(self.puzzle)
-        self.set_size()
+        self.__set_size()
         self.neighbours = self.__calculate_neighbours()
 
         self.tr = Trie()
@@ -41,16 +41,6 @@ class Puzzle:
         self.solution_generated = False
 
         self.__load_words(word_list)
-
-    def set_size(self):
-        sideLength = math.sqrt(self.cell_count)
-
-        if sideLength % 1 == 0:
-            self.size = int(sideLength)
-        else:
-            raise Exception(
-                "Length of letters must be a square number (9, 16, 25 etc.)"
-            )
 
     def grid(self):
         grid = ""
@@ -60,20 +50,17 @@ class Puzzle:
             grid = grid + self.puzzle[start:end] + "\n"
         return grid
 
-    # smelly string adding
-    # also trailing comma bug
+    # generate a list of neighbours for each cell in the grid
     def list_neighbours(self):
-        neighbourhood = ""
-        for y in range(self.size):
-            for x in range(self.size):
-                neighbourhood += (
-                    str.join(
-                        ":", [str(elem) for elem in self.neighbours[self.__idx(x, y)]]
-                    )
-                    + ", "
-                )
-            neighbourhood += "\n"
-        return neighbourhood
+        return ",\n".join(self.__row_of_neighbours(y) for y in range(self.size))
+
+    def __row_of_neighbours(self, y):
+        return ", ".join(
+            [self.__neighbours_to_string(self.__idx(x, y)) for x in range(self.size)]
+        )
+
+    def __neighbours_to_string(self, index):
+        return ":".join([str(elem) for elem in self.neighbours[index]])
 
     def solve(self):
         for index in range(self.cell_count):
@@ -107,6 +94,7 @@ class Puzzle:
         else:
             print(str.join(divider, solutions_list))
 
+    # find the linear index for a pair of puzzle coordinates
     def __idx(self, x, y):
         return x + (y * self.size)
 
@@ -147,3 +135,13 @@ class Puzzle:
             for n in self.neighbours[index_chain[-1]]:
                 if not n in index_chain:
                     self.__attempt(index_chain + [n], word + self.puzzle[n])
+
+    def __set_size(self):
+        sideLength = math.sqrt(self.cell_count)
+
+        if sideLength % 1 == 0:
+            self.size = int(sideLength)
+        else:
+            raise Exception(
+                "Length of letters must be a square number (9, 16, 25 etc.)"
+            )
