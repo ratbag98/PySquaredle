@@ -38,7 +38,7 @@ def main():
 
     puzzle.solve()
 
-    puzzle.print_solutions(args)
+    puzzle.print_solutions(vars(args))
 
     # be nice to pipelines
     return 0

@@ -72,28 +72,38 @@ class Puzzle:
         self.solution_generated = True
 
     def print_solutions(self, args):
-        solutions_list = list(self.solutions)
+        solutions_list = self.raw_solutions(args["sort"])
 
-        if args.single_column:
-            divider = "\n"
-        else:
-            divider = "\t"
+        divider = self.divider(args["single_column"])
 
-        if args.sort:
-            solutions_list.sort()
-        if args.length:
+        if args["length"]:
             solutions_list.sort(key=len)
             grouped = [list(i) for j, i in groupby(solutions_list, key=len)]
 
             for group in grouped:
                 length = len(group[0])
-                if not args.headers:
+                if not args["headers"]:
                     print("===> ", length, " letter words\n")
                 print(str.join(divider, group))
-                if not args.headers:
+                if not args["headers"]:
                     print()
         else:
             print(str.join(divider, solutions_list))
+
+    def raw_solutions(self, sorted=False):
+        if not self.solution_generated:
+            raise Exception(".solve() must be called before .print_solutions()")
+
+        solutions = list(self.solutions)
+        if sorted:
+            solutions.sort()
+        return solutions
+
+    def divider(self, single_column):
+        if single_column:
+            return "\n"
+        else:
+            return "\t"
 
     # find the linear index for a pair of puzzle coordinates
     def __idx(self, x, y):
@@ -147,8 +157,6 @@ class Puzzle:
             raise Exception(
                 "Length of letters must be a square number (9, 16, 25 etc.)"
             )
-
-
 
     def word_list_length(self):
         """
