@@ -5,11 +5,11 @@ import math
 import random
 import sys
 
-from puzzle import Puzzle
+from puzzle import NonSquarePuzzle, Puzzle
 from trie import Trie
 
 
-def main():
+def main() -> int:
     """
     Main entry point for pysquaredle. Solves or sets Squaredle-type puzzles.
     """
@@ -45,7 +45,7 @@ def main():
     return 0
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="PySquaredle",
         description="Solves the Squaredle puzzle, as seen on https://squaredle.app",
@@ -93,6 +93,7 @@ def parse_args():
 
     args = parser.parse_args()
     return args
+
 
 if __name__ == "__main__":
     main()

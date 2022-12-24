@@ -1,6 +1,8 @@
-import pytest
-from puzzle import Puzzle
 import argparse
+
+import pytest
+
+from puzzle import NonSquarePuzzleException, NotSolvedYetException, Puzzle
 
 
 class TestPuzzle:
@@ -8,9 +10,7 @@ class TestPuzzle:
     test_words = "test_word_list.txt"
 
     def test_grid_must_be_square(self):
-        with pytest.raises(
-            Exception, match="Length of letters must be a square number.*"
-        ):
+        with pytest.raises(NonSquarePuzzleException):
             puzzle = Puzzle("ABC", word_list=self.test_words)
 
     def test_puzzle_created(self):
@@ -40,14 +40,14 @@ class TestPuzzle:
 
         assert not "OPERA" in puzzle.raw_solutions()
 
-    def test_exception_if_solve_called_before_getting_solutions(self):
+    def test_exception_if_solutions_requested_before_solve_called(self):
         puzzle = Puzzle("ABCD", word_list=self.test_words)
 
-        with pytest.raises(Exception, match=".solve\(\) must be called before.*"):
+        with pytest.raises(NotSolvedYetException):
             puzzle.raw_solutions()
 
-        with pytest.raises(Exception, match=".solve\(\) must be called before.*"):
-            puzzle.print_solutions({'sort': False})
+        with pytest.raises(NotSolvedYetException):
+            puzzle.print_solutions({"sort": False})
 
     def test_can_get_or_print_solutions_if_solve_called(self):
         puzzle = Puzzle(self.good_letters, word_list=self.test_words)

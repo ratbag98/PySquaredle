@@ -4,14 +4,41 @@ from itertools import groupby
 
 from trie import Trie
 
-# represent and solve a Squaredle puzzle (httos://squaredle.app)
-# a bunch of letters
-# a list of neighbours for each cell in a grid
-# a word list stored as a trie for speedy starts with searches
-# a recursive chain builder to find solutions in the grid
+
+class NotSolvedYetException(Exception):
+    """
+    Puzzle.solve() must be called before solutions are requested
+    """
+
+    def __init__(
+        self,
+        message=".solve() must be called before requesting solutions",
+        *args: object
+    ) -> None:
+        super().__init__(*args)
+
+
+class NonSquarePuzzleException(Exception):
+    """
+    All puzzles must be square. For example 3x3, 4x4 etc.
+    """
+
+    def __init__(
+        self,
+        message="Length of letters must be a square number (9, 16, 25 etc.)",
+        *args: object
+    ) -> None:
+        super().__init__(*args)
 
 
 class Puzzle:
+    """
+    represent and solve a Squaredle puzzle (httos://squaredle.app)
+    a bunch of letters
+    a list of neighbours for each cell in a grid
+    a word list stored as a trie for speedy starts with searches
+    a recursive chain builder to find solutions in the grid
+    """
 
     # neighbour coordinates for a cell
     # format off since it shows the shape of neighbours
@@ -44,7 +71,7 @@ class Puzzle:
         self.word_list_count = 0
         self.__load_words(word_list)
 
-    def grid(self):
+    def grid(self) -> str:
         grid = ""
         for y in range(self.size):
             start = self.__idx(0, y)
@@ -53,18 +80,10 @@ class Puzzle:
         return grid
 
     # generate a list of neighbours for each cell in the grid
-    def list_neighbours(self):
+    def list_neighbours(self) -> str:
         return ",\n".join(self.__row_of_neighbours(y) for y in range(self.size))
 
-    def __row_of_neighbours(self, y):
-        return ", ".join(
-            [self.__neighbours_to_string(self.__idx(x, y)) for x in range(self.size)]
-        )
-
-    def __neighbours_to_string(self, index):
-        return ":".join([str(elem) for elem in self.neighbours[index]])
-
-    def solve(self):
+    def solve(self) -> None:
         for index in range(self.cell_count):
             chain = [index]
             word = self.puzzle[index]
@@ -72,10 +91,10 @@ class Puzzle:
 
         self.solution_generated = True
 
-    def print_solutions(self, args):
+    def print_solutions(self, args) -> None:
         solutions_list = self.raw_solutions(args["sort"])
 
-        divider = self.divider(args["single_column"])
+        divider = self.__divider(args["single_column"])
 
         if args["length"]:
             solutions_list.sort(key=len)
@@ -91,16 +110,33 @@ class Puzzle:
         else:
             print(str.join(divider, solutions_list))
 
-    def raw_solutions(self, sorted=False):
+    def raw_solutions(self, sorted=False) -> list[str]:
         if not self.solution_generated:
-            raise Exception(".solve() must be called before .print_solutions()")
+            raise NotSolvedYetException(
+                ".solve() must be called before .print_solutions()"
+            )
 
         solutions = list(self.solutions)
         if sorted:
             solutions.sort()
         return solutions
 
-    def divider(self, single_column):
+    def word_list_length(self) -> int:
+        """
+        Number of words in the filtered list. Only words of length 4 to the
+        size of the puzzle are loaded.
+        """
+        return self.word_list_count
+
+    def __row_of_neighbours(self, y):
+        return ", ".join(
+            [self.__neighbours_to_string(self.__idx(x, y)) for x in range(self.size)]
+        )
+
+    def __neighbours_to_string(self, index):
+        return ":".join([str(elem) for elem in self.neighbours[index]])
+
+    def __divider(self, single_column) -> str:
         if single_column:
             return "\n"
         else:
@@ -155,13 +191,4 @@ class Puzzle:
         if sideLength % 1 == 0:
             self.size = int(sideLength)
         else:
-            raise Exception(
-                "Length of letters must be a square number (9, 16, 25 etc.)"
-            )
-
-    def word_list_length(self):
-        """
-        Number of words in the filtered list. Only words of length 4 to the
-        size of the puzzle are loaded.
-        """
-        return self.word_list_count
+            raise NonSquarePuzzleException
