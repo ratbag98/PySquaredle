@@ -90,10 +90,6 @@ def parse_args():
         "-w", "--word-list", help="use different word list to default (./word_list.txt)"
     )
 
-    # TODO implement random and differentiate
-    # parser.add_argument('-d','--differentiate', action='store_true')
-    # parser.add_argument('-R', '--random-plus', action='store_true', help='randomise letters before placing in grid. Pad to nearest valid size with random letters')
-
     args = parser.parse_args()
     return args
 

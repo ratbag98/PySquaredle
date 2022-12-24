@@ -40,6 +40,7 @@ class Puzzle:
         self.solutions = set()
         self.solution_generated = False
 
+        self.word_list_count = 0
         self.__load_words(word_list)
 
     def grid(self):
@@ -123,6 +124,7 @@ class Puzzle:
             lines = wl.readlines()
             for l in [str.upper(line.rstrip()) for line in lines]:
                 if len(l) <= self.size * self.size:
+                    self.word_list_count += 1
                     self.tr.insert(l)
 
     def __attempt(self, index_chain, word):
@@ -145,3 +147,12 @@ class Puzzle:
             raise Exception(
                 "Length of letters must be a square number (9, 16, 25 etc.)"
             )
+
+
+
+    def word_list_length(self):
+        """
+        Number of words in the filtered list. Only words of length 4 to the
+        size of the puzzle are loaded.
+        """
+        return self.word_list_count
