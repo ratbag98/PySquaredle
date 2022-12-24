@@ -1,7 +1,8 @@
-from trie import Trie
-from itertools import groupby
-import sys
 import math
+import sys
+from itertools import groupby
+
+from trie import Trie
 
 # represent and solve a Squaredle puzzle (httos://squaredle.app)
 # a bunch of letters

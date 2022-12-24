@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
-from trie import Trie
 import argparse
-import random
 import math
+import random
 import sys
+
 from puzzle import Puzzle
+from trie import Trie
 
 
 def main():
@@ -92,7 +93,6 @@ def parse_args():
 
     args = parser.parse_args()
     return args
-
 
 if __name__ == "__main__":
     main()
