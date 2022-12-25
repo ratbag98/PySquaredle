@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
 import argparse
-import math
 import random
 import sys
 
-from puzzle import NonSquarePuzzle, Puzzle
-from trie import Trie
+from puzzle import NonSquarePuzzleException
+from solver import Solver
+
+#from trie import Trie
 
 
 def main() -> int:
@@ -23,23 +24,23 @@ def main() -> int:
 
     try:
         if args.word_list:
-            puzzle = Puzzle(letters, args.word_list)
+            solver = Solver(letters, args.word_list)
         else:
-            puzzle = Puzzle(letters)
+            solver = Solver(letters)
 
-    except Exception as e:
-        print("Couldn't create puzzle:", e)
+    except NonSquarePuzzleException as e:
+        print("Couldn't create puzzle:")
         sys.exit(-1)
 
     if args.grid or args.random:
-        print(puzzle.grid())
+        print(solver.grid())
 
     if args.neighbours:
-        print(puzzle.list_neighbours())
+        print(solver.list_neighbours())
 
-    puzzle.solve()
+    solver.solve()
 
-    puzzle.print_solutions(vars(args))
+    solver.print_solutions(vars(args))
 
     # be nice to pipelines
     return 0

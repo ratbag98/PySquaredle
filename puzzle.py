@@ -1,21 +1,4 @@
 import math
-import sys
-from itertools import groupby
-
-from trie import Trie
-
-
-class NotSolvedYetException(Exception):
-    """
-    Puzzle.solve() must be called before solutions are requested
-    """
-
-    def __init__(
-        self,
-        message=".solve() must be called before requesting solutions",
-        *args: object
-    ) -> None:
-        super().__init__(*args)
 
 
 class NonSquarePuzzleException(Exception):
@@ -33,11 +16,9 @@ class NonSquarePuzzleException(Exception):
 
 class Puzzle:
     """
-    represent and solve a Squaredle puzzle (httos://squaredle.app)
+    represent a Squaredle puzzle (httos://squaredle.app)
     a bunch of letters
     a list of neighbours for each cell in a grid
-    a word list stored as a trie for speedy starts with searches
-    a recursive chain builder to find solutions in the grid
     """
 
     # neighbour coordinates for a cell
@@ -48,9 +29,7 @@ class Puzzle:
               [-1, 1],  [0, 1],     [1, 1]]
     # fmt: on
 
-    WORD_LIST = "./word_list.txt"
-
-    def __init__(self, letters, word_list=WORD_LIST):
+    def __init__(self, letters):
         """
         Create a Squaredle puzzle.
 
@@ -61,129 +40,65 @@ class Puzzle:
 
         self.puzzle = str.upper(letters)
         self.cell_count = len(self.puzzle)
-        self.__set_size()
-        self.neighbours = self.__calculate_neighbours()
+        self._set_size()
+        self.neighbours = self._calculate_neighbours()
 
-        self.tr = Trie()
-        self.solutions = set()
-        self.solution_generated = False
-
-        self.word_list_count = 0
-        self.__load_words(word_list)
+    def __getitem__(self, index):
+        """
+        Default accessor retrieves a single indexed character from the puzzle
+        """
+        return self.puzzle[index]
 
     def grid(self) -> str:
         grid = ""
         for y in range(self.size):
-            start = self.__idx(0, y)
-            end = self.__idx(self.size, y)
+            start = self._idx(0, y)
+            end = self._idx(self.size, y)
             grid = grid + self.puzzle[start:end] + "\n"
         return grid
 
     # generate a list of neighbours for each cell in the grid
     def list_neighbours(self) -> str:
-        return ",\n".join(self.__row_of_neighbours(y) for y in range(self.size))
+        return ",\n".join(self._row_of_neighbours(y) for y in range(self.size))
 
-    def solve(self) -> None:
-        for index in range(self.cell_count):
-            chain = [index]
-            word = self.puzzle[index]
-            self.__attempt(chain, word)
-
-        self.solution_generated = True
-
-    def print_solutions(self, args) -> None:
-        solutions_list = self.raw_solutions(args["sort"])
-
-        divider = self.__divider(args["single_column"])
-
-        if args["length"]:
-            solutions_list.sort(key=len)
-            grouped = [list(i) for j, i in groupby(solutions_list, key=len)]
-
-            for group in grouped:
-                length = len(group[0])
-                if not args["headers"]:
-                    print("===> ", length, " letter words\n")
-                print(str.join(divider, group))
-                if not args["headers"]:
-                    print()
-        else:
-            print(str.join(divider, solutions_list))
-
-    def raw_solutions(self, sorted=False) -> list[str]:
-        if not self.solution_generated:
-            raise NotSolvedYetException()
-
-        solutions = list(self.solutions)
-        if sorted:
-            solutions.sort()
-        return solutions
-
-    def word_list_length(self) -> int:
-        """
-        Number of words in the filtered list. Only words of length 4 to the
-        size of the puzzle are loaded.
-        """
-        return self.word_list_count
-
-    def __row_of_neighbours(self, y) -> str:
+    def _row_of_neighbours(self, y) -> str:
         return ", ".join(
-            [self.__neighbours_to_string(self.__idx(x, y)) for x in range(self.size)]
+            [self._neighbours_to_string(self._idx(x, y)) for x in range(self.size)]
         )
 
-    def __neighbours_to_string(self, index) -> str:
+    def _neighbours_to_string(self, index) -> str:
         return ":".join([str(elem) for elem in self.neighbours[index]])
 
-    def __divider(self, single_column) -> str:
-        if single_column:
-            return "\n"
-        else:
-            return "\t"
-
     # find the linear index for a pair of puzzle coordinates
-    def __idx(self, x, y) -> int:
+    def _idx(self, x, y) -> int:
         return x + (y * self.size)
 
-    def __coord(self, index) -> tuple:
+    def _coord(self, index) -> tuple:
         return index % self.size, index // self.size
 
-    def __on_grid(self, x, y) -> bool:
+    def _on_grid(self, x, y) -> bool:
         return x in range(0, self.size) and y in range(0, self.size)
 
-    def __calculate_neighbours(self) -> list[list[int]]:
+    # this only depends on the size of the puzzle, not the letters
+    def _calculate_neighbours(self) -> list[list[int]]:
         """
         create list of list of neighbouring cells for every cell in the puzzle
         """
         neighbours = []
         for i in range(self.cell_count):
             neighbours.append([])
-            ox, oy = self.__coord(i)
+            ox, oy = self._coord(i)
             for dx, dy in self.DELTAS:
                 nx, ny = ox + dx, oy + dy
-                if self.__on_grid(nx, ny):
-                    neighbours[self.__idx(ox, oy)].append(self.__idx(nx, ny))
+                if self._on_grid(nx, ny):
+                    neighbours[self._idx(ox, oy)].append(self._idx(nx, ny))
         return neighbours
 
-    def __load_words(self, word_list) -> None:
-        with open(word_list) as wl:
-            lines = wl.readlines()
-            for l in [str.upper(line.rstrip()) for line in lines]:
-                if len(l) <= self.size * self.size:
-                    self.word_list_count += 1
-                    self.tr.insert(l)
+    def _get_cell_count(self) -> int:
+        return self.cell_count
 
-    def __attempt(self, index_chain, word) -> None:
-        hits = self.tr.search(word)
-
-        if hits:
-            if hits[0] == word:
-                self.solutions.add(word)
-
-            for n in self.neighbours[index_chain[-1]]:
-                if not n in index_chain:
-                    self.__attempt(index_chain + [n], word + self.puzzle[n])
-
-    def __set_size(self) -> None:
+    # size of the grid is the length of a side. So a 3x3 grid is size 3
+    def _set_size(self) -> None:
         sideLength = math.sqrt(self.cell_count)
 
         if sideLength % 1 == 0:
