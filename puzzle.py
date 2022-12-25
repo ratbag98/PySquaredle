@@ -112,9 +112,7 @@ class Puzzle:
 
     def raw_solutions(self, sorted=False) -> list[str]:
         if not self.solution_generated:
-            raise NotSolvedYetException(
-                ".solve() must be called before .print_solutions()"
-            )
+            raise NotSolvedYetException()
 
         solutions = list(self.solutions)
         if sorted:
@@ -128,12 +126,12 @@ class Puzzle:
         """
         return self.word_list_count
 
-    def __row_of_neighbours(self, y):
+    def __row_of_neighbours(self, y) -> str:
         return ", ".join(
             [self.__neighbours_to_string(self.__idx(x, y)) for x in range(self.size)]
         )
 
-    def __neighbours_to_string(self, index):
+    def __neighbours_to_string(self, index) -> str:
         return ":".join([str(elem) for elem in self.neighbours[index]])
 
     def __divider(self, single_column) -> str:
@@ -143,16 +141,16 @@ class Puzzle:
             return "\t"
 
     # find the linear index for a pair of puzzle coordinates
-    def __idx(self, x, y):
+    def __idx(self, x, y) -> int:
         return x + (y * self.size)
 
-    def __coord(self, index):
+    def __coord(self, index) -> tuple:
         return index % self.size, index // self.size
 
-    def __on_grid(self, x, y):
+    def __on_grid(self, x, y) -> bool:
         return x in range(0, self.size) and y in range(0, self.size)
 
-    def __calculate_neighbours(self):
+    def __calculate_neighbours(self) -> list[list[int]]:
         """
         create list of list of neighbouring cells for every cell in the puzzle
         """
@@ -166,7 +164,7 @@ class Puzzle:
                     neighbours[self.__idx(ox, oy)].append(self.__idx(nx, ny))
         return neighbours
 
-    def __load_words(self, word_list):
+    def __load_words(self, word_list) -> None:
         with open(word_list) as wl:
             lines = wl.readlines()
             for l in [str.upper(line.rstrip()) for line in lines]:
@@ -174,7 +172,7 @@ class Puzzle:
                     self.word_list_count += 1
                     self.tr.insert(l)
 
-    def __attempt(self, index_chain, word):
+    def __attempt(self, index_chain, word) -> None:
         hits = self.tr.search(word)
 
         if hits:
@@ -185,7 +183,7 @@ class Puzzle:
                 if not n in index_chain:
                     self.__attempt(index_chain + [n], word + self.puzzle[n])
 
-    def __set_size(self):
+    def __set_size(self) -> None:
         sideLength = math.sqrt(self.cell_count)
 
         if sideLength % 1 == 0:
