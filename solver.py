@@ -27,9 +27,9 @@ class Solver:
     We use a recursive chain builder to find solutions in the grid
     """
 
-    WORD_LIST = "./word_list.txt"
+    DEFAULT_WORD_LIST = "./word_list.txt"
 
-    def __init__(self, letters, word_list=WORD_LIST) -> None:
+    def __init__(self, letters, word_list=DEFAULT_WORD_LIST) -> None:
         self.puzzle = Puzzle(letters)
         self.cell_count = self.puzzle._get_cell_count()
         self.max_word_length = self.puzzle._get_cell_count()
@@ -39,6 +39,7 @@ class Solver:
 
         self.word_list_count = 0
         self._load_words(word_list)
+
 
     def list_neighbours(self) -> str:
         return self.puzzle.list_neighbours()
