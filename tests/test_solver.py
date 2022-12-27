@@ -36,15 +36,15 @@ class TestSolver:
         solver = Solver(self.good_letters, word_list_path=self.test_words)
         assert solver.grid() == "ABC\nDEF\nGHI\n"
 
-    def test_word_list_length(self):
+    def test_word_list_count(self):
         """
         Has the word list been filtered correctly
         """
         solver = Solver(self.good_letters, word_list_path=self.test_words)
         solver2 = Solver("ABCDEFGHIJKLMNOP", word_list_path=self.test_words)
 
-        assert solver.word_list_length() == 1345
-        assert solver2.word_list_length() == 2517
+        assert solver.word_list_count == 1345
+        assert solver2.word_list_count == 2517
 
     def test_solution_includes_all_letter_word(self):
         """

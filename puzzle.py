@@ -32,19 +32,20 @@ class Puzzle:
         The letters string's length must be a square number (9, 16, 25 etc).
         """
 
-        self.puzzle = str.upper(letters)
-        self.cell_count = len(self.puzzle)
+        self._letters = str.upper(letters)
+        self.cell_count = len(self._letters)
         self._set_size()
-        self.neighbours: list[list[int]] = self._calculate_neighbours()
+        self._neighbours: list[list[int]] = self._calculate_neighbours()
+
+    @property
+    def letters(self):
+        """
+        The letters in the puzzle
+        """
+        return self._letters
 
     def __repr__(self) -> str:
         return self.grid()
-
-    def __getitem__(self, index: int):
-        """
-        Default accessor retrieves a single indexed character from the puzzle
-        """
-        return self.puzzle[index]
 
     def grid(self) -> str:
         """
@@ -54,8 +55,14 @@ class Puzzle:
         for y in range(self.size):
             start = self._idx(0, y)
             end = self._idx(self.size, y)
-            grid = grid + self.puzzle[start:end] + "\n"
+            grid = grid + self._letters[start:end] + "\n"
         return grid
+
+    def neighbours_of(self, cell: int) -> list[int]:
+        """
+        Return a list of neighbours for the referenced cell
+        """
+        return self._neighbours[cell]
 
     def list_neighbours(self) -> str:
         """
@@ -69,7 +76,7 @@ class Puzzle:
         )
 
     def _neighbours_to_string(self, index: int) -> str:
-        return ":".join([str(elem) for elem in self.neighbours[index]])
+        return ":".join([str(elem) for elem in self._neighbours[index]])
 
     # find the linear index for a pair of puzzle coordinates
     def _idx(self, x: int, y: int) -> int:
@@ -95,12 +102,6 @@ class Puzzle:
                 if self._on_grid(nx, ny):
                     neighbours[self._idx(ox, oy)].append(self._idx(nx, ny))
         return neighbours
-
-    def get_cell_count(self) -> int:
-        """
-        Number of letters in the grid
-        """
-        return self.cell_count
 
     # size of the grid is the length of a side. So a 3x3 grid is size 3
     def _set_size(self) -> None:

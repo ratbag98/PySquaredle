@@ -25,8 +25,6 @@ class Solver:
 
     def __init__(self, letters: str, word_list_path: str = DEFAULT_WORD_LIST) -> None:
         self.puzzle = Puzzle(letters)
-        self.cell_count = self.puzzle.get_cell_count()
-        self.max_word_length = self.puzzle.get_cell_count()
         self.word_trie: Trie = Trie()
         self.solutions: set[str] = set()
         self.solution_generated = False
@@ -50,10 +48,9 @@ class Solver:
         """
         Solve a puzzle. Builds the `solutions` list.
         """
-        for index in range(self.cell_count):
+        for index, letter in enumerate(self.puzzle.letters):
             chain = [index]
-            word = self.puzzle[index]
-            self._attempt(chain, word)
+            self._attempt(chain, letter)
 
         self.solution_generated = True
 
@@ -93,13 +90,6 @@ class Solver:
             solutions.sort()
         return solutions
 
-    def word_list_length(self) -> int:
-        """
-        Number of words in the filtered list. Only words of length 4 to the
-        size of the puzzle are loaded.
-        """
-        return self.word_list_count
-
     def _attempt(self, index_chain: list[int], word: str) -> None:
         hits: list[str] = self.word_trie.search(word)
 
@@ -108,10 +98,10 @@ class Solver:
                 self.solutions.add(word)
 
             # TODO worth putting cell and neighour list in a tuple in the Puzzle?
-            for neighbour in self.puzzle.neighbours[index_chain[-1]]:
+            for neighbour in self.puzzle.neighbours_of(index_chain[-1]):
                 if neighbour not in index_chain:
                     self._attempt(
-                        index_chain + [neighbour], word + self.puzzle[neighbour]
+                        index_chain + [neighbour], word + self.puzzle.letters[neighbour]
                     )
 
     def _divider(self, single_column: bool) -> str:
@@ -125,7 +115,7 @@ class Solver:
         with open(word_list_path) as words_file:
             all_lines = words_file.readlines()
             for line in [str.upper(raw_line.rstrip()) for raw_line in all_lines]:
-                if len(line) <= self.max_word_length:
+                if len(line) <= self.puzzle.cell_count:
                     self.word_list_count += 1
                     self.word_trie.insert(line)
         # pylint: enable=unspecified-encoding
