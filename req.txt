@@ -1,21 +1,45 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: osx-64
+astroid=2.11.7=py310hecd8cb5_0
+attrs=22.1.0=py310hecd8cb5_0
+black=22.6.0=py310hecd8cb5_0
 bzip2=1.0.8=h1de35cc_0
 ca-certificates=2022.10.11=hecd8cb5_0
 certifi=2022.12.7=py310hecd8cb5_0
+click=8.0.4=py310hecd8cb5_0
+dill=0.3.6=py310hecd8cb5_0
+execnet=1.9.0=pyhd3eb1b0_0
+flit-core=3.6.0=pyhd3eb1b0_0
+iniconfig=1.1.1=pyhd3eb1b0_0
+isort=5.9.3=pyhd3eb1b0_0
+lazy-object-proxy=1.6.0=py310hca72f7f_0
 libffi=3.4.2=hecd8cb5_6
+mccabe=0.7.0=pyhd3eb1b0_0
+mypy_extensions=0.4.3=py310hecd8cb5_1
 ncurses=6.3=hca72f7f_3
 openssl=1.1.1s=hca72f7f_0
+packaging=22.0=py310hecd8cb5_0
+pathspec=0.9.0=py310hecd8cb5_0
 pip=22.3.1=py310hecd8cb5_0
-pycodestyle=2.8.0=pyhd3eb1b0_0
+platformdirs=2.5.2=py310hecd8cb5_0
+pluggy=1.0.0=py310hecd8cb5_1
+py=1.11.0=pyhd3eb1b0_0
+pylint=2.14.5=py310hecd8cb5_0
+pytest=7.1.2=py310hecd8cb5_0
+pytest-forked=1.3.0=pyhd3eb1b0_0
+pytest-xdist=2.5.0=pyhd3eb1b0_0
 python=3.10.8=h218abb5_1
 readline=8.2=hca72f7f_0
 setuptools=65.5.0=py310hecd8cb5_0
 sqlite=3.40.0=h880c91c_0
 tk=8.6.12=h5d9f67b_0
-toml=0.10.2=pyhd3eb1b0_0
+tomli=2.0.1=py310hecd8cb5_0
+tomlkit=0.11.1=py310hecd8cb5_0
+typing_extensions=4.4.0=py310hecd8cb5_0
 tzdata=2022g=h04d1e81_0
 wheel=0.37.1=pyhd3eb1b0_0
+wrapt=1.14.1=py310hca72f7f_0
 xz=5.2.8=h6c40b1e_0
+yapf=0.31.0=pyhd3eb1b0_0
 zlib=1.2.13=h4dc903c_0
