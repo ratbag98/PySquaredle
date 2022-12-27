@@ -11,7 +11,7 @@ class NotSolvedYetException(Exception):
 
     def __init__(
         self,
-        message=".solve() must be called before requesting solutions",
+        message: str=".solve() must be called before requesting solutions",
         *args: object
     ) -> None:
         super().__init__(*args)
@@ -29,7 +29,7 @@ class Solver:
 
     DEFAULT_WORD_LIST = "./word_list.txt"
 
-    def __init__(self, letters, word_list=DEFAULT_WORD_LIST) -> None:
+    def __init__(self, letters: str, word_list: str=DEFAULT_WORD_LIST) -> None:
         self.puzzle = Puzzle(letters)
         self.cell_count = self.puzzle._get_cell_count()
         self.max_word_length = self.puzzle._get_cell_count()

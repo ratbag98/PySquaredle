@@ -8,7 +8,7 @@ class NonSquarePuzzleException(Exception):
 
     def __init__(
         self,
-        message="Length of letters must be a square number (9, 16, 25 etc.)",
+        message: str ="Length of letters must be a square number (9, 16, 25 etc.)",
         *args: object
     ) -> None:
         super().__init__(*args)
@@ -29,7 +29,7 @@ class Puzzle:
               [-1, 1],  [0, 1],     [1, 1]]
     # fmt: on
 
-    def __init__(self, letters):
+    def __init__(self, letters: str):
         """
         Create a Squaredle puzzle.
 
@@ -43,7 +43,7 @@ class Puzzle:
         self._set_size()
         self.neighbours = self._calculate_neighbours()
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
         """
         Default accessor retrieves a single indexed character from the puzzle
         """
@@ -61,22 +61,22 @@ class Puzzle:
     def list_neighbours(self) -> str:
         return ",\n".join(self._row_of_neighbours(y) for y in range(self.size))
 
-    def _row_of_neighbours(self, y) -> str:
+    def _row_of_neighbours(self, y: int) -> str:
         return ", ".join(
             [self._neighbours_to_string(self._idx(x, y)) for x in range(self.size)]
         )
 
-    def _neighbours_to_string(self, index) -> str:
+    def _neighbours_to_string(self, index: int) -> str:
         return ":".join([str(elem) for elem in self.neighbours[index]])
 
     # find the linear index for a pair of puzzle coordinates
-    def _idx(self, x, y) -> int:
+    def _idx(self, x: int, y: int) -> int:
         return x + (y * self.size)
 
-    def _coord(self, index) -> tuple:
+    def _coord(self, index: int) -> tuple:
         return index % self.size, index // self.size
 
-    def _on_grid(self, x, y) -> bool:
+    def _on_grid(self, x: int, y: int) -> bool:
         return x in range(0, self.size) and y in range(0, self.size)
 
     # this only depends on the size of the puzzle, not the letters
