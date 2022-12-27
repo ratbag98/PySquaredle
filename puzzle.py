@@ -8,7 +8,7 @@ class NonSquarePuzzleException(Exception):
 
     def __init__(
         self,
-        message: str ="Length of letters must be a square number (9, 16, 25 etc.)",
+        message: str = "Length of letters must be a square number (9, 16, 25 etc.)",
         *args: object
     ) -> None:
         super().__init__(*args)
@@ -50,6 +50,9 @@ class Puzzle:
         return self.puzzle[index]
 
     def grid(self) -> str:
+        """
+        Convert the puzzle grid to a string
+        """
         grid = ""
         for y in range(self.size):
             start = self._idx(0, y)
@@ -57,8 +60,10 @@ class Puzzle:
             grid = grid + self.puzzle[start:end] + "\n"
         return grid
 
-    # generate a list of neighbours for each cell in the grid
     def list_neighbours(self) -> str:
+        """
+        Generate a list of neighbours for each cell in the grid
+        """
         return ",\n".join(self._row_of_neighbours(y) for y in range(self.size))
 
     def _row_of_neighbours(self, y: int) -> str:
@@ -99,9 +104,9 @@ class Puzzle:
 
     # size of the grid is the length of a side. So a 3x3 grid is size 3
     def _set_size(self) -> None:
-        sideLength = math.sqrt(self.cell_count)
+        side_length = math.sqrt(self.cell_count)
 
-        if sideLength % 1 == 0:
-            self.size = int(sideLength)
+        if side_length % 1 == 0:
+            self.size = int(side_length)
         else:
             raise NonSquarePuzzleException
