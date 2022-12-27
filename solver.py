@@ -78,16 +78,6 @@ class Solver:
                 print(str.join(divider, group))
                 if not args["headers"]:
                     print()
-
-            # grouped = [list(i) for _, i in groupby(solutions_list, key=len)]
-
-            # for group in grouped:
-            #     length = len(group[0])
-            #     if not args["headers"]:
-            #         print("===> ", length, " letter words\n")
-            #     print(str.join(divider, group))
-            #     if not args["headers"]:
-            #         print()
         else:
             print(str.join(divider, solutions_list))
 
@@ -118,9 +108,11 @@ class Solver:
                 self.solutions.add(word)
 
             # TODO worth putting cell and neighour list in a tuple in the Puzzle?
-            for n in self.puzzle.neighbours[index_chain[-1]]:
-                if not n in index_chain:
-                    self._attempt(index_chain + [n], word + self.puzzle[n])
+            for neighbour in self.puzzle.neighbours[index_chain[-1]]:
+                if neighbour not in index_chain:
+                    self._attempt(
+                        index_chain + [neighbour], word + self.puzzle[neighbour]
+                    )
 
     def _divider(self, single_column: bool) -> str:
         if single_column:
@@ -131,9 +123,9 @@ class Solver:
         # this is a known issue with Python up to version 3.15 (in the future!)
         # pylint: disable=unspecified-encoding
         with open(word_list_path) as words_file:
-            lines = words_file.readlines()
-            for l in [str.upper(line.rstrip()) for line in lines]:
-                if len(l) <= self.max_word_length:
+            all_lines = words_file.readlines()
+            for line in [str.upper(raw_line.rstrip()) for raw_line in all_lines]:
+                if len(line) <= self.max_word_length:
                     self.word_list_count += 1
-                    self.word_trie.insert(l)
+                    self.word_trie.insert(line)
         # pylint: enable=unspecified-encoding

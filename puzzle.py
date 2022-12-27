@@ -37,6 +37,9 @@ class Puzzle:
         self._set_size()
         self.neighbours: list[list[int]] = self._calculate_neighbours()
 
+    def __repr__(self) -> str:
+        return self.grid()
+
     def __getitem__(self, index: int):
         """
         Default accessor retrieves a single indexed character from the puzzle
