@@ -1,17 +1,11 @@
+"""
+Represent Squaredle puzzles
+
+Class:
+    Puzzle
+"""
+
 import math
-
-
-class NonSquarePuzzleException(Exception):
-    """
-    All puzzles must be square. For example 3x3, 4x4 etc.
-    """
-
-    def __init__(
-        self,
-        message: str = "Length of letters must be a square number (9, 16, 25 etc.)",
-        *args: object
-    ) -> None:
-        super().__init__(*args)
 
 
 class Puzzle:
@@ -41,7 +35,7 @@ class Puzzle:
         self.puzzle = str.upper(letters)
         self.cell_count = len(self.puzzle)
         self._set_size()
-        self.neighbours = self._calculate_neighbours()
+        self.neighbours: list[list[int]] = self._calculate_neighbours()
 
     def __getitem__(self, index: int):
         """
@@ -78,7 +72,7 @@ class Puzzle:
     def _idx(self, x: int, y: int) -> int:
         return x + (y * self.size)
 
-    def _coord(self, index: int) -> tuple:
+    def _coord(self, index: int) -> tuple[int, int]:
         return index % self.size, index // self.size
 
     def _on_grid(self, x: int, y: int) -> bool:
@@ -89,7 +83,7 @@ class Puzzle:
         """
         create list of list of neighbouring cells for every cell in the puzzle
         """
-        neighbours = []
+        neighbours: list[list[int]] = []
         for i in range(self.cell_count):
             neighbours.append([])
             ox, oy = self._coord(i)
@@ -99,7 +93,10 @@ class Puzzle:
                     neighbours[self._idx(ox, oy)].append(self._idx(nx, ny))
         return neighbours
 
-    def _get_cell_count(self) -> int:
+    def get_cell_count(self) -> int:
+        """
+        Number of letters in the grid
+        """
         return self.cell_count
 
     # size of the grid is the length of a side. So a 3x3 grid is size 3
@@ -109,4 +106,4 @@ class Puzzle:
         if side_length % 1 == 0:
             self.size = int(side_length)
         else:
-            raise NonSquarePuzzleException
+            raise ValueError()

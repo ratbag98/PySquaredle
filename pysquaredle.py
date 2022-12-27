@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
+"""
+Solve Squaredle puzzles, main entry point.
+"""
+
 
 import argparse
 import random
 import sys
 
-from puzzle import NonSquarePuzzleException
 from solver import Solver
 
-#from trie import Trie
+# from trie import Trie
 
 
 def main() -> int:
@@ -28,8 +31,8 @@ def main() -> int:
         else:
             solver = Solver(letters)
 
-    except NonSquarePuzzleException as e:
-        print("Couldn't create puzzle:")
+    except ValueError:
+        print("Letters cannot form a square grid.")
         sys.exit(-1)
 
     if args.grid or args.random:
@@ -47,6 +50,9 @@ def main() -> int:
 
 
 def parse_args() -> argparse.Namespace:
+    """
+    Interpret the command-line arguments and store for later use.
+    """
     parser = argparse.ArgumentParser(
         prog="PySquaredle",
         description="Solves the Squaredle puzzle, as seen on https://squaredle.app",
@@ -83,7 +89,7 @@ def parse_args() -> argparse.Namespace:
         "-r",
         "--random",
         action="store_true",
-        help="randomise letters before placing in grid. For setting puzzles. Automatically shows grid",
+        help="randomise letter order. For setting puzzles. Automatically shows grid",
     )
     parser.add_argument(
         "-s", "--sort", action="store_true", help="sort solutions alphabetically"
