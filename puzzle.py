@@ -6,7 +6,6 @@ Class:
 """
 
 import math
-from dataclasses import dataclass
 
 
 class Puzzle:
@@ -33,13 +32,14 @@ class Puzzle:
         The letters string's length must be a square number (9, 16, 25 etc).
         """
 
+        self.cell_count = len(letters)
+        self.side_length = self._side_length()
+
         self._letters = str.upper(letters)
-        self.cell_count = len(self._letters)
-        self._set_size()
         self._neighbours: list[list[int]] = self._calculate_neighbours()
 
     @property
-    def letters(self):
+    def letters(self) -> str:
         """
         The letters in the puzzle
         """
@@ -53,9 +53,9 @@ class Puzzle:
         Convert the puzzle grid to a string
         """
         grid = ""
-        for y in range(self.size):
+        for y in range(self.side_length):
             start = self._idx(0, y)
-            end = self._idx(self.size, y)
+            end = self._idx(self.side_length, y)
             grid = grid + self._letters[start:end] + "\n"
         return grid
 
@@ -69,11 +69,14 @@ class Puzzle:
         """
         Generate a list of neighbours for each cell in the grid
         """
-        return ",\n".join(self._row_of_neighbours(y) for y in range(self.size))
+        return ",\n".join(self._row_of_neighbours(y) for y in range(self.side_length))
 
     def _row_of_neighbours(self, y: int) -> str:
         return ", ".join(
-            [self._neighbours_to_string(self._idx(x, y)) for x in range(self.size)]
+            [
+                self._neighbours_to_string(self._idx(x, y))
+                for x in range(self.side_length)
+            ]
         )
 
     def _neighbours_to_string(self, index: int) -> str:
@@ -81,13 +84,13 @@ class Puzzle:
 
     # find the linear index for a pair of puzzle coordinates
     def _idx(self, x: int, y: int) -> int:
-        return x + (y * self.size)
+        return x + (y * self.side_length)
 
     def _coord(self, index: int) -> tuple[int, int]:
-        return index % self.size, index // self.size
+        return index % self.side_length, index // self.side_length
 
     def _on_grid(self, x: int, y: int) -> bool:
-        return x in range(0, self.size) and y in range(0, self.size)
+        return x in range(0, self.side_length) and y in range(0, self.side_length)
 
     # this only depends on the size of the puzzle, not the letters
     def _calculate_neighbours(self) -> list[list[int]]:
@@ -105,10 +108,10 @@ class Puzzle:
         return neighbours
 
     # size of the grid is the length of a side. So a 3x3 grid is size 3
-    def _set_size(self) -> None:
+    def _side_length(self) -> int:
         side_length = math.sqrt(self.cell_count)
 
-        if side_length % 1 == 0:
-            self.size = int(side_length)
-        else:
+        if side_length % 1 != 0:
             raise ValueError()
+
+        return int(side_length)
