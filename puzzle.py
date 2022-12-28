@@ -56,7 +56,7 @@ class Puzzle:
         for y in range(self.side_length):
             start = self._idx(0, y)
             end = self._idx(self.side_length, y)
-            grid = grid + self._letters[start:end] + "\n"
+            grid = "".join([grid, self._letters[start:end], "\n"])
         return grid
 
     def neighbours_of(self, cell: int) -> list[int]:
@@ -98,13 +98,14 @@ class Puzzle:
         create list of list of neighbouring cells for every cell in the puzzle
         """
         neighbours: list[list[int]] = []
-        for i in range(self.cell_count):
-            neighbours.append([])
-            ox, oy = self._coord(i)
-            for dx, dy in self.DELTAS:
-                nx, ny = ox + dx, oy + dy
-                if self._on_grid(nx, ny):
-                    neighbours[self._idx(ox, oy)].append(self._idx(nx, ny))
+        for ox, oy in [self._coord(i) for i in range(self.cell_count)]:
+            neighbours.append(
+                [
+                    self._idx(nx, ny)
+                    for nx, ny in [(ox + dx, oy + dy) for dx, dy in self.DELTAS]
+                    if self._on_grid(nx, ny)
+                ]
+            )
         return neighbours
 
     # size of the grid is the length of a side. So a 3x3 grid is size 3

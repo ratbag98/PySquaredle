@@ -44,7 +44,6 @@ class Trie:
 
         for char in word:
             if char in node.children:
-                # down the trie we go, still matching
                 node = node.children[char]
             else:
                 new_node = TrieNode(char)
@@ -58,11 +57,12 @@ class Trie:
         """
         Depth-first search of the Trie. Down we go to find the prefix
         """
+        candidate = pre + node.char
         if node.is_end:
-            output.append((pre + node.char))
+            output.append(candidate)
 
         for child in node.children.values():
-            self.dfs(output, child, pre + node.char)
+            self.dfs(output, child, candidate)
 
     def search(self, target: str) -> list[str]:
         """

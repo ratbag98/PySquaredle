@@ -10,8 +10,6 @@ import sys
 
 from solver import Solver
 
-# from trie import Trie
-
 
 def main() -> int:
     """

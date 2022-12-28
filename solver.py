@@ -97,11 +97,11 @@ class Solver:
             if hits[0] == word:
                 self.solutions.add(word)
 
-            # TODO worth putting cell and neighour list in a tuple in the Puzzle?
             for neighbour in self.puzzle.neighbours_of(index_chain[-1]):
                 if neighbour not in index_chain:
                     self._attempt(
-                        index_chain + [neighbour], word + self.puzzle.letters[neighbour]
+                        index_chain + [neighbour],
+                        "".join([word, self.puzzle.letters[neighbour]]),
                     )
 
     def _divider(self, single_column: bool) -> str:
@@ -114,7 +114,7 @@ class Solver:
         # pylint: disable=unspecified-encoding
         with open(word_list_path) as words_file:
             all_lines = words_file.readlines()
-            for line in [str.upper(raw_line.rstrip()) for raw_line in all_lines]:
+            for line in [raw_line.rstrip().upper() for raw_line in all_lines]:
                 if len(line) <= self.puzzle.cell_count:
                     self.word_list_count += 1
                     self.word_trie.insert(line)
