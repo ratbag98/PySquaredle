@@ -117,9 +117,12 @@ The recursion is called once per letter in the puzzle grid and once all the lett
 
 A set is used since the same word can be found in multiple ways sometimes. Whilst this is interesting to know, it doesn't help solve the puzzle so repetitions are dropped.
 
+### Optimisations
+
+A run with CProfile showed that the word list loading was the slowest part of the code, specifically the string processing in the Trie. With that in mind I narrowed the word list to avoid loading impossible words, ie those that are too long or composed of letters not found in the puzzle
+
 ### Possible things to try in the code as mental exercises
 
-- Pass the neighbour list in and avoid an iteration (chop item off local neighbour list as we go)
 - Relax the uniqueness requirement, in case we want to show the solution in some graphical fashion on the grid and to include alternatives.
 
 ## Roadmap

@@ -22,8 +22,9 @@ class Solver:
     """
 
     # process the word_list.txt using the following command:
-    # gsed -e 's/^\(.*\)\s*$/\U\1/g' word_list.txt
-    # "gsed" is GNU sed
+    # gsed -e 's/^\(.*\)\s*$/\U\1/g' raw_word_list.txt > word_list.txt
+    # in other words, uppercase, no trailing whitespace
+    # "gsed" is GNU sed or similar (MacOS sed is BSD sed)
 
     DEFAULT_WORD_LIST = "./word_list.txt"
 
@@ -97,6 +98,10 @@ class Solver:
         return solutions
 
     def _attempt(self, index_chain: list[int], word: str) -> None:
+        """
+        The recursive word finder. Builds chains of letters by iterating through cell neighbours
+        Adds new found words to the solutions set, ignoring duplicates
+        """
         hits: list[str] = self.word_trie.search(word)
 
         if hits:
