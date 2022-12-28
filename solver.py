@@ -21,15 +21,21 @@ class Solver:
     We use a recursive chain builder to find solutions in the grid
     """
 
+    # process the word_list.txt using the following command:
+    # gsed -e 's/^\(.*\)\s*$/\U\1/g' word_list.txt
+    # "gsed" is GNU sed
+
     DEFAULT_WORD_LIST = "./word_list.txt"
 
     def __init__(self, letters: str, word_list_path: str = DEFAULT_WORD_LIST) -> None:
+
         self.puzzle = Puzzle(letters)
         self.word_trie: Trie = Trie()
         self.solutions: set[str] = set()
         self.solution_generated = False
 
         self.word_list_count = 0
+        self.unique_letters = "".join(sorted(set(letters)))
         self._load_words(word_list_path)
 
     def list_neighbours(self) -> str:
@@ -113,9 +119,32 @@ class Solver:
         # this is a known issue with Python up to version 3.15 (in the future!)
         # pylint: disable=unspecified-encoding
         with open(word_list_path) as words_file:
-            all_lines = words_file.readlines()
-            for line in [raw_line.rstrip().upper() for raw_line in all_lines]:
-                if len(line) <= self.puzzle.cell_count:
-                    self.word_list_count += 1
-                    self.word_trie.insert(line)
+            for word in [
+                w for w in words_file.read().splitlines() if self.interesting_word(w)
+            ]:
+                self.word_list_count += 1
+                self.word_trie.insert(word)
         # pylint: enable=unspecified-encoding
+
+    def interesting_word(self, word: str) -> bool:
+        """
+        Check if a word is interesting
+        skip lines that are too long
+        skip lines that don't start with a  letter from our puzzle
+        skip lines with letters not in our puzzle
+        """
+        return (
+            len(word) <= self.puzzle.cell_count
+            and word[0] in self.unique_letters
+            and word_only_contains_puzzle_letters(word, self.unique_letters)
+        )
+
+
+def word_only_contains_puzzle_letters(word: str, letters: str) -> bool:
+    """
+    Check if a word contains only letters from a given set
+    """
+    for letter in word:
+        if letter not in letters:
+            return False
+    return True
