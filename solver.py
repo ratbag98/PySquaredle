@@ -36,6 +36,9 @@ class Solver:
         self.solution_generated = False
 
         self.word_list_count = 0
+
+        # useful to optimise word list loading (ignore words that don't share
+        # letters with the puzzle)
         self.unique_letters = "".join(sorted(set(letters)))
         self._load_words(word_list_path)
 
@@ -78,7 +81,7 @@ class Solver:
 
             for key, group in groupby(solutions_list, key=len):
                 if not args["headers"]:
-                    print("===> ", key, " letter words\n")
+                    print(f"===> {key} letter words\n")
                 print(str.join(divider, group))
                 if not args["headers"]:
                     print()

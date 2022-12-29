@@ -90,7 +90,7 @@ class Puzzle:
         return index % self.side_length, index // self.side_length
 
     def _on_grid(self, x: int, y: int) -> bool:
-        return x in range(0, self.side_length) and y in range(0, self.side_length)
+        return x in range(self.side_length) and y in range(self.side_length)
 
     # this only depends on the size of the puzzle, not the letters
     def _calculate_neighbours(self) -> list[list[int]]:
