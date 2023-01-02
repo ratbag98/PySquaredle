@@ -10,6 +10,7 @@ import sys
 
 import requests
 
+from gui import Application, MainWindow
 from solver import Solver
 
 
@@ -43,6 +44,10 @@ def main() -> int:
 
     letters = args.letters
 
+    args = parse_args()
+
+    letters = args.letters
+
     if args.random:
         letters = "".join(random.sample(letters, len(letters)))
 
@@ -55,6 +60,11 @@ def main() -> int:
     except ValueError:
         print("Letters cannot form a square grid.")
         sys.exit(-1)
+
+    if args.gui:
+        app = Application(solver, sys.argv)
+        app.exec()
+        return 0
 
     if args.grid or args.random:
         print(solver.grid())
@@ -123,6 +133,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "-w", "--word-list", help="use different word list to default (./word_list.txt)"
     )
+    parser.add_argument("-u", "--gui", action="store_true", help="run in GUI mode")
 
     args = parser.parse_args()
     return args
