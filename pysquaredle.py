@@ -8,7 +8,30 @@ import argparse
 import random
 import sys
 
+import requests
+
 from solver import Solver
+
+
+def get_letters_from_web() -> str:
+    """
+    Get the letters from the web page.
+    """
+    url = "https://squaredle.app/api/today-puzzle-config.js"
+    response = requests.get(url, timeout=5)
+    lines = response.text.splitlines()
+
+    parsing = False
+    letters = ""
+    for line in lines:
+        if r'"board": [' in line:
+            parsing = True
+        elif r"]," in line:
+            break
+        elif parsing:
+            letters += line.replace('"', "").replace(",", "").replace(" ", "")
+
+    return letters.upper()
 
 
 def main() -> int:
@@ -57,7 +80,12 @@ def parse_args() -> argparse.Namespace:
         epilog="(C) 2022 Robert Rainthorpe.",
     )
 
-    parser.add_argument("letters", help="the puzzle letters")
+    parser.add_argument(
+        "letters",
+        help="the puzzle letters. If not specified will try to download from https://squaredle.app",
+        default=get_letters_from_web(),
+        nargs="?",
+    )
     parser.add_argument(
         "-c",
         "--single-column",
