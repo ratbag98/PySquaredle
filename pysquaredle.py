@@ -10,7 +10,7 @@ import sys
 
 import requests
 
-from gui import Application, MainWindow
+from gui import Application
 from solver import Solver
 
 
@@ -63,7 +63,7 @@ def main() -> int:
 
     if args.gui:
         solver.solve()
-        app = Application(solver, sys.argv)
+        app = Application(solver)
         app.exec()
         return 0
 
@@ -101,40 +101,51 @@ def parse_args() -> argparse.Namespace:
         "-c",
         "--single-column",
         action="store_true",
-        help="display results as a single column",
+        help="display results as a single column. Only option in GUI mode.",
     )
     parser.add_argument(
-        "-g", "--grid", action="store_true", help="display letters in grid layout"
+        "-g",
+        "--grid",
+        action="store_true",
+        help="display letters in grid layout. Only option in GUI mode.",
     )
     parser.add_argument(
-        "-l", "--length", action="store_true", help="group solutions by word length"
+        "-l",
+        "--length",
+        action="store_true",
+        help="group solutions by word length. Only option in GUI mode.",
     )
     parser.add_argument(
         "-n",
         "--neighbours",
         action="store_true",
-        help="display cell neighbour list for debugging",
+        help="display cell neighbour list for debugging. Not appropriate for GUI mode.",
     )
     parser.add_argument(
         "-N",
         "--no-headers",
         dest="headers",
         action="store_true",
-        help="don't display headers for length-grouped solutions",
+        help="don't display headers for length-grouped solutions. Not appropriate for GUI mode.",
     )
     parser.add_argument(
         "-r",
         "--random",
         action="store_true",
-        help="randomise letter order. For setting puzzles. Automatically shows grid",
+        help="randomise letter order. For setting puzzles. Automatically shows grid.",
     )
     parser.add_argument(
-        "-s", "--sort", action="store_true", help="sort solutions alphabetically"
+        "-s",
+        "--sort",
+        action="store_true",
+        help="sort solutions alphabetically. Only option in GUI mode.",
     )
     parser.add_argument(
         "-w", "--word-list", help="use different word list to default (./word_list.txt)"
     )
-    parser.add_argument("-u", "--gui", action="store_true", help="run in GUI mode")
+    parser.add_argument(
+        "-u", "--gui", action="store_true", help="run in GUI mode. Most args ignored."
+    )
 
     args = parser.parse_args()
     return args

@@ -12,7 +12,6 @@ import sys
 from itertools import groupby
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import (
     QApplication,
     QGridLayout,
@@ -33,7 +32,7 @@ class Application(QApplication):
     Main application for the application.
     """
 
-    def __init__(self, solver: Solver, *args, **kwargs):
+    def __init__(self, solver: Solver):
         super().__init__(sys.argv)
 
         self.main_window = MainWindow(solver)
@@ -134,14 +133,18 @@ class MainWindow(QMainWindow):
 
     def __init__(self, solver: Solver):
         super().__init__()
+        self.init_ui(solver)
+
+    def init_ui(self, solver: Solver):
+        """
+        Initialize the UI.
+        """
 
         self.setWindowTitle("PySquaredle")
 
-        layout = QHBoxLayout()
+        self.hbox = QHBoxLayout()
 
         letter_grid = LetterGrid(solver.puzzle.letters, solver.puzzle.side_length)
-
-        layout.addWidget(letter_grid)
 
         words = solver.raw_solutions(sort=True)
         words.sort(key=len)
@@ -150,10 +153,11 @@ class MainWindow(QMainWindow):
         solutions.setTabPosition(QTabWidget.TabPosition.West)
         solutions.setMovable(True)
 
-        layout.addWidget(solutions)
+        self.hbox.addWidget(letter_grid)
+        self.hbox.addWidget(solutions)
 
         container = QWidget()
-        container.setLayout(layout)
+        container.setLayout(self.hbox)
 
         self.setMinimumHeight(600)
         self.setMinimumWidth(800)
