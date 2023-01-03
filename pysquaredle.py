@@ -62,6 +62,7 @@ def main() -> int:
         sys.exit(-1)
 
     if args.gui:
+        solver.solve()
         app = Application(solver, sys.argv)
         app.exec()
         return 0

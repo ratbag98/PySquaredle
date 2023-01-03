@@ -9,6 +9,7 @@ Animated mode will show solutions as they are found.
 """
 
 import sys
+from itertools import groupby
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QAction
@@ -18,7 +19,9 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QMainWindow,
+    QScrollArea,
     QTabWidget,
+    QVBoxLayout,
     QWidget,
 )
 
@@ -79,23 +82,49 @@ class LetterGrid(QWidget):
         self.setLayout(layout)
 
 
+class WordList(QWidget):
+    """
+    List of words in the solution.
+    """
+
+    def __init__(self, words: list[str]):
+        super().__init__()
+        self.vbox = QVBoxLayout()
+        self.vbox.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        for word in words:
+            self.vbox.addWidget(QLabel(word))
+
+        self.setLayout(self.vbox)
+
+
+class SolutionsScroller(QScrollArea):
+    """
+    Scroller for solutions.
+    """
+
+    def __init__(self, word_list_widget: WordList):
+        super().__init__()
+
+        self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.setWidgetResizable(True)
+
+        self.setWidget(word_list_widget)
+
+
 class SolutionsTabWidget(QTabWidget):
     """
     Tab widget to show solutions.
     """
 
-    def __init__(self):
+    def __init__(self, words: list[str]):
         super().__init__()
 
-        self.setFixedSize(400, 400)
-
-        self.addTab(QWidget(), "Four")
-        self.addTab(QWidget(), "Five")
-        self.addTab(QWidget(), "Six")
-        self.addTab(QWidget(), "Seven")
-        self.addTab(QWidget(), "Eight")
-        self.addTab(QWidget(), "Nine")
-        self.addTab(QWidget(), "Ten")
+        for key, group in groupby(words, key=len):
+            word_list_widget = WordList(list(group))
+            scroller = SolutionsScroller(word_list_widget)
+            self.addTab(scroller, f"{key}")
 
 
 class MainWindow(QMainWindow):
@@ -114,7 +143,10 @@ class MainWindow(QMainWindow):
 
         layout.addWidget(letter_grid)
 
-        solutions = SolutionsTabWidget()
+        words = solver.raw_solutions(sort=True)
+        words.sort(key=len)
+
+        solutions = SolutionsTabWidget(words)
         solutions.setTabPosition(QTabWidget.TabPosition.West)
         solutions.setMovable(True)
 
