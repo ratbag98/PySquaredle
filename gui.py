@@ -12,6 +12,7 @@ import sys
 from itertools import groupby
 
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QMouseEvent
 from PyQt6.QtWidgets import (
     QApplication,
     QGridLayout,
@@ -59,7 +60,7 @@ class Letter(QLabel):
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
 
-class LetterGrid(QWidget):
+class LetterGridWidget(QWidget):
     """
     Grid of letters.
     """
@@ -71,17 +72,17 @@ class LetterGrid(QWidget):
 
         self.letters = letters
 
-        layout = QGridLayout()
+        grid = QGridLayout()
 
         for y in range(side_length):
             for x in range(side_length):
-                l = Letter(f"{letters[x * side_length + y]}")
-                layout.addWidget(l, x, y)
+                letter = Letter(f"{letters[x * side_length + y]}")
+                grid.addWidget(letter, x, y)
 
-        self.setLayout(layout)
+        self.setLayout(grid)
 
 
-class WordList(QWidget):
+class WordListWidget(QWidget):
     """
     List of words in the solution.
     """
@@ -92,9 +93,29 @@ class WordList(QWidget):
         self.vbox.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         for word in words:
-            self.vbox.addWidget(QLabel(word))
+            label = ClickableLabel(word)
+            self.vbox.addWidget(label)
 
         self.setLayout(self.vbox)
+
+
+class ClickableLabel(QLabel):
+    """
+    Label that can be clicked.
+    """
+
+    def __init__(self, text: str):
+        super().__init__(text)
+
+        self.clicked = False
+
+    def mousePressEvent(self, ev: QMouseEvent):
+        """
+        User clicked on a label, tell them what they clicked.
+        """
+        QLabel.mousePressEvent(self, ev)
+        self.clicked = True
+        print(f"You clicked {self.text()}")
 
 
 class SolutionsScroller(QScrollArea):
@@ -102,7 +123,7 @@ class SolutionsScroller(QScrollArea):
     Scroller for solutions.
     """
 
-    def __init__(self, word_list_widget: WordList):
+    def __init__(self, word_list_widget: WordListWidget):
         super().__init__()
 
         self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
@@ -121,7 +142,7 @@ class SolutionsTabWidget(QTabWidget):
         super().__init__()
 
         for key, group in groupby(words, key=len):
-            word_list_widget = WordList(list(group))
+            word_list_widget = WordListWidget(list(group))
             scroller = SolutionsScroller(word_list_widget)
             self.addTab(scroller, f"{key}")
 
@@ -144,14 +165,12 @@ class MainWindow(QMainWindow):
 
         self.hbox = QHBoxLayout()
 
-        letter_grid = LetterGrid(solver.puzzle.letters, solver.puzzle.side_length)
+        letter_grid = LetterGridWidget(solver.puzzle.letters, solver.puzzle.side_length)
 
         words = solver.raw_solutions(sort=True)
         words.sort(key=len)
 
-        solutions = SolutionsTabWidget(words)
-        solutions.setTabPosition(QTabWidget.TabPosition.West)
-        solutions.setMovable(True)
+        solutions = self.create_solution_widget(words)
 
         self.hbox.addWidget(letter_grid)
         self.hbox.addWidget(solutions)
@@ -163,3 +182,13 @@ class MainWindow(QMainWindow):
         self.setMinimumWidth(800)
 
         self.setCentralWidget(container)
+
+    def create_solution_widget(self, words: list[str]) -> SolutionsTabWidget:
+        """
+        Create the solution widget from a grouped-by-len list of solution words.
+        """
+
+        solutions = SolutionsTabWidget(words)
+        solutions.setTabPosition(QTabWidget.TabPosition.West)
+        solutions.setMovable(True)
+        return solutions
