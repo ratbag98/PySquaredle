@@ -4,7 +4,7 @@ Test the Solver class
 
 import pytest
 
-from solver import Solver
+from pysquaredle.solver import Solver
 
 
 class TestSolver:

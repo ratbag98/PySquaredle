@@ -11,7 +11,7 @@ import sys
 import requests
 
 from gui import Application
-from solver import Solver
+from pysquaredle.solver import Solver
 
 
 def get_letters_from_web() -> str:

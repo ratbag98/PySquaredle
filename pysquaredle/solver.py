@@ -7,8 +7,8 @@ Class
 
 from itertools import groupby
 
-from puzzle import Puzzle
-from trie import Trie
+from pysquaredle.puzzle import Puzzle
+from pysquaredle.trie import Trie
 
 
 class Solver:
@@ -29,7 +29,6 @@ class Solver:
     DEFAULT_WORD_LIST = "./word_list.txt"
 
     def __init__(self, letters: str, word_list_path: str = DEFAULT_WORD_LIST) -> None:
-
         self.puzzle = Puzzle(letters)
         self.word_trie: Trie = Trie()
         self.solutions: set[str] = set()
