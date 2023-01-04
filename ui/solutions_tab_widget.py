@@ -10,7 +10,7 @@ from PyQt6.QtWidgets import QLabel, QScrollArea, QTabWidget, QVBoxLayout, QWidge
 
 class WordListWidget(QWidget):
     """
-    List of words in the solution.
+    Present list of words in the solution.
     """
 
     def __init__(self, words: list[str]):

@@ -64,8 +64,7 @@ def main() -> int:
     if args.gui:
         solver.solve()
         app = Application(solver)
-        app.exec()
-        return 0
+        sys.exit(app.exec())
 
     if args.grid or args.random:
         print(solver.grid())
