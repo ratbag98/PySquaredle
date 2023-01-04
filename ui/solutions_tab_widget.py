@@ -5,24 +5,19 @@ A tab widget with lists of words of a particular length.
 from itertools import groupby
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QLabel, QScrollArea, QTabWidget, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import QListWidget, QScrollArea, QTabWidget
 
 
-class WordListWidget(QWidget):
+class WordListWidget(QListWidget):
     """
     Present list of words in the solution.
     """
 
-    def __init__(self, words: list[str]):
+    def __init__(self, words: list[str], target_for_word_change: callable):
         super().__init__()
-        self.vbox = QVBoxLayout()
-        self.vbox.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.addItems(words)
 
-        for word in words:
-            label = QLabel(word)
-            self.vbox.addWidget(label)
-
-        self.setLayout(self.vbox)
+        self.currentTextChanged.connect(target_for_word_change)
 
 
 class SolutionsScroller(QScrollArea):
@@ -43,12 +38,16 @@ class SolutionsScroller(QScrollArea):
 class SolutionsTabWidget(QTabWidget):
     """
     Tab widget to show solutions.
+
+    Pass wortd selections up to the main window.
     """
 
-    def __init__(self, words: list[str]):
+    def __init__(self, words: list[str], current_text_changed: callable):
         super().__init__()
 
+        self.setDocumentMode(True)
+
         for key, group in groupby(words, key=len):
-            word_list_widget = WordListWidget(list(group))
+            word_list_widget = WordListWidget(list(group), current_text_changed)
             scroller = SolutionsScroller(word_list_widget)
             self.addTab(scroller, f"{key}")

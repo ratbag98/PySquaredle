@@ -36,7 +36,13 @@ class MainWindow(QMainWindow):
         Create the solution widget from a grouped-by-len list of solution words.
         """
 
-        solutions = SolutionsTabWidget(words)
+        solutions = SolutionsTabWidget(words, self.current_text_changed)
         solutions.setTabPosition(QTabWidget.TabPosition.West)
         solutions.setMovable(True)
         return solutions
+
+    def current_text_changed(self, current_text: str):
+        """
+        Print the current text for now. Will soon send up to the main window.
+        """
+        print(current_text)
