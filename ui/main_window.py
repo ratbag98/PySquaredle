@@ -18,26 +18,20 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("PySquaredle")
 
+        # set up the interface (a simple HBox)
         self.hbox = QHBoxLayout()
-
-        self.letter_grid = LetterGridWidget(letters, grid_side_length)
-
-        words.sort(key=len)
-
-        solutions = self.create_solution_widget(words)
-
         container = QWidget()
         container.setLayout(self.hbox)
         self.setCentralWidget(container)
 
+        # the actual interface is just two widgets side-by-side
+        self.letter_grid = LetterGridWidget(letters, grid_side_length)
+        self.solutions = self._create_solution_widget(words)
+
         self.hbox.addWidget(self.letter_grid)
+        self.hbox.addWidget(self.solutions)
 
-        self.hbox.addWidget(solutions)
-
-        self.setMinimumHeight(600)
-        self.setMinimumWidth(800)
-
-    def create_solution_widget(self, words: list[str]) -> SolutionsTabWidget:
+    def _create_solution_widget(self, words: list[str]) -> SolutionsTabWidget:
         """
         Create the solution widget from a grouped-by-len list of solution words.
         """

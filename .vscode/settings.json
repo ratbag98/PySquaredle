@@ -11,6 +11,5 @@
   "python.testing.pytestArgs": [
     "."
   ],
-  "python.analysis.typeCheckingMode": "strict",
-  "python.linting.enabled": true
+  "python.analysis.typeCheckingMode": "strict"
 }
