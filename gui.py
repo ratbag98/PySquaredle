@@ -27,7 +27,5 @@ class Application(QApplication):
         words = solver.raw_solutions(True)
         words.sort(key=len)
 
-        self.main_window = MainWindow(
-            solver.puzzle.letters, words, solver.puzzle.side_length
-        )
+        self.main_window = MainWindow(solver.letters, words, solver.side_length)
         self.main_window.show()

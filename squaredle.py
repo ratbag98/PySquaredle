@@ -52,27 +52,22 @@ def main() -> int:
         letters = "".join(random.sample(letters, len(letters)))
 
     try:
-        if args.word_list:
-            solver = Solver(letters, args.word_list)
-        else:
-            solver = Solver(letters)
+        solver = Solver(letters, args.word_list)
 
     except ValueError:
         print("Letters cannot form a square grid.")
         sys.exit(-1)
-
-    if args.gui:
-        solver.solve()
-        app = Application(solver)
-        sys.exit(app.exec())
+    solver.solve()
 
     if args.grid or args.random:
-        print(solver.grid())
+        print(solver.grid)
 
     if args.neighbours:
-        print(solver.list_neighbours())
+        print(solver.list_neighbours)
 
-    solver.solve()
+    if args.gui:
+        app = Application(solver)
+        sys.exit(app.exec())
 
     solver.print_solutions(vars(args))
 
@@ -100,32 +95,32 @@ def parse_args() -> argparse.Namespace:
         "-c",
         "--single-column",
         action="store_true",
-        help="display results as a single column. Only option in GUI mode.",
+        help="display results as a single column.",
     )
     parser.add_argument(
         "-g",
         "--grid",
         action="store_true",
-        help="display letters in grid layout. Only option in GUI mode.",
+        help="display letters in grid layout.",
     )
     parser.add_argument(
         "-l",
         "--length",
         action="store_true",
-        help="group solutions by word length. Only option in GUI mode.",
+        help="group solutions by word length.",
     )
     parser.add_argument(
         "-n",
         "--neighbours",
         action="store_true",
-        help="display cell neighbour list for debugging. Not appropriate for GUI mode.",
+        help="display cell neighbour list for debugging.",
     )
     parser.add_argument(
         "-N",
         "--no-headers",
         dest="headers",
         action="store_true",
-        help="don't display headers for length-grouped solutions. Not appropriate for GUI mode.",
+        help="don't display headers for length-grouped solutions.",
     )
     parser.add_argument(
         "-r",
@@ -137,13 +132,19 @@ def parse_args() -> argparse.Namespace:
         "-s",
         "--sort",
         action="store_true",
-        help="sort solutions alphabetically. Only option in GUI mode.",
+        help="sort solutions alphabetically.",
     )
     parser.add_argument(
-        "-w", "--word-list", help="use different word list to default (./word_list.txt)"
+        "-w",
+        "--word-list",
+        help="use different word list to default (./word_list.txt)",
+        default="./word_list.txt",
     )
     parser.add_argument(
-        "-u", "--gui", action="store_true", help="run in GUI mode. Most args ignored."
+        "-u",
+        "--gui",
+        action="store_true",
+        help="run in GUI mode. Other flags affect text output, not GUI",
     )
 
     args = parser.parse_args()

@@ -15,14 +15,6 @@ class Puzzle:
     a list of neighbours for each cell in a grid
     """
 
-    # neighbour coordinates for a cell
-    # format off since it shows the shape of neighbours
-    # fmt: off
-    DELTAS = [[-1, -1], [0, -1],    [1, -1],
-              [-1, 0],              [1, 0],
-              [-1, 1],  [0, 1],     [1, 1]]
-    # fmt: on
-
     def __init__(self, letters: str):
         """
         Create a Squaredle puzzle.
@@ -33,10 +25,21 @@ class Puzzle:
         """
 
         self.cell_count = len(letters)
-        self.side_length = self._side_length()
 
         self._letters = str.upper(letters)
         self._neighbours: list[list[int]] = self._calculate_neighbours()
+
+    @property
+    def side_length(self) -> int:
+        """
+        The side length of the puzzle grid
+        """
+        side_length = math.sqrt(self.cell_count)
+
+        if side_length % 1 != 0:
+            raise ValueError()
+
+        return int(side_length)
 
     @property
     def letters(self) -> str:
@@ -97,22 +100,22 @@ class Puzzle:
         """
         create list of list of neighbouring cells for every cell in the puzzle
         """
+        # neighbour coordinates for a cell
+        # format off since it shows the shape of neighbours
+        # fmt: off
+        deltas = [[-1, -1], [0, -1],    [1, -1],
+                  [-1, 0],              [1, 0],
+                  [-1, 1],  [0, 1],     [1, 1]]
+        # fmt: on
         neighbours: list[list[int]] = []
         for ox, oy in [self._coord(i) for i in range(self.cell_count)]:
             neighbours.append(
                 [
                     self._idx(nx, ny)
-                    for nx, ny in [(ox + dx, oy + dy) for dx, dy in self.DELTAS]
+                    for nx, ny in [(ox + dx, oy + dy) for dx, dy in deltas]
                     if self._on_grid(nx, ny)
                 ]
             )
         return neighbours
 
     # size of the grid is the length of a side. So a 3x3 grid is size 3
-    def _side_length(self) -> int:
-        side_length = math.sqrt(self.cell_count)
-
-        if side_length % 1 != 0:
-            raise ValueError()
-
-        return int(side_length)

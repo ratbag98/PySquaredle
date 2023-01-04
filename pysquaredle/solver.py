@@ -5,6 +5,7 @@ Class
     Solver
 """
 
+from functools import cached_property
 from itertools import groupby
 
 from pysquaredle.puzzle import Puzzle
@@ -26,9 +27,7 @@ class Solver:
     # in other words, uppercase, no trailing whitespace
     # "gsed" is GNU sed or similar (MacOS sed is BSD sed)
 
-    DEFAULT_WORD_LIST = "./word_list.txt"
-
-    def __init__(self, letters: str, word_list_path: str = DEFAULT_WORD_LIST) -> None:
+    def __init__(self, letters: str, word_list_path: str) -> None:
         self.puzzle = Puzzle(letters)
         self.word_trie: Trie = Trie()
         self.solutions: set[str] = set()
@@ -41,23 +40,39 @@ class Solver:
         self.unique_letters = "".join(sorted(set(letters)))
         self._load_words(word_list_path)
 
+    @cached_property
     def list_neighbours(self) -> str:
         """
         Get our puzzle's neighbour list
         """
         return self.puzzle.list_neighbours()
 
+    @cached_property
     def grid(self) -> str:
         """
         Get our puzzle's grid
         """
         return self.puzzle.grid()
 
+    @cached_property
+    def letters(self) -> str:
+        """
+        Get our puzzle's letters
+        """
+        return self.puzzle.letters
+
+    @cached_property
+    def side_length(self) -> int:
+        """
+        Get our puzzle's side length
+        """
+        return self.puzzle.side_length
+
     def solve(self) -> None:
         """
         Solve a puzzle. Builds the `solutions` list.
         """
-        for index, letter in enumerate(self.puzzle.letters):
+        for index, letter in enumerate(list(self.letters)):
             chain = [index]
             self._attempt(chain, letter)
 
@@ -114,7 +129,7 @@ class Solver:
                 if neighbour not in index_chain:
                     self._attempt(
                         index_chain + [neighbour],
-                        "".join([word, self.puzzle.letters[neighbour]]),
+                        "".join([word, self.letters[neighbour]]),
                     )
 
     def _divider(self, single_column: bool) -> str:

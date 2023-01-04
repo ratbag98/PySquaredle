@@ -34,7 +34,7 @@ class TestSolver:
         Did reading the valid letters create a valid grid?
         """
         solver = Solver(self.good_letters, word_list_path=self.test_words)
-        assert solver.grid() == "ABC\nDEF\nGHI\n"
+        assert solver.grid == "ABC\nDEF\nGHI\n"
 
     def test_word_list_count(self):
         """
@@ -69,7 +69,7 @@ class TestSolver:
         """
         There should be no words that require repeated visit to same cell
         """
-        solver = Solver(self.good_letters)
+        solver = Solver(self.good_letters, word_list_path=self.test_words)
         solver.solve()
         assert "CEDE" not in solver.raw_solutions()
 
