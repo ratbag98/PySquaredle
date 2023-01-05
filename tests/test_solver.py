@@ -13,8 +13,6 @@ class TestSolution:
     It can be used to draw a path between letters in a grid.
     """
 
-    pass
-
 
 class TestSolver:
     """
@@ -62,7 +60,7 @@ class TestSolver:
         solver = Solver("HTEZRONIOPAHMORP", word_list_path=self.test_words)
         solver.solve()
 
-        assert "ANTHROPOMORPHIZE" in solver.raw_solutions()
+        assert "ANTHROPOMORPHIZE" in solver.raw_solution_words()
 
     def test_solution_excludes_unlinked_words(self):
         """
@@ -72,7 +70,7 @@ class TestSolver:
         solver = Solver("HTEZRONIOPAHMORP", word_list_path=self.test_words)
         solver.solve()
 
-        assert "OPERA" not in solver.raw_solutions()
+        assert "OPERA" not in solver.raw_solution_words()
 
     def test_solution_excludes_repeat_visits(self):
         """
@@ -80,7 +78,7 @@ class TestSolver:
         """
         solver = Solver(self.good_letters, word_list_path=self.test_words)
         solver.solve()
-        assert "CEDE" not in solver.raw_solutions()
+        assert "CEDE" not in solver.raw_solution_words()
 
     def test_exception_if_solutions_requested_before_solve_called(self):
         """
@@ -89,7 +87,7 @@ class TestSolver:
         solver = Solver("ABCD", word_list_path=self.test_words)
 
         with pytest.raises(ValueError):
-            solver.raw_solutions()
+            solver.raw_solution_words()
 
         with pytest.raises(ValueError):
             solver.print_solutions({"sort": False})
@@ -101,7 +99,7 @@ class TestSolver:
         solver = Solver(self.good_letters, word_list_path=self.test_words)
         solver.solve()
 
-        solutions = solver.raw_solutions()
+        solutions = solver.raw_solution_words()
 
         assert len(solutions) > 0
 

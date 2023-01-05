@@ -24,8 +24,5 @@ class Application(QApplication):
     def __init__(self, solver: Solver):
         super().__init__(sys.argv)
 
-        words = solver.raw_solutions(True)
-        words.sort(key=len)
-
-        self.main_window = MainWindow(solver.letters, words, solver.side_length)
+        self.main_window = MainWindow(solver)
         self.main_window.show()

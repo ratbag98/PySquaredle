@@ -5,11 +5,41 @@ Class
     Solver
 """
 
+from collections import defaultdict
 from functools import cached_property
 from itertools import groupby
 
 from pysquaredle.puzzle import Puzzle
 from pysquaredle.trie import Trie
+
+
+class Solutions:
+    """
+    Dictionary of unique words with path(s) to build them.
+    """
+
+    def __init__(self) -> None:
+        self.solutions: dict[str, list[list[int]]] = defaultdict(list[list[int]])
+
+    def add(self, word: str, path: list[int]) -> None:
+        """
+        Add a solution to the list of solutions.
+
+        Adds a path to the list of paths for a given word
+        """
+        self.solutions[word].append(path)
+
+    def words(self) -> list[str]:
+        """
+        Return a list of words in the solutions
+        """
+        return list(self.solutions.keys())
+
+    def paths(self, word: str) -> list[list[int]]:
+        """
+        Return a list of paths for a given word
+        """
+        return self.solutions[word]
 
 
 class Solver:
@@ -30,7 +60,7 @@ class Solver:
     def __init__(self, letters: str, word_list_path: str) -> None:
         self.puzzle = Puzzle(letters)
         self.word_trie: Trie = Trie()
-        self.solutions: set[str] = set()
+        self.solutions: Solutions = Solutions()
         self.solution_generated = False
 
         self.word_list_count = 0
@@ -86,7 +116,7 @@ class Solver:
             single_column:  present results as a single column
             headers:        for grouped results, include header by default
         """
-        solutions_list = self.raw_solutions(args["sort"])
+        solutions_list = self.raw_solution_words(args["sort"])
 
         divider = self._divider(args["single_column"])
 
@@ -102,14 +132,14 @@ class Solver:
         else:
             print(str.join(divider, solutions_list))
 
-    def raw_solutions(self, sort: bool = False) -> list[str]:
+    def raw_solution_words(self, sort: bool = False) -> list[str]:
         """
         Convert solutions set into list, honoring sort flag
         """
         if not self.solution_generated:
             raise ValueError()
 
-        solutions: list[str] = list(self.solutions)
+        solutions: list[str] = self.solutions.words()
         if sort:
             solutions.sort()
         return solutions
@@ -123,7 +153,7 @@ class Solver:
 
         if hits:
             if hits[0] == word:
-                self.solutions.add(word)
+                self.solutions.add(word, index_chain)
 
             for neighbour in self.puzzle.neighbours_of(index_chain[-1]):
                 if neighbour not in index_chain:
