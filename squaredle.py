@@ -9,9 +9,23 @@ import random
 import sys
 
 import requests
+from PyQt6.QtWidgets import QApplication
 
-from gui import Application
 from pysquaredle.solver import Solver
+from ui.main_window import MainWindow
+
+
+class Application(QApplication):
+    """
+    Main application for the GUI application. Ignored unless --gui is set.
+    """
+
+    def __init__(self, solver: Solver):
+        super().__init__(sys.argv)
+
+        self.main_window = MainWindow(solver)
+        self.main_window.show()
+        self.main_window.build_grid_geometry()
 
 
 def get_letters_from_web() -> str:
@@ -38,6 +52,8 @@ def get_letters_from_web() -> str:
 def main() -> int:
     """
     Main entry point for pysquaredle. Solves or sets Squaredle-type puzzles.
+
+    If the --gui flag is set, the GUI is launched.
     """
 
     args = parse_args()
@@ -55,8 +71,9 @@ def main() -> int:
         solver = Solver(letters, args.word_list)
 
     except ValueError:
-        print("Letters cannot form a square grid.")
+        print("Invalid puzzle: letters must form a square grid.")
         sys.exit(-1)
+
     solver.solve()
 
     if args.grid or args.random:

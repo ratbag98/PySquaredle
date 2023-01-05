@@ -40,6 +40,13 @@ class MainWindow(QMainWindow):
         self.hbox.addWidget(self.letter_grid)
         self.hbox.addWidget(self.solutions)
 
+    def build_grid_geometry(self):
+        """
+        Gather details about the grid ready for drawing lines on it
+        Can only be called after the window is shown.
+        """
+        self.letter_grid.build_geometry()
+
     def _create_solution_widget(
         self, words: list[str], current_text_changed: Callable[[str], None]
     ) -> SolutionsTabWidget:
@@ -57,4 +64,8 @@ class MainWindow(QMainWindow):
         Print the current text for now. Will soon send up to the main window.
         """
         print(current_text)
+        path: list[list[tuple[int, int]]] = []
+        for chain in self.solver.solutions.paths(current_text):
+            path.append(self.letter_grid.path_from_indexes(chain))
+        self.letter_grid.set_drawing_paths(path)
         print(self.solver.solutions.paths(current_text))
