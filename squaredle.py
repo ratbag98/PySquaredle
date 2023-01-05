@@ -25,7 +25,6 @@ class Application(QApplication):
 
         self.main_window = MainWindow(solver)
         self.main_window.show()
-        self.main_window.build_grid_geometry()
 
 
 def get_letters_from_web() -> str:
