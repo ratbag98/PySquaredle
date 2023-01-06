@@ -75,6 +75,8 @@ class LetterGridWidget(QWidget):
             points.append((center.x(), center.y()))
         return points
 
-    # resize the overlay to match the grid size
     def resizeEvent(self, event: QResizeEvent) -> None:
+        """
+        resize the overlay to match the grid size
+        """
         self.overlay.resize(event.size())
