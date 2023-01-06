@@ -4,7 +4,7 @@ Canvas class, provides surface for drawing solution lines
 Inspired by https://gist.github.com/zhanglongqi/78d7b5cd24f7d0c42f5d116d967923e7
 """
 
-from PyQt6.QtCore import QLine, Qt
+from PyQt6.QtCore import QPoint, Qt
 from PyQt6.QtGui import QBrush, QColor, QPainter, QPaintEvent, QPalette, QPen
 from PyQt6.QtWidgets import QWidget
 
@@ -74,7 +74,7 @@ class Overlay(QWidget):
             painter.setPen(pen)
 
             # make lines more visible by offsetting successive lines by half
-            offset = 4 * self.LINE_WIDTH // 2
+            offset = index * self.LINE_WIDTH + self.LINE_WIDTH
 
             # TODO look at using QDrawLines instead - this might join more neatly
 
