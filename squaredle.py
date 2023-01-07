@@ -56,10 +56,10 @@ def main() -> int:
     """
 
     args = parse_args()
-    if not args.letters:
-        args.letters = get_letters_from_web()
-
-    letters = args.letters
+    if args.letters:
+        letters = args.letters
+    else:
+        letters = get_letters_from_web()
 
     if args.random:
         letters = "".join(random.sample(letters, len(letters)))
