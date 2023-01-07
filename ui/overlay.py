@@ -4,9 +4,11 @@ Canvas class, provides surface for drawing solution lines
 Inspired by https://gist.github.com/zhanglongqi/78d7b5cd24f7d0c42f5d116d967923e7
 """
 
-from PyQt6.QtCore import QPoint, Qt
-from PyQt6.QtGui import QBrush, QColor, QPainter, QPaintEvent, QPalette, QPen
+from PyQt6.QtCore import QLine, Qt
+from PyQt6.QtGui import QBrush, QPainter, QPaintEvent, QPalette, QPen
 from PyQt6.QtWidgets import QWidget
+
+from ui.line_palette import LinePalette
 
 
 class Overlay(QWidget):
@@ -18,36 +20,23 @@ class Overlay(QWidget):
 
     LINE_WIDTH = 12
     CIRCLE_RADIUS = LINE_WIDTH + 4
-    ALPHA = 0.5
 
-    # palette of pleasant colours from seaborn
-    # https://seaborn.pydata.org/tutorial/color_palettes.html
-    COLOUR_PALETTE = [
-        (0.12156862745098039, 0.4666666666666667, 0.7058823529411765),
-        (1.0, 0.4980392156862745, 0.054901960784313725),
-        (0.17254901960784313, 0.6274509803921569, 0.17254901960784313),
-        (0.8392156862745098, 0.15294117647058825, 0.1568627450980392),
-        (0.5803921568627451, 0.403921568627451, 0.7411764705882353),
-        (0.5490196078431373, 0.33725490196078434, 0.29411764705882354),
-        (0.8901960784313725, 0.4666666666666667, 0.7607843137254902),
-        (0.4980392156862745, 0.4980392156862745, 0.4980392156862745),
-        (0.7372549019607844, 0.7411764705882353, 0.13333333333333333),
-        (0.09019607843137255, 0.7450980392156863, 0.8117647058823529),
-    ]
+    def __init__(self, parent: QWidget, rainbow: bool = False) -> None:
+        super().__init__(parent)
 
-    def __init__(self, parent: QWidget) -> None:
-        super(Overlay, self).__init__(parent)
-
+        # we're transparent
         palette = QPalette(self.palette())
         palette.setColor(palette.ColorRole.Base, Qt.GlobalColor.transparent)
 
+        # we're used to draw one or more "paths" representing the solution(s) for
+        # a given word.
         self._paths: list[list[tuple[int, int]]] = []
-        self.colours: list[QColor] = []
 
-        for col in self.COLOUR_PALETTE:
-            colour = QColor(*[int(c * 255) for c in col])
-            colour.setAlpha(int(self.ALPHA * 255))
-            self.colours.append(colour)
+        # for multiple lines we use a palette to cycle through colours
+        self.line_palette: LinePalette = LinePalette()
+
+        # if this is true, don't reset the LinePalette when the word changes
+        self.rainbow = rainbow
 
     def set_paths(self, paths: list[list[tuple[int, int]]]):
         """
@@ -57,9 +46,11 @@ class Overlay(QWidget):
         relevant lines.
         """
         self._paths = paths
+        if not self.rainbow:
+            self.line_palette.reset()
         self.update()
 
-    def paintEvent(self, event: QPaintEvent) -> None:
+    def paintEvent(self, _event: QPaintEvent) -> None:
         """
         Paint the lines
         """
@@ -67,7 +58,8 @@ class Overlay(QWidget):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
         for index, path in enumerate(self._paths):
-            pen = QPen(self.colours[index % len(self.colours)])
+            color = self.line_palette.next()
+            pen = QPen(color)
             pen.setJoinStyle(Qt.PenJoinStyle.MiterJoin)
             pen.setCapStyle(Qt.PenCapStyle.RoundCap)
             pen.setWidth(self.LINE_WIDTH)
@@ -76,15 +68,19 @@ class Overlay(QWidget):
             # make lines more visible by offsetting successive lines by half
             offset = index * self.LINE_WIDTH + self.LINE_WIDTH
 
-            # TODO look at using QDrawLines instead - this might join more neatly
+            # TODO convert this to QPainterPath, I think - it might remove the Alpha nonsense
 
-            for i in range(len(path) - 1):
-                painter.drawLine(
+            line_segments: list[QLine] = [
+                QLine(
                     path[i][0] + offset,
                     path[i][1] + offset,
                     path[i + 1][0] + offset,
                     path[i + 1][1] + offset,
                 )
+                for i in range(len(path) - 1)
+            ]
+
+            painter.drawLines(line_segments)
 
             # draw a line across the end of the last line segment
             scaled_end_bar: tuple[int, int] = self._calculate_end_bar_vector(
@@ -101,7 +97,7 @@ class Overlay(QWidget):
                 path[-1][1] + offset + scaled_end_bar[1],
             )
 
-            brush = QBrush(self.colours[index % len(self.colours)])
+            brush = QBrush(color)
             brush.setStyle(Qt.BrushStyle.SolidPattern)
             painter.setBrush(brush)
             pen.setStyle(Qt.PenStyle.NoPen)
