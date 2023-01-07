@@ -92,6 +92,11 @@ rg -Nw '^[a-z]{4,}$' words.txt > word_list.txt
 
 to trim the list appropriately.
 
+## GUI
+
+New feature: a PyQt6-based GUI that shows individual word solutions by the magic
+of squiggly lines.
+
 ## Basic program logic
 
 The puzzle is represented as a string. Most of the code uses indexes into this
