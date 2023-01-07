@@ -2,14 +2,12 @@
 
 ## About this project
 
-This is a python rewrite of my [C# Squaredle
-solver](https://github.com/ratbag98/SquaredleSolver.git).
+I'm learning Python as a 53-year old who grew up with BASIC, Pascal, C, C++,
+Java, Perl, SQL, HTML, Elixir and maybe some others. Always avoided Python due
+to the silly (to me) whitespace stuff. Held my nose, dived in and found I rather
+liked it. So without further ado, here's my first Python program:
 
-Same deal, I'm now learning Python so let's do a noddy project in shoddy python
-and refactor until it's good code.
-
-Noddy Python program to solve the daily [Squaredle
-puzzle](https://squaredle.app/)
+## A Noddy Python program to solve the daily [Squaredle puzzle](https://squaredle.app/)
 
 The puzzle involves a grid of letters. You start from any letter in the grid and
 then join them continuously and without repetition to make words of four of more
@@ -19,6 +17,12 @@ and these are used to differentiate contestants on the high score table.
 
 The puzzle is susceptible to a recursive word-list "attack" and this simple
 Python project does exactly that.
+
+See the [wiki](https://github.com/ratbag98/PySquaredle/wiki) for more details
+and help using the program.
+
+There are bugs that I'm aware of (see the Issues page), but feel free to add any
+other problems you find.
 
 ## Getting Started
 
@@ -50,7 +54,7 @@ SNE
 WID
 ```
 
-So we run the solver with the letters, organised as a single string reading the
+So we run the solver with the letters organised as a single string reading the
 grid from left to right, top to bottom:
 
 ```bash
@@ -100,6 +104,8 @@ to trim the list appropriately.
 
 New feature: a PyQt6-based GUI that shows individual word solutions by the magic
 of squiggly lines.
+
+There's a video of it in action on the [Wiki](https://github.com/ratbag98/PySquaredle/wiki)
 
 ## Scraping
 
@@ -230,3 +236,5 @@ Project link: <https://github.com/ratbag98/PySquaredle.git>
   bag, but it's fun to see what it comes up with. I've tried to keep the code
   idiomatic, but it's hard to resist the temptation to use some of the
   suggestions" is what it just typed for me! I agree entirely.
+* Made good use of [this book](https://www.pythonguis.com/pyqt6-book/) and the
+  site it's based on
