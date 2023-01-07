@@ -20,10 +20,10 @@ class Application(QApplication):
     Main application for the GUI application. Ignored unless --gui is set.
     """
 
-    def __init__(self, solver: Solver):
+    def __init__(self, solver: Solver, args: argparse.Namespace):
         super().__init__(sys.argv)
 
-        self.main_window = MainWindow(solver)
+        self.main_window = MainWindow(solver, args.sort, args.rainbow)
         self.main_window.show()
 
 
@@ -75,15 +75,16 @@ def main() -> int:
 
     solver.solve()
 
-    if args.grid or args.random:
-        print(solver.grid)
-
     if args.neighbours:
         print(solver.list_neighbours)
 
     if args.gui:
-        app = Application(solver)
+        app = Application(solver, args)
         sys.exit(app.exec())
+
+    # no point showing grid if GUI is running
+    if args.grid or args.random:
+        print(solver.grid)
 
     solver.print_solutions(vars(args))
 
@@ -161,6 +162,12 @@ def parse_args() -> argparse.Namespace:
         "--gui",
         action="store_true",
         help="run in GUI mode. Other flags affect text output, not GUI",
+    )
+    parser.add_argument(
+        "-o",
+        "--rainbow",
+        action="store_true",
+        help="in GUI mode, don't reset color palette for each word",
     )
 
     args = parser.parse_args()

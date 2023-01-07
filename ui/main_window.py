@@ -16,13 +16,13 @@ class MainWindow(QMainWindow):
     Main window for the application.
     """
 
-    def __init__(self, solver: Solver):
+    def __init__(self, solver: Solver, alpha_sort: bool = True, rainbow: bool = False):
         super().__init__()
 
         self.setWindowTitle("PySquaredle")
 
         self.solver = solver
-        self.words = solver.raw_solution_words(True)
+        self.words = solver.raw_solution_words(alpha_sort)
         self.words.sort(key=len)
 
         # set up the interface (a simple HBox)
@@ -32,13 +32,13 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(container)
 
         # the actual interface is just two widgets side-by-side
-        self.letter_grid = LetterGridWidget(solver.letters, solver.side_length)
+        self.letter_grid = LetterGridWidget(solver.letters, solver.side_length, rainbow)
         self.solutions = self._create_solution_widget(
             self.words, self.current_text_changed
         )
 
-        self.hbox.addWidget(self.letter_grid)
-        self.hbox.addWidget(self.solutions)
+        self.hbox.addWidget(self.letter_grid, 100)
+        self.hbox.addWidget(self.solutions, 0)
 
     def _create_solution_widget(
         self, words: list[str], current_text_changed: Callable[[str], None]

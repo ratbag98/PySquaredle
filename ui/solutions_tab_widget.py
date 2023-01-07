@@ -3,6 +3,7 @@ A tab widget with lists of words of a particular length.
 """
 
 from itertools import groupby
+from typing import Callable
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QListWidget, QScrollArea, QTabWidget
@@ -13,7 +14,7 @@ class WordListWidget(QListWidget):
     Present list of words in the solution.
     """
 
-    def __init__(self, words: list[str], target_for_word_change: callable):
+    def __init__(self, words: list[str], target_for_word_change: Callable[[str], None]):
         super().__init__()
         self.addItems(words)
 
@@ -39,10 +40,14 @@ class SolutionsTabWidget(QTabWidget):
     """
     Tab widget to show solutions.
 
-    Pass wortd selections up to the main window.
+    Takes list of words ordered by length/name. Creates a tab for each length.
+
+    Pass word selections up to the main window via current_text_changed.
     """
 
-    def __init__(self, words: list[str], current_text_changed: callable):
+    def __init__(
+        self, words: list[str], current_text_changed: Callable[[str], None]
+    ) -> None:
         super().__init__()
 
         self.setDocumentMode(True)
