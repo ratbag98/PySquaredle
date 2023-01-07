@@ -190,22 +190,21 @@ long or composed of letters not found in the puzzle
 
 ## Roadmap
 
-- [x] Test suite (needs revisiting since I wasn't a good little TDDer)
-- [x] Make code more idiomatic (ongoing)
-- [ ] Optionally separate results for "common" vs "uncommon" words (struggling
+* [ ] Optionally separate results for "common" vs "uncommon" words (struggling
   to find appropriate wordlists or to decrypt Squaredle's lists)
-- [ ] Keep word list up to date (see above)
-- [x] Some graphical pizazz to show word formation in the grid
-- [ ] Live update of the search like in the movies (would need a rejig of the
+* [ ] Keep word list up to date (see above)
+* [ ] Live update of the search like in the movies (would need a rejig of the
   Solver class to give access to the GUI as the solution is generated)
-- [ ] Reverse the logic somewhat in order to generate puzzles (still thinking
+* [ ] Reverse the logic somewhat in order to generate puzzles (still thinking
   about this one - could generate a grid from a set of letters then iteratively
   solve it until a desired word/complexity is present)
-- [ ] Automate dependency file creation (`conda list -e > req.txt`) on change.
-- [ ] Installer
-- [ ] setup.py
-- [ ] GUI preferences
-- [ ]
+* [ ] Automate dependency file creation (`conda list -e > req.txt`) on change.
+* [ ] Installer
+* [ ] setup.py
+* [ ] GUI preferences
+* [x] Test suite (needs revisiting since I wasn't a good little TDDer)
+* [x] Make code more idiomatic (ongoing)
+* [x] Some graphical pizazz to show word formation in the grid
 
 ## Contributing
 
