@@ -56,10 +56,8 @@ def main() -> int:
     """
 
     args = parse_args()
-
-    letters = args.letters
-
-    args = parse_args()
+    if not args.letters:
+        args.letters = get_letters_from_web()
 
     letters = args.letters
 
@@ -105,7 +103,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "letters",
         help="the puzzle letters. If not specified will try to download from https://squaredle.app",
-        default=get_letters_from_web(),
         nargs="?",
     )
     parser.add_argument(
