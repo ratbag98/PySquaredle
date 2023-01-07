@@ -4,7 +4,7 @@ A Squaredle-style letter grid using PyQt6
 
 from PyQt6.QtCore import QPoint, Qt
 from PyQt6.QtGui import QResizeEvent
-from PyQt6.QtWidgets import QGridLayout, QLabel, QSizePolicy, QWidget
+from PyQt6.QtWidgets import QGridLayout, QLabel, QWidget
 
 from ui.overlay import Overlay
 
@@ -18,10 +18,9 @@ class Letter(QLabel):
         super().__init__(letter)
 
         self.setAutoFillBackground(True)
-        palette = self.palette()
-        palette.setColor(self.backgroundRole(), Qt.GlobalColor.black)
-        palette.setColor(self.foregroundRole(), Qt.GlobalColor.white)
-        self.setPalette(palette)
+        self.setStyleSheet(
+            "border: 3px solid gray; border-radius: 12px; background-color: #202020; color: white;"
+        )
 
         font = self.font()
         font.setPointSize(36)
@@ -38,15 +37,13 @@ class LetterGridWidget(QWidget):
     def __init__(self, letters: str, side_length: int, rainbow: bool = False):
         super().__init__()
 
-        # pol: QSizePolicy = QSizePolicy()
-        # pol.setHeightForWidth(True)
-        # self.setSizePolicy(pol)
         self.side_length = side_length
         self.letters = letters
 
         self.setFixedSize(600, 600)
 
         self.grid = QGridLayout(self)
+        self.grid.setSpacing(12)
 
         for row in range(side_length):
             for col in range(side_length):
