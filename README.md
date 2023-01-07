@@ -180,10 +180,14 @@ long or composed of letters not found in the puzzle
 - [x] Make code more idiomatic
 - [ ] Optionally separate results for "common" vs "uncommon" words
 - [ ] Keep word list up to date
-- [ ] Some graphical pizazz to show word formation in the grid
+- [x] Some graphical pizazz to show word formation in the grid
 - [ ] Live update of the search like in the movies
 - [ ] Reverse the logic somewhat in order to generate puzzles
 - [ ] Automate dependency file creation (`conda list -e > req.txt`) on change.
+- [ ] Installer
+- [ ] setup.py
+- [ ] GUI preferences
+- [ ]
 
 ## Contributing
 
