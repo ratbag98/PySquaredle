@@ -22,8 +22,8 @@ Python project does exactly that.
 
 ## Getting Started
 
-I use a conda environment, although I don't think there are any dependencies. If
-you want, you can run
+I use a conda environment, and there are now some dependencies, notably for the
+GUI. You can run the following clone my conda setup.
 
 ```bash
 conda create --name squaredle --file req.txt
@@ -35,6 +35,10 @@ if you're missing anything on the list.
 
 Clone the repo. Make sure you've got a recent Python installed (I'm using
 3.10.8).
+
+* TODO setup setup.py
+* TODO create an installer for Python-deficient Mac Users
+* TODO consider creating other platform installers (Linux easy, Windows might be tough)
 
 ### Running the solver
 
@@ -50,7 +54,7 @@ So we run the solver with the letters, organised as a single string reading the
 grid from left to right, top to bottom:
 
 ```bash
-python pysquaredle.py GACSNEWID
+python squaredle.py GACSNEWID
 ```
 
 (upper or lower-case, live a little).
@@ -97,6 +101,13 @@ to trim the list appropriately.
 New feature: a PyQt6-based GUI that shows individual word solutions by the magic
 of squiggly lines.
 
+## Scraping
+
+Another new feature: running the script without a word list will fetch today's
+puzzle for you. It reads the Javascript directly, since I hate web-page scraping
+with a passion. If the author of Squaredle changes the format then my code will
+break, which is sad.
+
 ## Basic program logic
 
 The puzzle is represented as a string. Most of the code uses indexes into this
@@ -125,7 +136,7 @@ ABCDEFGHI
 
 (the numbers are the index into the string).
 
-We'll start with the first letter, A, index 0\. To calculate the neighbours,
+We'll start with the first letter, A, index 0. To calculate the neighbours,
 imagine this grid of indexes:
 
 ```text
@@ -134,7 +145,7 @@ imagine this grid of indexes:
 678
 ```
 
-So letter A, top-left in the grid, has three neighbours: 1,3 and 4\. These
+So letter A, top-left in the grid, has three neighbours: 1,3 and 4. These
 translate into the letters B, D and E. So the chain recursion routine will check
 01, 03, 04 in turn. It actually works depth first, but this shows the flattened
 logic in the function itself.
@@ -168,21 +179,28 @@ long or composed of letters not found in the puzzle
 
 ### Possible things to try in the code as mental exercises
 
-- Relax the uniqueness requirement, in case we want to show the solution in some
-  graphical fashion on the grid and to include alternatives.
-- Consider RadixTrie for word list storage, but I think the efficiencies it
+* DONE. Relax the uniqueness requirement, in case we want to show the solution in some
+  graphical fashion on the grid and to include alternatives. The GUI now shows
+  multiple solutions for a given word, in spangly technicolor
+* DONE: Consider RadixTrie for word list storage, but I think the efficiencies it
   gives (space, search) are less useful when set against the cost of initially
-  adding the words
+  adding the words. I was right about this, so I kept the Trie. If I was making
+  a long-lived program that persisted as many puzzles were loaded then it might
+  be appropriate to go the RadixTrie route.
 
 ## Roadmap
 
-- [x] Test suite
-- [x] Make code more idiomatic
-- [ ] Optionally separate results for "common" vs "uncommon" words
-- [ ] Keep word list up to date
+- [x] Test suite (needs revisiting since I wasn't a good little TDDer)
+- [x] Make code more idiomatic (ongoing)
+- [ ] Optionally separate results for "common" vs "uncommon" words (struggling
+  to find appropriate wordlists or to decrypt Squaredle's lists)
+- [ ] Keep word list up to date (see above)
 - [x] Some graphical pizazz to show word formation in the grid
-- [ ] Live update of the search like in the movies
-- [ ] Reverse the logic somewhat in order to generate puzzles
+- [ ] Live update of the search like in the movies (would need a rejig of the
+  Solver class to give access to the GUI as the solution is generated)
+- [ ] Reverse the logic somewhat in order to generate puzzles (still thinking
+  about this one - could generate a grid from a set of letters then iteratively
+  solve it until a desired word/complexity is present)
 - [ ] Automate dependency file creation (`conda list -e > req.txt`) on change.
 - [ ] Installer
 - [ ] setup.py
@@ -206,6 +224,10 @@ Project link: <https://github.com/ratbag98/PySquaredle.git>
 
 ## Acknowledgements
 
-- Trie structure:
+* Trie structure:
   [AskPython](https://www.askpython.com/python/examples/trie-data-structure)
-- Word list from: [dwyl](https://github.com/dwyl/english-words.git)
+* Word list from: [dwyl](https://github.com/dwyl/english-words.git)
+* Half way through this I started using Github Copilot. "It's a bit of a mixed
+  bag, but it's fun to see what it comes up with. I've tried to keep the code
+  idiomatic, but it's hard to resist the temptation to use some of the
+  suggestions" is what it just typed for me! I agree entirely.
