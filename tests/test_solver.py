@@ -7,13 +7,6 @@ import pytest
 from pysquaredle.solver import Solver
 
 
-class TestSolution:
-    """
-    A Solution is a word (str) and a path (list[int]) between letters in a tuple.
-    It can be used to draw a path between letters in a grid.
-    """
-
-
 class TestSolver:
     """
     A Puzzle is a grid of letters, along with information about neighbours.

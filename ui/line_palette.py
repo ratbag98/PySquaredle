@@ -14,7 +14,6 @@ class LinePalette:
 
     # palette of pleasant colours from seaborn
     # https://seaborn.pydata.org/tutorial/color_palettes.html
-    # TODO put them in
     COLOUR_PALETTE = [
         (0.12156862745098039, 0.4666666666666667, 0.7058823529411765),
         (1.0, 0.4980392156862745, 0.054901960784313725),

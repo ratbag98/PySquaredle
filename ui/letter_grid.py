@@ -9,7 +9,7 @@ from PyQt6.QtWidgets import QGridLayout, QLabel, QWidget
 from ui.overlay import Overlay
 
 
-class Letter(QLabel):
+class LetterWidget(QLabel):
     """
     A single letter in the grid.
     """
@@ -47,7 +47,7 @@ class LetterGridWidget(QWidget):
 
         for row in range(side_length):
             for col in range(side_length):
-                letter = Letter(f"{letters[row * side_length + col]}")
+                letter = LetterWidget(f"{letters[row * side_length + col]}")
                 self.grid.addWidget(letter, row, col)
 
         # use this for drawing lines over the grid
@@ -75,8 +75,11 @@ class LetterGridWidget(QWidget):
             points.append((center.x(), center.y()))
         return points
 
-    def resizeEvent(self, event: QResizeEvent) -> None:
+    # pylint: disable=arguments-differ,invalid-name
+    def resizeEvent(self, event: QResizeEvent) -> None:  # type: ignore
         """
         resize the overlay to match the grid size
         """
         self.overlay.resize(event.size())
+
+    # pylint: enable=arguments-differ,invalid-name

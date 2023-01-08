@@ -3,15 +3,14 @@
 Solve Squaredle puzzles, main entry point.
 """
 
-
 import argparse
 import random
 import sys
 
-import requests
 from PyQt6.QtWidgets import QApplication
 
 from pysquaredle.solver import Solver
+from pysquaredle.web import get_letters_from_web
 from ui.main_window import MainWindow
 
 
@@ -25,27 +24,6 @@ class Application(QApplication):
 
         self.main_window = MainWindow(solver, args.sort, args.rainbow, args.multiple)
         self.main_window.show()
-
-
-def get_letters_from_web() -> str:
-    """
-    Get the letters from the web page.
-    """
-    url = "https://squaredle.app/api/today-puzzle-config.js"
-    response = requests.get(url, timeout=5)
-    lines = response.text.splitlines()
-
-    parsing = False
-    letters = ""
-    for line in lines:
-        if r'"board": [' in line:
-            parsing = True
-        elif r"]," in line:
-            break
-        elif parsing:
-            letters += line.replace('"', "").replace(",", "").replace(" ", "")
-
-    return letters.upper()
 
 
 def main() -> int:

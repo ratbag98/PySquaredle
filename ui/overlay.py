@@ -50,10 +50,12 @@ class Overlay(QWidget):
             self.line_palette.reset()
         self.update()
 
-    def paintEvent(self, _event: QPaintEvent) -> None:
+    # pylint: disable=arguments-differ,invalid-name
+    def paintEvent(self, _event: QPaintEvent) -> None:  # type: ignore
         """
         Paint the lines
         """
+
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
@@ -78,7 +80,7 @@ class Overlay(QWidget):
                 for i in range(len(path) - 1)
             ]
 
-            painter.drawLines(line_segments)
+            painter.drawLines(line_segments)  # type: ignore
 
             # draw a line across the end of the last line segment
             scaled_end_bar: tuple[int, int] = self._calculate_end_bar_vector(
@@ -109,6 +111,7 @@ class Overlay(QWidget):
                 self.CIRCLE_RADIUS * 2,
             )
 
+    # pylint: enable=arguments-differ,invalid-name
     def _calculate_end_bar_vector(self, x: int, y: int) -> tuple[int, int]:
         """
         Calculate a vector to draw a line across the end of a line.
