@@ -22,7 +22,7 @@ class Application(QApplication):
     def __init__(self, solver: Solver, args: argparse.Namespace):
         super().__init__(sys.argv)
 
-        self.main_window = MainWindow(solver, args.sort, args.rainbow, args.multiple)
+        self.main_window = MainWindow(solver, args.sort, args.multiple)
         self.main_window.show()
 
 
@@ -137,12 +137,6 @@ def parse_args() -> argparse.Namespace:
         "--gui",
         action="store_true",
         help="run in GUI mode. Other flags affect text output, not GUI",
-    )
-    parser.add_argument(
-        "-o",
-        "--rainbow",
-        action="store_true",
-        help="in GUI mode, don't reset color palette for each word",
     )
     parser.add_argument(
         "-m",

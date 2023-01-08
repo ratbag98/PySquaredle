@@ -34,7 +34,7 @@ class LetterGridWidget(QWidget):
     Grid of letters.
     """
 
-    def __init__(self, letters: str, side_length: int, rainbow: bool = False):
+    def __init__(self, letters: str, side_length: int):
         super().__init__()
 
         self.side_length = side_length
@@ -51,7 +51,7 @@ class LetterGridWidget(QWidget):
                 self.grid.addWidget(letter, row, col)
 
         # use this for drawing lines over the grid
-        self.overlay = Overlay(self, rainbow)
+        self.overlay = Overlay(self)
         self.setLayout(self.grid)
 
     def set_drawing_paths(self, chains: list[list[int]]):

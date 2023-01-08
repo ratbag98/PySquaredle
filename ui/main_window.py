@@ -20,7 +20,6 @@ class MainWindow(QMainWindow):
         self,
         solver: Solver,
         alpha_sort: bool = True,
-        rainbow: bool = False,
         multiple: bool = False,
     ):
         super().__init__()
@@ -39,7 +38,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(container)
 
         # the actual interface is just two widgets side-by-side
-        self.letter_grid = LetterGridWidget(solver.letters, solver.side_length, rainbow)
+        self.letter_grid = LetterGridWidget(solver.letters, solver.side_length)
         self.solutions = self._create_solution_widget(
             self.words, self.current_text_changed
         )

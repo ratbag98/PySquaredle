@@ -21,7 +21,7 @@ class Overlay(QWidget):
     LINE_WIDTH = 12
     CIRCLE_RADIUS = LINE_WIDTH + 4
 
-    def __init__(self, parent: QWidget, rainbow: bool = False) -> None:
+    def __init__(self, parent: QWidget) -> None:
         super().__init__(parent)
 
         # we're transparent
@@ -35,9 +35,6 @@ class Overlay(QWidget):
         # for multiple lines we use a palette to cycle through colours
         self.line_palette: LinePalette = LinePalette()
 
-        # if this is true, don't reset the LinePalette when the word changes
-        self.rainbow = rainbow
-
     def set_paths(self, paths: list[list[tuple[int, int]]]):
         """
         Set the drawing paths, one or more lists of coordinates.
@@ -46,8 +43,6 @@ class Overlay(QWidget):
         relevant lines.
         """
         self._paths = paths
-        if not self.rainbow:
-            self.line_palette.reset()
         self.update()
 
     # pylint: disable=arguments-differ,invalid-name
@@ -59,8 +54,11 @@ class Overlay(QWidget):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
+        self.line_palette.reset()
+
         for index, path in enumerate(self._paths):
             color = self.line_palette.next()
+
             pen = QPen(color)
             pen.setJoinStyle(Qt.PenJoinStyle.MiterJoin)
             pen.setCapStyle(Qt.PenCapStyle.RoundCap)
