@@ -16,7 +16,13 @@ class MainWindow(QMainWindow):
     Main window for the application.
     """
 
-    def __init__(self, solver: Solver, alpha_sort: bool = True, rainbow: bool = False):
+    def __init__(
+        self,
+        solver: Solver,
+        alpha_sort: bool = True,
+        rainbow: bool = False,
+        multiple: bool = False,
+    ):
         super().__init__()
 
         self.setWindowTitle("PySquaredle")
@@ -24,6 +30,7 @@ class MainWindow(QMainWindow):
         self.solver = solver
         self.words = solver.raw_solution_words(alpha_sort)
         self.words.sort(key=len)
+        self.multiple = multiple
 
         # set up the interface (a simple HBox)
         self.hbox = QHBoxLayout()
@@ -56,4 +63,11 @@ class MainWindow(QMainWindow):
         """
         A user has clicked a word. Tell the letter grid to draw the path(s) for it
         """
-        self.letter_grid.set_drawing_paths(self.solver.solutions.paths(current_text))
+        if self.multiple:
+            self.letter_grid.set_drawing_paths(
+                self.solver.solutions.paths(current_text)
+            )
+        else:
+            self.letter_grid.set_drawing_paths(
+                self.solver.solutions.paths(current_text)[0:1]
+            )

@@ -30,12 +30,14 @@ I use a conda environment, and there are now some dependencies, notably for the
 GUI. You can run the following clone my conda setup.
 
 ```bash
-conda create --name squaredle --file req.txt
+conda create --name squaredle --file conda_requirements.txt
 conda activate squaredle
 ```
 
 If you're using another package manager, take a quick look at the file and see
-if you're missing anything on the list.
+if you're missing anything on the list. I've included a pip_requirements.txt
+file but have no idea how you use that (I think PyQt6 was installed via pip but
+the rest came from conda).
 
 Clone the repo. Make sure you've got a recent Python installed (I'm using
 3.10.8).

@@ -66,9 +66,7 @@ class Overlay(QWidget):
             painter.setPen(pen)
 
             # make lines more visible by offsetting successive lines by half
-            offset = index * self.LINE_WIDTH + self.LINE_WIDTH
-
-            # TODO convert this to QPainterPath, I think - it might remove the Alpha nonsense
+            offset = index * self.LINE_WIDTH
 
             line_segments: list[QLine] = [
                 QLine(
