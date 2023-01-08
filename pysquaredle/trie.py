@@ -70,10 +70,9 @@ class Trie:
         """
         node = self.root
         for char in target:
-            if char in node.children:
-                node = node.children[char]
-            else:
+            if not char in node.children:
                 return []
+            node = node.children[char]
         output: list[str] = []
         self.dfs(output, node, target[:-1])
 
