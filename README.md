@@ -31,7 +31,7 @@ will be false positives and negatives.
 ## Getting Started
 
 I use a conda environment, and there are now some dependencies, notably for the
-GUI. You can run the following clone my conda setup.
+GUI. You can run the following to clone my conda setup.
 
 ```bash
 conda create --name squaredle --file conda_requirements.txt
@@ -213,7 +213,7 @@ long or composed of letters not found in the puzzle
   solve it until a desired word/complexity is present)
 * [ ] Automate dependency file creation (`conda list -e > req.txt`) on change.
 * [ ] Installer
-* [ ] setup.py
+* [ ] [pyproject.toml](https://godatadriven.com/blog/a-practical-guide-to-setuptools-and-pyproject-toml/)
 * [ ] GUI preferences
 * [x] Test suite (needs revisiting since I wasn't a good little TDDer)
 * [x] Make code more idiomatic (ongoing)
