@@ -34,11 +34,26 @@ def main() -> int:
     """
 
     args = parse_args()
-    if args.letters:
+
+    if args.square and args.letters:
+        print("Cannot specify both --square and letters")
+        sys.exit(-1)
+
+    # should make for better words than purely random
+    all_popular_word_game_letters = "EEEEEEEEEEEEEEEEAAAAAAAAAIIIIIIIIIOOOOOOOONNNNNNRRRRRRTTTTTTLLLLSSSSUUUDDDDGGGBBCCMMPPFFHHVVWWYYKJXQZ"
+
+    if args.square:
+        letters = "".join(
+            random.choice(all_popular_word_game_letters)
+            for _ in range(args.square**2)
+            # consider removing Q (use str.replace("Q", "")))
+        )
+    elif args.letters:
         letters = args.letters
     else:
         letters = get_letters_from_web()
 
+    # superfluous if square is set, but harmless
     if args.random:
         letters = "".join(random.sample(letters, len(letters)))
 
@@ -143,6 +158,12 @@ def parse_args() -> argparse.Namespace:
         "--multiple",
         help="in GUI mode, show all solutions for a given word. (messy)",
         action="store_true",
+    )
+    parser.add_argument(
+        "-x",
+        "--square",
+        help="generate random square of x by x letters. Letter distribution matches a popular grid-based word game rhyming with scrabble",
+        type=int,
     )
 
     args = parser.parse_args()
