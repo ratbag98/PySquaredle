@@ -2,10 +2,11 @@
 
 ## About this project
 
-I'm learning Python as a 53-year old who grew up with BASIC, Pascal, C, C++,
-Java, Perl, SQL, HTML, Elixir and maybe some others. Always avoided Python due
-to the silly (to me) whitespace stuff. Held my nose, dived in and found I rather
-liked it. So without further ado, here's my first Python program:
+I'm learning Python as a 53-year old who grew up with BASIC, 6502, Pascal, C, C++,
+Java, Perl, SQL, HTML, Elixir and maybe some others (shunned JavaScript and
+avoid CSS like the plague). Always avoided Python due to the silly (to me)
+whitespace stuff. Held my nose, dived in and found I rather liked it. So without
+further ado, here's my first Python program:
 
 ## A Noddy Python program to solve the daily [Squaredle puzzle](https://squaredle.app/)
 
@@ -23,6 +24,9 @@ and help using the program.
 
 There are bugs that I'm aware of (see the Issues page), but feel free to add any
 other problems you find.
+
+One key thing to note - my word list is not the same as Squaredle's, so there
+will be false positives and negatives.
 
 ## Getting Started
 
@@ -42,7 +46,7 @@ the rest came from conda).
 Clone the repo. Make sure you've got a recent Python installed (I'm using
 3.10.8).
 
-* TODO setup setup.py
+* TODO setup pyproject.toml
 * TODO create an installer for Python-deficient Mac Users
 * TODO consider creating other platform installers (Linux easy, Windows might be tough)
 
@@ -56,14 +60,15 @@ SNE
 WID
 ```
 
-So we run the solver with the letters organised as a single string reading the
+So we run the solver with the letters organized as a single string reading the
 grid from left to right, top to bottom:
 
 ```bash
-python squaredle.py GACSNEWID
+./squaredle.py GACSNEWID
 ```
 
-(upper or lower-case, live a little).
+(upper or lower-case, live a little). If you're on Windows, sorry-not-sorry, but
+use ```python squaredle.py GACSNEWID``` instead or do something funky.
 
 The program will check that the letters can represent a Squaredle grid. There
 should be a "square" number of letters (eg 3x3, 4x4, 5x5, etc). If the number of
@@ -92,7 +97,7 @@ depth-first from there. Once I've exhausted that letter it's on to the next in
 the list you provided.
 
 Note: the word list I'm using is hefty, but it still omits some valid words.
-I'll endeavour to update it. If you've got a better word list you can substitute
+I'll endeavor to update it. If you've got a better word list you can substitute
 it. You should trim short words from it (only include four letters and more). I
 used:
 
@@ -126,7 +131,7 @@ words that start with a set of letters.
 
 The solution algorithm iterates over each letter in the puzzle string. Using the
 character it then recursively generates chains of letters. The next letter in
-the chain is selected from the last item in the chain's "neighbours". For
+the chain is selected from the last item in the chain's "neighbors". For
 example if we have a grid of letters:
 
 ```text
@@ -144,7 +149,7 @@ ABCDEFGHI
 
 (the numbers are the index into the string).
 
-We'll start with the first letter, A, index 0. To calculate the neighbours,
+We'll start with the first letter, A, index 0. To calculate the neighbors,
 imagine this grid of indexes:
 
 ```text
@@ -153,7 +158,7 @@ imagine this grid of indexes:
 678
 ```
 
-So letter A, top-left in the grid, has three neighbours: 1,3 and 4. These
+So letter A, top-left in the grid, has three neighbors: 1,3 and 4. These
 translate into the letters B, D and E. So the chain recursion routine will check
 01, 03, 04 in turn. It actually works depth first, but this shows the flattened
 logic in the function itself.
@@ -164,7 +169,7 @@ The chains are converted back to strings by dereferencing the puzzle character
 array (ABCE, ABCF, ABEF, etc.). If the word is in the trie structure it gets
 added to the solution. If there are words in the trie that start with the
 candidate "word" (string of letters), then we keep searching down the chain (ie
-call the recursive function with the chain and add new neighbours).
+call the recursive function with the chain and add new neighbors).
 
 If there are no further words in the trie that start with our current chain's
 letters then we go to the next neighbour and recurse into that chain.
@@ -178,7 +183,7 @@ A set is used since the same word can be found in multiple ways sometimes.
 Whilst this is interesting to know, it doesn't help solve the puzzle so
 repetitions are dropped.
 
-### Optimisations
+### Optimizations
 
 A run with CProfile showed that the word list loading was the slowest part of
 the code, specifically the string processing in the Trie. With that in mind I
@@ -222,8 +227,7 @@ contributions.
 
 ## License
 
-Distributed under the MIT Licence. See LICENSE for more information. No comments
-about English vs American English spelling, thanks.
+Distributed under the MIT License. See LICENSE for more information.
 
 ## Contact
 
@@ -231,7 +235,7 @@ Project link: <https://github.com/ratbag98/PySquaredle.git>
 
 ## Acknowledgements
 
-* Trie structure:
+* Trie structure (basis):
   [AskPython](https://www.askpython.com/python/examples/trie-data-structure)
 * Word list from: [dwyl](https://github.com/dwyl/english-words.git)
 * Half way through this I started using Github Copilot. "It's a bit of a mixed
@@ -240,3 +244,5 @@ Project link: <https://github.com/ratbag98/PySquaredle.git>
   suggestions" is what it just typed for me! I agree entirely.
 * Made good use of [this book](https://www.pythonguis.com/pyqt6-book/) and the
   site it's based on
+* I didn't look at anyone else's solver, since this is a learning exercise
+  rather than something that aims to be "the best".
