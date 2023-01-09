@@ -65,7 +65,7 @@ class Overlay(QWidget):
             pen.setWidth(self.LINE_WIDTH)
             painter.setPen(pen)
 
-            # make lines more visible by offsetting successive lines by half
+            # make lines more visible by offsetting successive lines
             offset = index * self.LINE_WIDTH
 
             line_segments: list[QLine] = [
@@ -95,13 +95,13 @@ class Overlay(QWidget):
                 path[-1][1] + offset + scaled_end_bar[1],
             )
 
+            # draw a filled circle centered on the first letter
             brush = QBrush(color)
             brush.setStyle(Qt.BrushStyle.SolidPattern)
             painter.setBrush(brush)
             pen.setStyle(Qt.PenStyle.NoPen)
             painter.setPen(pen)
 
-            # draw a filled circle centered on the first point
             painter.drawEllipse(
                 path[0][0] + offset - self.CIRCLE_RADIUS,
                 path[0][1] + offset - self.CIRCLE_RADIUS,
