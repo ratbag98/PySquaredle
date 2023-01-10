@@ -33,6 +33,7 @@ class MainWindow(QMainWindow):
 
         # set up the interface (a simple HBox)
         self.hbox = QHBoxLayout()
+
         container = QWidget()
         container.setLayout(self.hbox)
         self.setCentralWidget(container)
@@ -45,6 +46,7 @@ class MainWindow(QMainWindow):
 
         self.hbox.addWidget(self.letter_grid, 100)
         self.hbox.addWidget(self.solutions, 0)
+        self.resize(1000, 800)
 
     def _create_solution_widget(
         self, words: list[str], current_text_changed: Callable[[str], None]

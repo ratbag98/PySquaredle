@@ -28,6 +28,10 @@ other problems you find.
 One key thing to note - my word list is not the same as Squaredle's, so there
 will be false positives and negatives.
 
+The program can also be used to generate new puzzles. See the -x and -g options
+for displaying randomly-generated grids, using a sensible letter distribution
+from a well-known word board game.
+
 ## Getting Started
 
 I use a conda environment, and there are now some dependencies, notably for the

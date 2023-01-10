@@ -6,7 +6,7 @@ from itertools import groupby
 from typing import Callable
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QListWidget, QScrollArea, QTabWidget
+from PyQt6.QtWidgets import QListWidget, QScrollArea, QSizePolicy, QTabWidget
 
 
 class WordListWidget(QListWidget):
@@ -51,6 +51,8 @@ class SolutionsTabWidget(QTabWidget):
         super().__init__()
 
         self.setDocumentMode(True)
+        policy = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Expanding)
+        self.setSizePolicy(policy)
 
         for key, group in groupby(words, key=len):
             word_list_widget = WordListWidget(list(group), current_text_changed)

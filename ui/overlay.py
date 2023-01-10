@@ -4,8 +4,9 @@ Canvas class, provides surface for drawing solution lines
 Inspired by https://gist.github.com/zhanglongqi/78d7b5cd24f7d0c42f5d116d967923e7
 """
 
-from PyQt6.QtCore import QLine, Qt
-from PyQt6.QtGui import QBrush, QPainter, QPaintEvent, QPalette, QPen
+from PyQt6.QtCore import QLine, QPoint, Qt
+from PyQt6.QtGui import (QBrush, QPainter, QPaintEvent, QPalette, QPen,
+                         QResizeEvent)
 from PyQt6.QtWidgets import QWidget
 
 from ui.line_palette import LinePalette
@@ -103,10 +104,9 @@ class Overlay(QWidget):
             painter.setPen(pen)
 
             painter.drawEllipse(
-                path[0][0] + offset - self.CIRCLE_RADIUS,
-                path[0][1] + offset - self.CIRCLE_RADIUS,
-                self.CIRCLE_RADIUS * 2,
-                self.CIRCLE_RADIUS * 2,
+                QPoint(path[0][0] + offset, path[0][1] + offset),
+                self.CIRCLE_RADIUS,
+                self.CIRCLE_RADIUS,
             )
 
     # pylint: enable=arguments-differ,invalid-name
