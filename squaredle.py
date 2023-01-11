@@ -4,6 +4,7 @@ Solve Squaredle puzzles, main entry point.
 """
 
 import argparse
+import math
 import random
 import sys
 
@@ -46,23 +47,33 @@ def main() -> int:
         letters = "".join(
             random.choice(all_popular_word_game_letters)
             for _ in range(args.square**2)
-            # consider removing Q (use str.replace("Q", "")))
         )
     elif args.letters:
         letters = args.letters
     else:
         letters = get_letters_from_web()
 
-    # superfluous if square is set, but harmless
+    length = len(letters)
+    potential_side = math.sqrt(length)
+
+    # must be square, optionally add letters
+    if potential_side % 1 != 0:
+        # add letters to make a square
+        if args.auto_extend:
+            diff = (int(potential_side) + 1) ** 2 - length
+            print(f"Adding {diff} letters to make a square grid. Printing grid below:")
+            letters += "".join(
+                [random.choice(all_popular_word_game_letters) for _ in range(diff)]
+            )
+        else:
+            print("Invalid puzzle: letters must form a square grid.")
+            sys.exit(-1)
+
+    # superfluous if square is set, but harmless to randomize them again
     if args.random:
         letters = "".join(random.sample(letters, len(letters)))
 
-    try:
-        solver = Solver(letters, args.word_list)
-
-    except ValueError:
-        print("Invalid puzzle: letters must form a square grid.")
-        sys.exit(-1)
+    solver = Solver(letters.upper(), args.word_list)
 
     solver.solve()
 
@@ -74,7 +85,7 @@ def main() -> int:
         sys.exit(app.exec())
 
     # no point showing grid if GUI is running
-    if args.grid or args.random:
+    if args.grid or args.random or args.square or args.auto_extend:
         print(solver.grid)
 
     solver.print_solutions(vars(args))
@@ -162,8 +173,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "-x",
         "--square",
-        help="generate random square of x by x letters. Letter distribution matches a popular grid-based word game rhyming with scrabble",
+        help="generate random square of x by x letters. Letter"
+        " distribution matches a popular grid-based word game rhyming"
+        " with scrabble",
         type=int,
+    )
+    parser.add_argument(
+        "-t",
+        "--auto-extend",
+        help="add extra letters to the grid to make it square",
+        action="store_true",
     )
 
     args = parser.parse_args()
