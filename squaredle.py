@@ -61,7 +61,7 @@ def main() -> int:
         # add letters to make a square
         if args.auto_extend:
             diff = (int(potential_side) + 1) ** 2 - length
-            print(f"Adding {diff} letters to make a square grid. Printing grid below:")
+            print(f"Adding {diff} letters to make a square grid.")
             letters += "".join(
                 [random.choice(all_popular_word_game_letters) for _ in range(diff)]
             )
@@ -73,7 +73,18 @@ def main() -> int:
     if args.random:
         letters = "".join(random.sample(letters, len(letters)))
 
-    solver = Solver(letters.upper(), args.word_list)
+    if args.slow_mode:
+
+        def report(word: str, chain: list[int], hit_count: int) -> None:
+            print(f"Checking {word} at {chain}. Hits: {hit_count}")
+
+        solver = Solver(letters.upper(), args.word_list, report)
+    else:
+
+        def null_report(_word: str, _chain: list[int], _hits_count: int) -> None:
+            pass
+
+        solver = Solver(letters.upper(), args.word_list, null_report)
 
     solver.solve()
 
@@ -183,6 +194,9 @@ def parse_args() -> argparse.Namespace:
         "--auto-extend",
         help="add extra letters to the grid to make it square",
         action="store_true",
+    )
+    parser.add_argument(
+        "-z", "--slow-mode", action="store_true", help="show progress as it goes"
     )
 
     args = parser.parse_args()

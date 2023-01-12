@@ -7,6 +7,7 @@ Class
 
 from functools import cached_property
 from itertools import groupby
+from typing import Callable
 
 from pysquaredle.puzzle import Puzzle
 from pysquaredle.solutions import Solutions
@@ -28,7 +29,13 @@ class Solver:
     # in other words, uppercase, no trailing whitespace
     # "gsed" is GNU sed or similar (MacOS sed is BSD sed)
 
-    def __init__(self, letters: str, word_list_path: str) -> None:
+    def __init__(
+        self,
+        letters: str,
+        word_list_path: str,
+        update_func: Callable[[str, list[int], int], None],
+    ) -> None:
+        self.progress_reporter = update_func
         self.puzzle = Puzzle(letters)
         self.word_trie: Trie = Trie()
         self.solutions: Solutions = Solutions()
@@ -120,18 +127,22 @@ class Solver:
         The recursive word finder. Builds chains of letters by iterating through cell neighbours
         Adds new found words to the solutions set, ignoring duplicates
         """
+
         hits: list[str] = self.word_trie.search(word)
+        self.progress_reporter(word, index_chain, len(hits))
 
-        if hits:
-            if hits[0] == word:
-                self.solutions.add(word, index_chain)
+        if not hits:
+            return
 
-            for neighbour in self.puzzle.neighbours_of(index_chain[-1]):
-                if neighbour not in index_chain:
-                    self._attempt(
-                        index_chain + [neighbour],
-                        "".join([word, self.letters[neighbour]]),
-                    )
+        if hits[0] == word:
+            self.solutions.add(word, index_chain)
+
+        for neighbour in self.puzzle.neighbours_of(index_chain[-1]):
+            if neighbour not in index_chain:
+                self._attempt(
+                    index_chain + [neighbour],
+                    "".join([word, self.letters[neighbour]]),
+                )
 
     def _divider(self, single_column: bool) -> str:
         if single_column:
