@@ -94,9 +94,9 @@ class Solver:
             single_column:  present results as a single column
             headers:        for grouped results, include header by default
         """
-        solutions_list = self.raw_solution_words(args["sort"])
+        solutions_list = self.raw_solution_words(sort=args["sort"])
 
-        divider = self._divider(args["single_column"])
+        divider = "\n" if args["single_column"] else "\t"
 
         if args["length"]:
             solutions_list.sort(key=len)
@@ -143,11 +143,6 @@ class Solver:
                     index_chain + [neighbour],
                     "".join([word, self.letters[neighbour]]),
                 )
-
-    def _divider(self, single_column: bool) -> str:
-        if single_column:
-            return "\n"
-        return "\t"
 
     def _load_words(self, word_list_path: str) -> None:
         # this is a known issue with Python up to version 3.15 (in the future!)
