@@ -58,16 +58,16 @@ def main() -> int:
 
     # must be square, optionally add letters
     if potential_side % 1 != 0:
-        # add letters to make a square
-        if args.auto_extend:
-            diff = (int(potential_side) + 1) ** 2 - length
-            print(f"Adding {diff} letters to make a square grid.")
-            letters += "".join(
-                [random.choice(all_popular_word_game_letters) for _ in range(diff)]
-            )
-        else:
+        if not args.auto_extend:
             print("Invalid puzzle: letters must form a square grid.")
             sys.exit(-1)
+
+        # add letters to make a square
+        diff = (int(potential_side) + 1) ** 2 - length
+        print(f"Adding {diff} letters to make a square grid.")
+        letters += "".join(
+            [random.choice(all_popular_word_game_letters) for _ in range(diff)]
+        )
 
     # superfluous if square is set, but harmless to randomize them again
     if args.random:
@@ -80,7 +80,7 @@ def main() -> int:
 
         solver = Solver(letters.upper(), args.word_list, report)
     else:
-
+        # tested this, it doesn't add much time
         def null_report(_word: str, _chain: list[int], _hits_count: int) -> None:
             pass
 
