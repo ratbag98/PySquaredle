@@ -90,7 +90,9 @@ class Puzzle:
         return x + (y * self.side_length)
 
     def _coord(self, index: int) -> tuple[int, int]:
-        return index % self.side_length, index // self.side_length
+        return divmod(index, self.side_length)
+
+    #        return index % self.side_length, index // self.side_length
 
     def _on_grid(self, x: int, y: int) -> bool:
         return x in range(self.side_length) and y in range(self.side_length)
@@ -108,7 +110,7 @@ class Puzzle:
                   [-1, 1],  [0, 1],     [1, 1]]
         # fmt: on
         neighbours: list[list[int]] = []
-        for ox, oy in [self._coord(i) for i in range(self.cell_count)]:
+        for oy, ox in [self._coord(i) for i in range(self.cell_count)]:
             neighbours.append(
                 [
                     self._idx(nx, ny)
