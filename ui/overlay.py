@@ -5,10 +5,10 @@ Inspired by https://gist.github.com/zhanglongqi/78d7b5cd24f7d0c42f5d116d967923e7
 """
 
 from PyQt6.QtCore import QLine, QPoint, Qt
-from PyQt6.QtGui import (QBrush, QPainter, QPaintEvent, QPalette, QPen,
-                         QResizeEvent)
+from PyQt6.QtGui import QBrush, QColor, QPainter, QPaintEvent, QPalette, QPen
 from PyQt6.QtWidgets import QWidget
 
+from pysquaredle.vector import Vector
 from ui.line_palette import LinePalette
 
 
@@ -57,79 +57,87 @@ class Overlay(QWidget):
 
         self.line_palette.reset()
 
+        pen = QPen()
+        pen.setWidth(self.LINE_WIDTH)
+        pen.setJoinStyle(Qt.PenJoinStyle.RoundJoin)
+        pen.setCapStyle(Qt.PenCapStyle.RoundCap)
+
         for index, path in enumerate(self._paths):
-            color = self.line_palette.next()
-
-            pen = QPen(color)
-            pen.setJoinStyle(Qt.PenJoinStyle.MiterJoin)
-            pen.setCapStyle(Qt.PenCapStyle.RoundCap)
-            pen.setWidth(self.LINE_WIDTH)
-            painter.setPen(pen)
-
             # make lines more visible by offsetting successive lines
             offset = index * self.LINE_WIDTH
 
-            line_segments: list[QLine] = [
-                QLine(
-                    path[i][0] + offset,
-                    path[i][1] + offset,
-                    path[i + 1][0] + offset,
-                    path[i + 1][1] + offset,
-                )
-                for i in range(len(path) - 1)
-            ]
+            color = self.line_palette.next()
 
+            pen.setColor(color)
+            painter.setPen(pen)
+
+            line_segments = self._build_line_segments(path, offset)
             painter.drawLines(line_segments)  # type: ignore
 
             # draw a line across the end of the last line segment
-            scaled_end_bar: tuple[int, int] = self._calculate_end_bar_vector(
-                path[-1][0] - path[-2][0], path[-1][1] - path[-2][1]
-            )
-
-            pen.setCapStyle(Qt.PenCapStyle.SquareCap)
-            painter.setPen(pen)
-
-            painter.drawLine(
-                path[-1][0] + offset - scaled_end_bar[0],
-                path[-1][1] + offset - scaled_end_bar[1],
-                path[-1][0] + offset + scaled_end_bar[0],
-                path[-1][1] + offset + scaled_end_bar[1],
-            )
+            self._drawEndBar(painter, path, offset)
 
             # draw a filled circle centered on the first letter
-            brush = QBrush(color)
-            brush.setStyle(Qt.BrushStyle.SolidPattern)
-            painter.setBrush(brush)
-            pen.setStyle(Qt.PenStyle.NoPen)
-            painter.setPen(pen)
+            self._draw_start_circle(painter, path, offset, color)
 
-            painter.drawEllipse(
-                QPoint(path[0][0] + offset, path[0][1] + offset),
-                self.CIRCLE_RADIUS,
-                self.CIRCLE_RADIUS,
+    def _draw_start_circle(
+        self,
+        painter: QPainter,
+        path: list[tuple[int, int]],
+        offset: int,
+        color: QColor,
+    ):
+        # save the current pen
+        pen = painter.pen()
+
+        brush = QBrush(color)
+        brush.setStyle(Qt.BrushStyle.SolidPattern)
+        painter.setBrush(brush)
+        ellipsePen = QPen()
+        ellipsePen.setStyle(Qt.PenStyle.NoPen)
+
+        painter.setPen(ellipsePen)
+
+        painter.drawEllipse(
+            QPoint(path[0][0] + offset, path[0][1] + offset),
+            self.CIRCLE_RADIUS,
+            self.CIRCLE_RADIUS,
+        )
+
+        # restore the pen
+        painter.setPen(pen)
+
+    def _drawEndBar(self, painter: QPainter, path: list[tuple[int, int]], offset: int):
+        scaled_end_bar: Vector = self._calculate_end_bar_vector(
+            path[-1][0] - path[-2][0], path[-1][1] - path[-2][1]
+        )
+
+        painter.drawLine(
+            path[-1][0] + offset - int(scaled_end_bar.x),
+            path[-1][1] + offset - int(scaled_end_bar.y),
+            path[-1][0] + offset + int(scaled_end_bar.x),
+            path[-1][1] + offset + int(scaled_end_bar.y),
+        )
+
+    def _build_line_segments(
+        self, path: list[tuple[int, int]], offset: int
+    ) -> list[QLine]:
+        return [
+            QLine(
+                path[i][0] + offset,
+                path[i][1] + offset,
+                path[i + 1][0] + offset,
+                path[i + 1][1] + offset,
             )
+            for i in range(len(path) - 1)
+        ]
 
     # pylint: enable=arguments-differ,invalid-name
-    def _calculate_end_bar_vector(self, x: int, y: int) -> tuple[int, int]:
+    def _calculate_end_bar_vector(self, x: int, y: int) -> Vector:
         """
         Calculate a vector to draw a line across the end of a line.
         x and y are the vector components for the last two points in the path.
         """
+        vec = Vector(x, y)
 
-        end_bar_vector = self._rotate(x, y)
-        normalized = self._normalize(*end_bar_vector)
-        scaled = self._scale(*normalized, self.LINE_WIDTH * 2)
-        return scaled
-
-    # rotate a vector by 90 degrees
-    def _rotate(self, x: int, y: int) -> tuple[int, int]:
-        return y, -x
-
-    # normalize a vector
-    def _normalize(self, x: int, y: int) -> tuple[float, float]:
-        length = (x**2 + y**2) ** 0.5
-        return x / length, y / length
-
-    # multiply vector by a scalar
-    def _scale(self, x: float, y: float, scale: float) -> tuple[int, int]:
-        return int(x * scale), int(y * scale)
+        return vec.rotate_90().normalize() * self.LINE_WIDTH * 2
