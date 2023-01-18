@@ -27,9 +27,10 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("PySquaredle")
 
         self.solver = solver
-        self.words = solver.raw_solution_words(alpha_sort)
-        self.words.sort(key=len)
         self.multiple = multiple
+
+        self.words: list[str] = solver.raw_solution_words(alpha_sort)
+        self.words.sort(key=len)
 
         # set up the interface (a simple HBox)
         self.hbox = QHBoxLayout()
