@@ -48,9 +48,6 @@ class Puzzle:
         """
         return self._letters
 
-    def __repr__(self) -> str:
-        return self.grid()
-
     def grid(self) -> str:
         """
         Convert the puzzle grid to a string
@@ -121,3 +118,9 @@ class Puzzle:
         return neighbours
 
     # size of the grid is the length of a side. So a 3x3 grid is size 3
+
+    def __repr__(self) -> str:
+        return f'Puzzle("{self.letters}")'
+
+    def __str__(self) -> str:
+        return self.grid()

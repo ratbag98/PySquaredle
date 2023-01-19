@@ -103,7 +103,7 @@ class TestSolver:
             solver.raw_solution_words()
 
         with pytest.raises(ValueError):
-            solver.print_solutions({"sort": False})
+            solver.formatted_solutions()
 
     def test_can_get_or_print_solutions_if_solve_called(self):
         """
@@ -118,11 +118,4 @@ class TestSolver:
 
         assert len(solutions) > 0
 
-        solver.print_solutions(
-            {
-                "single_column": True,
-                "length": True,
-                "headers": False,
-                "sort": True,
-            }
-        )
+        solver.formatted_solutions()

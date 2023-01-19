@@ -38,7 +38,7 @@ class Solver:
         self.progress_reporter = update_func
         self.puzzle = Puzzle(letters)
         self.word_trie: Trie = Trie()
-        self.solutions: Solutions = Solutions()
+        self._solutions: Solutions = Solutions()
         self.solution_generated = False
 
         self.word_list_count = 0
@@ -47,6 +47,15 @@ class Solver:
         # letters with the puzzle)
         self.unique_letters = "".join(sorted(set(letters)))
         self._load_words(word_list_path)
+
+    @cached_property
+    def solutions(self) -> Solutions:
+        """
+        Get our solutions
+        """
+        if not self.solution_generated:
+            raise ValueError()
+        return self._solutions
 
     @cached_property
     def list_neighbours(self) -> str:
@@ -86,40 +95,49 @@ class Solver:
 
         self.solution_generated = True
 
-    def print_solutions(self, args: dict[str, bool]) -> None:
+    def formatted_solutions(
+        self,
+        alpha_sort: bool = False,
+        length_group: bool = False,
+        single_column: bool = False,
+        headers: bool = False,
+    ) -> str:
         """
         Print out a formatted list of solutions, modified by any bool arguments:
-            sort:           alphabetically sort the solutions
-            length:         group solutions by word length
-            single_column:  present results as a single column
-            headers:        for grouped results, include header by default
+            alpha_sort:             alphabetically sort the solutions
+            length_group:           group solutions by word length
+            single_column:          present results as a single column
+            headers:                for grouped results, include header by default
         """
-        solutions_list = self.raw_solution_words(sort=args["sort"])
+        solutions_list = self.raw_solution_words(sort=alpha_sort, length=length_group)
 
-        divider = "\n" if args["single_column"] else "\t"
+        divider = "\n" if single_column else "\t"
 
-        if args["length"]:
-            solutions_list.sort(key=len)
+        if not length_group:
+            return str.join(divider, solutions_list)
 
-            for key, group in groupby(solutions_list, key=len):
-                if not args["headers"]:
-                    print(f"===> {key} letter words\n")
-                print(str.join(divider, group))
-                if not args["headers"]:
-                    print()
-        else:
-            print(str.join(divider, solutions_list))
+        formatted = ""
 
-    def raw_solution_words(self, sort: bool = False) -> list[str]:
+        for key, group in groupby(solutions_list, key=len):
+            if headers:
+                formatted += (
+                    f"===> {key} letter words\n\n{str.join(divider, group)}\n\n"
+                )
+            else:
+                formatted += str.join(divider, group) + divider
+
+        return formatted
+
+    def raw_solution_words(self, sort: bool = False, length: bool = False) -> list[str]:
         """
         Convert solutions set into list, honoring sort flag
         """
-        if not self.solution_generated:
-            raise ValueError()
 
         solutions: list[str] = self.solutions.words()
         if sort:
             solutions.sort()
+        if length:
+            solutions.sort(key=len)
         return solutions
 
     def _attempt(self, index_chain: list[int], word: str) -> None:
@@ -135,7 +153,7 @@ class Solver:
             return
 
         if hits[0] == word:
-            self.solutions.add(word, index_chain)
+            self._solutions.add(word, index_chain)
 
         for neighbour in self.puzzle.neighbours_of(index_chain[-1]):
             if neighbour not in index_chain:

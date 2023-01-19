@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
     def __init__(
         self,
         solver: Solver,
-        alpha_sort: bool = True,
+        alpha_sort: bool,
         multiple: bool = False,
     ):
         super().__init__()
@@ -29,8 +29,7 @@ class MainWindow(QMainWindow):
         self.solver = solver
         self.multiple = multiple
 
-        self.words: list[str] = solver.raw_solution_words(alpha_sort)
-        self.words.sort(key=len)
+        self.words: list[str] = solver.raw_solution_words(sort=alpha_sort, length=True)
 
         # set up the interface (a simple HBox)
         self.hbox = QHBoxLayout()

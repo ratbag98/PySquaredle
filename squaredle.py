@@ -99,7 +99,14 @@ def main() -> int:
     if args.grid or args.random or args.square or args.auto_extend:
         print(solver.grid)
 
-    solver.print_solutions(vars(args))
+    print(
+        solver.formatted_solutions(
+            alpha_sort=args.sort,
+            length_group=args.length,
+            headers=not args.no_headers,
+            single_column=args.single_column,
+        )
+    )
 
     # be nice to pipelines
     return 0
@@ -147,7 +154,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "-N",
         "--no-headers",
-        dest="headers",
+        dest="no_headers",
         action="store_true",
         help="don't display headers for length-grouped solutions.",
     )
