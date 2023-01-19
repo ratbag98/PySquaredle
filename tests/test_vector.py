@@ -1,6 +1,12 @@
-import pytest
+"""
+Test my simple Vector class
+"""
+
+from math import isclose
 
 from pysquaredle.vector import Vector
+
+# import pytest
 
 
 class TestVector:
@@ -30,6 +36,14 @@ class TestVector:
         vec_2 = Vector(2, 1)
         assert (vec_1 + vec_2) == Vector(4, 5)
 
+    def test_subtraction(self):
+        """
+        Vector maths works
+        """
+        vec_1 = Vector(2, 4)
+        vec_2 = Vector(2, 1)
+        assert (vec_1 - vec_2) == Vector(0, 3)
+
     def test_absolute_value(self):
         """
         Vector absolute value works
@@ -58,5 +72,5 @@ class TestVector:
         """
         vec = Vector(3, 4)
         normalized = vec.normalize()
-        assert normalized.x == pytest.approx(0.6)
-        assert normalized.y == pytest.approx(0.8)
+        assert isclose(normalized.x, 0.6)
+        assert isclose(normalized.y, 0.8)

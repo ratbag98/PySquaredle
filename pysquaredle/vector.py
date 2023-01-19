@@ -33,11 +33,22 @@ class Vector:
         y: float = self.y + other.y
         return Vector(x, y)
 
+    def __sub__(self, other: Vector):
+        x: float = self.x - other.x
+        y: float = self.y - other.y
+        return Vector(x, y)
+
+    def __radd__(self, other: Vector):
+        return self + other
+
     def __mul__(self, scalar: float):
         return Vector(self.x * scalar, self.y * scalar)
 
-    def __eq__(self, __o: object) -> bool:
-        return self.x == __o.x and self.y == __o.y
+    # pyright: reportIncompatibleMethodOverride=none
+    def __eq__(self, other: Vector) -> bool:
+        return math.isclose(self.x, other.x, rel_tol=1e-6) and math.isclose(
+            self.y, other.y, rel_tol=1e-6
+        )
 
     def rotate_90(self) -> Vector:
         """

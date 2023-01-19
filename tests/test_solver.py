@@ -8,7 +8,9 @@ from pysquaredle.solver import Solver
 
 
 def null_report(_word: str, _chain: list[int], _hits_count: int) -> None:
-    pass
+    """
+    Do nothing for progress reporting
+    """
 
 
 class TestSolver:

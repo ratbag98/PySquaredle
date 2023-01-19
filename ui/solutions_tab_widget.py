@@ -54,7 +54,20 @@ class SolutionsTabWidget(QTabWidget):
         policy = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Expanding)
         self.setSizePolicy(policy)
 
+        # word length is the key
+        self.scrollers: dict[int, tuple[SolutionsScroller, WordListWidget]] = {}
+
         for key, group in groupby(words, key=len):
-            word_list_widget = WordListWidget(list(group), current_text_changed)
-            scroller = SolutionsScroller(word_list_widget)
-            self.addTab(scroller, f"{key}")
+            if not key in self.scrollers:
+                word_list_widget = WordListWidget(list(group), current_text_changed)
+                scroller = SolutionsScroller(word_list_widget)
+                self.scrollers[key] = (scroller, word_list_widget)
+                self.addTab(scroller, f"{key}")
+            else:
+                word_list_widget = self.scrollers[key][1]
+                word_list_widget.addItems(list(group))
+
+
+# so now we can look up a scroller and if needs be create one
+# we'll search for the next scroller in the TabWidget and get its
+# index, then insert a new one there.
