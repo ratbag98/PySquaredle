@@ -56,6 +56,8 @@ def main() -> int:
     length = len(letters)
     potential_side = math.sqrt(length)
 
+    #    print(f"Letters: {letters} {potential_side} {len(letters)}")
+
     # must be square, optionally add letters
     if potential_side % 1 != 0:
         if not args.auto_extend:

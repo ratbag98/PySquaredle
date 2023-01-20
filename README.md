@@ -207,6 +207,8 @@ long or composed of letters not found in the puzzle
 
 ## Roadmap
 
+* [ ] Handle gaps in the square. Solver already works, presentation needs
+  improvement and the download logic needs an overhaul
 * [ ] Optionally separate results for "common" vs "uncommon" words (struggling
   to find appropriate wordlists or to decrypt Squaredle's lists)
 * [ ] Keep word list up to date (see above)
