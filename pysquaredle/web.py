@@ -1,6 +1,8 @@
 """
 Module to handle web requests
 """
+import re
+
 import requests
 
 
@@ -20,6 +22,7 @@ def get_letters_from_web() -> str:
         elif r"]," in line:
             break
         elif parsing:
-            letters += line.replace('"', "").replace(",", "").replace(" ", "")
+            letters += "".join(re.findall(r"\"([a-zA-Z ]+)\"", line))
+            letters = letters.replace(" ", "_")
 
     return letters.upper()

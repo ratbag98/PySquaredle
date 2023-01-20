@@ -57,6 +57,8 @@ class LetterGridWidget(QWidget):
                 letter = LetterWidget(f"{letters[row * side_length + col]}")
 
                 self.grid.addWidget(letter, row, col)
+                if letters[row * side_length + col] == "_":
+                    letter.setHidden(True)
 
         # use this for drawing lines over the grid
         self.overlay = Overlay(self)

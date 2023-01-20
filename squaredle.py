@@ -126,7 +126,8 @@ def parse_args() -> argparse.Namespace:
 
     parser.add_argument(
         "letters",
-        help="the puzzle letters. If not specified will try to download from https://squaredle.app",
+        help="""the puzzle letters. If not specified will try to download from https://squaredle.app.
+        For puzzles with gaps, use underscores ('_') to represent the gaps.""",
         nargs="?",
     )
     parser.add_argument(
