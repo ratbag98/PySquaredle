@@ -48,6 +48,17 @@ class MainWindow(QMainWindow):
         self.hbox.addWidget(self.solutions, 0)
         self.resize(1000, 800)
 
+        self.status_bar = self.statusBar()
+        self.status()
+        self.show()
+
+    def status(self) -> None:
+        """
+        Show the solution status in the status bar
+        """
+        sol_count = len(self.solver.raw_solution_words())
+        self.status_bar.showMessage(f"{sol_count} solutions found")
+
     def _create_solution_widget(
         self, words: list[str], current_text_changed: Callable[[str], None]
     ) -> SolutionsTabWidget:

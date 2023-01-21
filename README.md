@@ -207,8 +207,6 @@ long or composed of letters not found in the puzzle
 
 ## Roadmap
 
-* [x] Handle gaps in the square. Presentation-side.
-* [x] Handle gaps:  download logic needs an overhaul
 * [ ] Optionally separate results for "common" vs "uncommon" words (struggling
   to find appropriate wordlists or to decrypt Squaredle's lists)
 * [ ] Keep word list up to date (see above)
@@ -221,6 +219,8 @@ long or composed of letters not found in the puzzle
 * [ ] Installer
 * [ ] [pyproject.toml](https://godatadriven.com/blog/a-practical-guide-to-setuptools-and-pyproject-toml/)
 * [ ] GUI preferences
+* [x] Handle gaps in the square. Presentation-side.
+* [x] Handle gaps:  download logic needs an overhaul
 * [x] Test suite (needs revisiting since I wasn't a good little TDDer)
 * [x] Make code more idiomatic (ongoing)
 * [x] Some graphical pizazz to show word formation in the grid
