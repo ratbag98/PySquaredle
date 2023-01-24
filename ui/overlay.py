@@ -31,7 +31,7 @@ class Overlay(QWidget):
 
         # we're used to draw one or more "paths" representing the solution(s) for
         # a given word.
-        self._paths: list[list[tuple[int, int]]] = []
+        self._selected_paths: list[list[tuple[int, int]]] = []
 
         # for multiple lines we use a palette to cycle through colours
         self.line_palette: LinePalette = LinePalette()
@@ -43,7 +43,7 @@ class Overlay(QWidget):
         We'll loop through the lists, selecting a new colour and drawing the
         relevant lines.
         """
-        self._paths = paths
+        self._selected_paths = paths
         self.update()
 
     # pylint: disable=arguments-differ,invalid-name
@@ -62,7 +62,7 @@ class Overlay(QWidget):
         pen.setJoinStyle(Qt.PenJoinStyle.RoundJoin)
         pen.setCapStyle(Qt.PenCapStyle.RoundCap)
 
-        for index, path in enumerate(self._paths):
+        for index, path in enumerate(self._selected_paths):
             # make lines more visible by offsetting successive lines
             offset = index * self.LINE_WIDTH
 

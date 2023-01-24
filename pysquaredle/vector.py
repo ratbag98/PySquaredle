@@ -17,7 +17,7 @@ class Vector:
         self.y = y
 
     def __repr__(self) -> str:
-        return f"Vector({self.x!r}, {self.y!r})"
+        return f"{self.__class__.__name__}({self.x!r}, {self.y!r})"
 
     def __str__(self) -> str:
         return f"({self.x!r}, {self.y!r})"

@@ -65,6 +65,7 @@ class LetterGridWidget(QWidget):
 
         # we're a grid, don't forget it
         self.setLayout(self.grid)
+        self.current_chains: list[list[int]] = []
 
     def set_drawing_paths(self, chains: list[list[int]]):
         """
