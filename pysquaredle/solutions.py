@@ -11,7 +11,7 @@ class Solutions:
     """
 
     def __init__(self) -> None:
-        self.solutions: dict[str, list[list[int]]] = defaultdict(list[list[int]])
+        self._solutions: dict[str, list[list[int]]] = defaultdict(list[list[int]])
 
     def add(self, word: str, path: list[int]) -> None:
         """
@@ -19,16 +19,24 @@ class Solutions:
 
         Adds a path to the list of paths for a given word
         """
-        self.solutions[word].append(path)
+        self._solutions[word].append(path)
 
     def words(self) -> list[str]:
         """
-        Return a list of words in the solutions
+        Return a list of unique words in the solutions
         """
-        return list(self.solutions.keys())
+        return list(self._solutions.keys())
 
     def paths(self, word: str) -> list[list[int]]:
         """
         Return a list of paths for a given word
         """
-        return self.solutions[word]
+        return self._solutions[word]
+
+    def word_count(self) -> int:
+        """Unique words in the solution"""
+        return len(self._solutions)
+
+    def path_count(self) -> int:
+        """Total number of paths in the solutions"""
+        return sum(len(paths) for paths in self._solutions.values())

@@ -186,6 +186,12 @@ class Solver:
             and word_only_contains_puzzle_letters(word, self.unique_letters)
         )
 
+    def word_count(self) -> int:
+        return self._solutions.word_count()
+
+    def path_count(self) -> int:
+        return self._solutions.path_count()
+
 
 def word_only_contains_puzzle_letters(word: str, letters: str) -> bool:
     """
