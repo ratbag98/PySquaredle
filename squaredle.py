@@ -20,10 +20,10 @@ class Application(QApplication):
     Main application for the GUI application. Ignored unless --gui is set.
     """
 
-    def __init__(self, solver: Solver, args: argparse.Namespace):
+    def __init__(self, solver: Solver, alpha_sort: bool = True, multiple: bool = False):
         super().__init__(sys.argv)
 
-        self.main_window = MainWindow(solver, args.sort, args.multiple)
+        self.main_window = MainWindow(solver, alpha_sort, multiple)
         self.main_window.show()
 
 
@@ -94,7 +94,7 @@ def main() -> int:
         print(solver.list_neighbours)
 
     if args.gui:
-        app = Application(solver, args)
+        app = Application(solver, args.sort, args.multiple)
         sys.exit(app.exec())
 
     # no point showing grid if GUI is running
