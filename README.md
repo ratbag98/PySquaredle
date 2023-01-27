@@ -50,6 +50,13 @@ the rest came from conda).
 Clone the repo. Make sure you've got a recent Python installed (I'm using
 3.10.8).
 
+### Minimal requirements
+
+* Python 3.10.8 (now using 3.11, and may work with older 3.x versions)
+* PyQt6 (for the GUI)
+* requests (for fetching the daily puzzle)
+* black (or blue), pylint, pytest, pytest-qt, pytest-cov (for development)
+
 * TODO setup pyproject.toml
 * TODO create an installer for Python-deficient Mac Users
 * TODO consider creating other platform installers (Linux easy, Windows might be tough)
