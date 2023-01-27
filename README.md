@@ -55,11 +55,13 @@ Clone the repo. Make sure you've got a recent Python installed (I'm using
 * Python 3.10.8 (now using 3.11, and may work with older 3.x versions)
 * PyQt6 (for the GUI)
 * requests (for fetching the daily puzzle)
-* black (or blue), pylint, pytest, pytest-qt, pytest-cov (for development)
+* black (or blue), `pylint`, `pytest`, `pytest-qt`, `pytest-cov` (for development)
 
-* TODO setup pyproject.toml
-* TODO create an installer for Python-deficient Mac Users
-* TODO consider creating other platform installers (Linux easy, Windows might be tough)
+### Setup TODOs
+
+* [ ] setup `pyproject.toml`
+* [ ] create an installer for Python-deficient Mac Users
+* [ ] consider creating other platform installers (Linux easy, Windows might be tough)
 
 ### Running the solver
 
@@ -224,7 +226,7 @@ long or composed of letters not found in the puzzle
   solve it until a desired word/complexity is present)
 * [ ] Automate dependency file creation (`conda list -e > req.txt`) on change.
 * [ ] Installer
-* [ ] [pyproject.toml](https://godatadriven.com/blog/a-practical-guide-to-setuptools-and-pyproject-toml/)
+* [ ] [`pyproject.toml`](https://godatadriven.com/blog/a-practical-guide-to-setuptools-and-pyproject-toml/)
 * [ ] GUI preferences
 * [x] Handle gaps in the square. Presentation-side.
 * [x] Handle gaps:  download logic needs an overhaul
@@ -250,7 +252,7 @@ Project link: <https://github.com/ratbag98/PySquaredle.git>
 
 * Trie structure (basis):
   [AskPython](https://www.askpython.com/python/examples/trie-data-structure)
-* Word list from: [dwyl](https://github.com/dwyl/english-words.git)
+* Word list from: [`dwyl`](https://github.com/dwyl/english-words.git)
 * Half way through this I started using Github Copilot. "It's a bit of a mixed
   bag, but it's fun to see what it comes up with. I've tried to keep the code
   idiomatic, but it's hard to resist the temptation to use some of the
