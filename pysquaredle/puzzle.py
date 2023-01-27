@@ -24,9 +24,16 @@ class Puzzle:
         The letters string's length must be a square number (9, 16, 25 etc).
         """
 
+        if not letters.isalpha():
+            raise ValueError("Letters must be alphabetic")
+
+        if len(letters) < 4:
+            raise ValueError("Puzzle must have at least four letters")
+
         self.cell_count = len(letters)
 
         self._letters = str.upper(letters)
+
         self._neighbours: list[list[int]] = self._calculate_neighbours()
 
     @property
@@ -37,7 +44,7 @@ class Puzzle:
         side_length = math.sqrt(self.cell_count)
 
         if side_length % 1 != 0:
-            raise ValueError()
+            raise ValueError("Puzzle must have a square number of letters eg 2x2, 3x3")
 
         return int(side_length)
 
