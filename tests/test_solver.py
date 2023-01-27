@@ -7,12 +7,6 @@ import pytest
 from pysquaredle.solver import Solver
 
 
-def null_report(_word: str, _chain: list[int], _hits_count: int) -> None:
-    """
-    Do nothing for progress reporting
-    """
-
-
 class TestSolver:
     """
     A Puzzle is a grid of letters, along with information about neighbours.
@@ -27,35 +21,27 @@ class TestSolver:
         The number of letters must be a square number (eg 3x3, 4x4)
         """
         with pytest.raises(ValueError):
-            Solver("ABC", word_list_path=self.test_words, update_func=null_report)
+            Solver("ABC", word_list_path=self.test_words)
 
     def test_puzzle_created(self):
         """
         With a valid set of letters, create Solver without error
         """
-        Solver(
-            self.good_letters, word_list_path=self.test_words, update_func=null_report
-        )
+        Solver(self.good_letters, word_list_path=self.test_words)
 
     def test_grid_loaded_correctly(self):
         """
         Did reading the valid letters create a valid grid?
         """
-        solver = Solver(
-            self.good_letters, word_list_path=self.test_words, update_func=null_report
-        )
+        solver = Solver(self.good_letters, word_list_path=self.test_words)
         assert solver.grid == "ABC\nDEF\nGHI\n"
 
     def test_word_list_count(self):
         """
         Has the word list been filtered correctly
         """
-        solver = Solver(
-            self.good_letters, word_list_path=self.test_words, update_func=null_report
-        )
-        solver2 = Solver(
-            "ABCDEFGHIJKLMNOP", word_list_path=self.test_words, update_func=null_report
-        )
+        solver = Solver(self.good_letters, word_list_path=self.test_words)
+        solver2 = Solver("ABCDEFGHIJKLMNOP", word_list_path=self.test_words)
 
         assert solver.word_list_count == 3
         assert solver2.word_list_count == 109
@@ -64,9 +50,7 @@ class TestSolver:
         """
         Can we solve when the word is the same length as the letters? Bounds
         """
-        solver = Solver(
-            "HTEZRONIOPAHMORP", word_list_path=self.test_words, update_func=null_report
-        )
+        solver = Solver("HTEZRONIOPAHMORP", word_list_path=self.test_words)
         solver.solve()
 
         assert "ANTHROPOMORPHIZE" in solver.raw_solution_words()
@@ -76,9 +60,7 @@ class TestSolver:
         Solution shouldn't include impossible words that can't be formed
         by tracing a continuous line.
         """
-        solver = Solver(
-            "HTEZRONIOPAHMORP", word_list_path=self.test_words, update_func=null_report
-        )
+        solver = Solver("HTEZRONIOPAHMORP", word_list_path=self.test_words)
         solver.solve()
 
         assert "OPERA" not in solver.raw_solution_words()
@@ -87,9 +69,7 @@ class TestSolver:
         """
         There should be no words that require repeated visit to same cell
         """
-        solver = Solver(
-            self.good_letters, word_list_path=self.test_words, update_func=null_report
-        )
+        solver = Solver(self.good_letters, word_list_path=self.test_words)
         solver.solve()
         assert "CEDE" not in solver.raw_solution_words()
 
@@ -97,7 +77,7 @@ class TestSolver:
         """
         Don't request solutions until they've been generated
         """
-        solver = Solver("ABCD", word_list_path=self.test_words, update_func=null_report)
+        solver = Solver("ABCD", word_list_path=self.test_words)
 
         with pytest.raises(ValueError):
             solver.raw_solution_words()
@@ -109,9 +89,7 @@ class TestSolver:
         """
         Okay to request solutions when the solution has been found.
         """
-        solver = Solver(
-            self.good_letters, word_list_path=self.test_words, update_func=null_report
-        )
+        solver = Solver(self.good_letters, word_list_path=self.test_words)
         solver.solve()
 
         solutions = solver.raw_solution_words()

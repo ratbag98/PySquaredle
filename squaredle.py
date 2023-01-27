@@ -82,11 +82,7 @@ def main() -> int:
 
         solver = Solver(letters.upper(), args.word_list, report)
     else:
-        # tested this, it doesn't add much time
-        def null_report(_word: str, _chain: list[int], _hits_count: int) -> None:
-            pass
-
-        solver = Solver(letters.upper(), args.word_list, null_report)
+        solver = Solver(letters.upper(), args.word_list)
 
     solver.solve()
 
