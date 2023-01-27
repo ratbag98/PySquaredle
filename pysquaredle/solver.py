@@ -6,7 +6,6 @@ Class
 """
 
 from functools import cached_property
-from itertools import groupby
 from typing import Callable, Optional
 
 from pysquaredle.puzzle import Puzzle
@@ -35,27 +34,28 @@ class Solver:
         word_list_path: str,
         update_func: Optional[Callable[[str, list[int], int], None]] = None,
     ) -> None:
-        self.progress_reporter = update_func
+        # this can do "something" whilst the solutions are generated
+        self._progress_reporter = update_func
 
         self.puzzle = Puzzle(letters)
-        self.word_trie: Trie = Trie()
+        self._word_trie: Trie = Trie()
         self._solutions: Solutions = Solutions()
-        self.solution_generated = False
 
         self.word_list_count = 0
 
         # useful to optimise word list loading (ignore words that don't share
         # letters with the puzzle)
-        self.unique_letters = "".join(sorted(set(letters)))
+        self._unique_letters = "".join(sorted(set(letters)))
         self._load_words(word_list_path)
+
+        # now for the good stuff
+        self.solve()
 
     @cached_property
     def solutions(self) -> Solutions:
         """
         Get our solutions
         """
-        if not self.solution_generated:
-            raise ValueError()
         return self._solutions
 
     @cached_property
@@ -90,11 +90,9 @@ class Solver:
         """
         Solve a puzzle. Builds the `solutions` list.
         """
-        for index, letter in enumerate(list(self.letters)):
+        for index, letter in enumerate(self.letters):
             chain = [index]
             self._attempt(chain, letter)
-
-        self.solution_generated = True
 
     def formatted_solutions(
         self,
@@ -104,42 +102,17 @@ class Solver:
         headers: bool = False,
     ) -> str:
         """
-        Print out a formatted list of solutions, modified by any bool arguments:
-            alpha_sort:             alphabetically sort the solutions
-            length_group:           group solutions by word length
-            single_column:          present results as a single column
-            headers:                for grouped results, include header by default
+        Pass the formatted solutions from our solutions object
         """
-        solutions_list = self.raw_solution_words(sort=alpha_sort, length=length_group)
-
-        divider = "\n" if single_column else "\t"
-
-        if not length_group:
-            return str.join(divider, solutions_list)
-
-        formatted = ""
-
-        for key, group in groupby(solutions_list, key=len):
-            if headers:
-                formatted += (
-                    f"===> {key} letter words\n\n{str.join(divider, group)}\n\n"
-                )
-            else:
-                formatted += str.join(divider, group) + divider
-
-        return formatted
+        return self._solutions.formatted_solutions(
+            alpha_sort, length_group, single_column, headers
+        )
 
     def raw_solution_words(self, sort: bool = False, length: bool = False) -> list[str]:
         """
-        Convert solutions set into list, honoring sort flag
+        Pass the raw solution words from our solutions object
         """
-
-        solutions: list[str] = self.solutions.words()
-        if sort:
-            solutions.sort()
-        if length:
-            solutions.sort(key=len)
-        return solutions
+        return self._solutions.raw_solution_words(sort, length)
 
     def _attempt(self, index_chain: list[int], word: str) -> None:
         """
@@ -147,10 +120,10 @@ class Solver:
         Adds new found words to the solutions set, ignoring duplicates
         """
 
-        hits: list[str] = self.word_trie.search(word)
+        hits: list[str] = self._word_trie.search(word)
 
-        if self.progress_reporter:
-            self.progress_reporter(word, index_chain, len(hits))
+        if self._progress_reporter:
+            self._progress_reporter(word, index_chain, len(hits))
 
         if not hits:
             return
@@ -173,7 +146,7 @@ class Solver:
                 w for w in words_file.read().splitlines() if self.interesting_word(w)
             ]:
                 self.word_list_count += 1
-                self.word_trie.insert(word)
+                self._word_trie.insert(word)
         # pylint: enable=unspecified-encoding
 
     def interesting_word(self, word: str) -> bool:
@@ -185,8 +158,8 @@ class Solver:
         """
         return (
             len(word) <= self.puzzle.cell_count
-            and word[0] in self.unique_letters
-            and word_only_contains_puzzle_letters(word, self.unique_letters)
+            and word[0] in self._unique_letters
+            and word_only_contains_puzzle_letters(word, self._unique_letters)
         )
 
     def word_count(self) -> int:

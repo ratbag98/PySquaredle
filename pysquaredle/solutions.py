@@ -1,8 +1,10 @@
 """
-Solutions class
+Solutions class. Stores and formats a list of words and solution paths for those words.
+A solution path is the list of indexes in the puzzle grid that make up a word.
 """
 
 from collections import defaultdict
+from itertools import groupby
 
 
 class Solutions:
@@ -40,3 +42,48 @@ class Solutions:
     def path_count(self) -> int:
         """Total number of paths in the solutions"""
         return sum(len(paths) for paths in self._solutions.values())
+
+    def formatted_solutions(
+        self,
+        alpha_sort: bool = False,
+        length_group: bool = False,
+        single_column: bool = False,
+        headers: bool = False,
+    ) -> str:
+        """
+        Print out a formatted list of solutions, modified by any bool arguments:
+            alpha_sort:             alphabetically sort the solutions
+            length_group:           group solutions by word length
+            single_column:          present results as a single column
+            headers:                for grouped results, include header by default
+        """
+        solutions_list = self.raw_solution_words(sort=alpha_sort, length=length_group)
+
+        divider = "\n" if single_column else "\t"
+
+        if not length_group:
+            return str.join(divider, solutions_list)
+
+        formatted = ""
+
+        for key, group in groupby(solutions_list, key=len):
+            if headers:
+                formatted += (
+                    f"===> {key} letter words\n\n{str.join(divider, group)}\n\n"
+                )
+            else:
+                formatted += str.join(divider, group) + divider
+
+        return formatted
+
+    def raw_solution_words(self, sort: bool = False, length: bool = False) -> list[str]:
+        """
+        Convert solutions set into list, honoring sort flag
+        """
+
+        solutions: list[str] = self.words()
+        if sort:
+            solutions.sort()
+        if length:
+            solutions.sort(key=len)
+        return solutions
