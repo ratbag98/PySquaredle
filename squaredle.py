@@ -40,14 +40,8 @@ def main() -> int:
         print("Cannot specify both --square and letters")
         sys.exit(-1)
 
-    # should make for better words than purely random
-    all_popular_word_game_letters = "EEEEEEEEEEEEEEEEAAAAAAAAAIIIIIIIIIOOOOOOOONNNNNNRRRRRRTTTTTTLLLLSSSSUUUDDDDGGGBBCCMMPPFFHHVVWWYYKJXQZ"
-
     if args.square:
-        letters = "".join(
-            random.choice(all_popular_word_game_letters)
-            for _ in range(args.square**2)
-        )
+        letters = random_letters(args.square**2)
     elif args.letters:
         letters = args.letters
     else:
@@ -67,9 +61,7 @@ def main() -> int:
         # add letters to make a square
         diff = (int(potential_side) + 1) ** 2 - length
         print(f"Adding {diff} letters to make a square grid.")
-        letters += "".join(
-            [random.choice(all_popular_word_game_letters) for _ in range(diff)]
-        )
+        letters += random_letters(diff)
 
     # superfluous if square is set, but harmless to randomize them again
     if args.random:
@@ -122,8 +114,9 @@ def parse_args() -> argparse.Namespace:
 
     parser.add_argument(
         "letters",
-        help="""the puzzle letters. If not specified will try to download from https://squaredle.app.
-        For puzzles with gaps, use underscores ('_') to represent the gaps.""",
+        help="""the puzzle letters. If not specified will try to download
+        from https://squaredle.app. For puzzles with gaps, use underscores
+        ('_') to represent the gaps.""",
         nargs="?",
     )
     parser.add_argument(
@@ -207,6 +200,19 @@ def parse_args() -> argparse.Namespace:
 
     args = parser.parse_args()
     return args
+
+
+def random_letters(count: int) -> str:
+    """
+    Generate a string of count nicely distributed random letters
+    """
+    return "".join(
+        random.choice(
+            "EEEEEEEEEEEEEEEEAAAAAAAAAIIIIIIIIIOOOOOOOONNNNNN"
+            "RRRRRRTTTTTTLLLLSSSSUUUDDDDGGGBBCCMMPPFFHHVVWWYYKJXQZ"
+        )
+        for _ in range(count)
+    )
 
 
 if __name__ == "__main__":

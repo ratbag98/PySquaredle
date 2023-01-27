@@ -7,7 +7,6 @@ Class
 
 from functools import cached_property
 from itertools import groupby
-from turtle import update
 from typing import Callable, Optional
 
 from pysquaredle.puzzle import Puzzle
@@ -36,14 +35,7 @@ class Solver:
         word_list_path: str,
         update_func: Optional[Callable[[str, list[int], int], None]] = None,
     ) -> None:
-        if not update_func:
-
-            def empty_update_func(word: str, chain: list[int], hit_count: int) -> None:
-                pass
-
-            self.progress_reporter = empty_update_func
-        else:
-            self.progress_reporter = update_func
+        self.progress_reporter = update_func
 
         self.puzzle = Puzzle(letters)
         self.word_trie: Trie = Trie()
@@ -156,7 +148,9 @@ class Solver:
         """
 
         hits: list[str] = self.word_trie.search(word)
-        self.progress_reporter(word, index_chain, len(hits))
+
+        if self.progress_reporter:
+            self.progress_reporter(word, index_chain, len(hits))
 
         if not hits:
             return
@@ -196,9 +190,15 @@ class Solver:
         )
 
     def word_count(self) -> int:
+        """
+        Pass the word count from our solutions object
+        """
         return self._solutions.word_count()
 
     def path_count(self) -> int:
+        """
+        Pass the number of paths for a given word from our solutions object
+        """
         return self._solutions.path_count()
 
 
