@@ -76,8 +76,6 @@ def main() -> int:
     else:
         solver = Solver(letters.upper(), args.word_list)
 
-    solver.solve()
-
     if args.neighbours:
         print(solver.list_neighbours)
 

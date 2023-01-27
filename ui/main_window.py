@@ -43,13 +43,13 @@ class MainWindow(QMainWindow):
 
         # scrolling list of solutions grouped by word length
         # detect clicks and update the big grid of letters accordingly
-        self.solutions = self._create_solution_widget(
+        self.solutions_widget = self._create_solution_widget(
             self.words, self.current_text_changed
         )
 
         # the actual interface is just two widgets side-by-side
         self.hbox.addWidget(self.letter_grid, 100)
-        self.hbox.addWidget(self.solutions, 0)
+        self.hbox.addWidget(self.solutions_widget, 0)
         self.resize(1000, 800)
 
         self.status_bar = self.statusBar()
@@ -73,10 +73,10 @@ class MainWindow(QMainWindow):
         Create the solution widget from a grouped-by-len list of solution words.
         """
 
-        solutions = SolutionsTabWidget(words, current_text_changed)
-        solutions.setTabPosition(QTabWidget.TabPosition.West)
-        solutions.setMovable(True)
-        return solutions
+        solutions_widget = SolutionsTabWidget(words, current_text_changed)
+        solutions_widget.setTabPosition(QTabWidget.TabPosition.West)
+        solutions_widget.setMovable(True)
+        return solutions_widget
 
     def current_text_changed(self, current_text: str):
         """
@@ -88,5 +88,5 @@ class MainWindow(QMainWindow):
             )
         else:
             self.letter_grid.set_drawing_paths(
-                self.solver.solutions.paths(current_text)[0:1]
+                self.solver.solutions.paths(current_text)[:1]
             )

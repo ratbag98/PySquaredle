@@ -23,6 +23,20 @@ class TestSolver:
         with pytest.raises(ValueError):
             Solver("ABC", word_list_path=self.test_words)
 
+    def test_grid_must_not_be_a_single_character(self):
+        """
+        The number of letters must be at least 2x2
+        """
+        with pytest.raises(ValueError):
+            Solver("A", word_list_path=self.test_words)
+
+    def test_only_letters_are_valid_cells(self):
+        """
+        The cells in the puzzle must only be letters
+        """
+        with pytest.raises(ValueError):
+            Solver("123456789", word_list_path=self.test_words)
+
     def test_puzzle_created(self):
         """
         With a valid set of letters, create Solver without error
@@ -51,7 +65,7 @@ class TestSolver:
         Can we solve when the word is the same length as the letters? Bounds
         """
         solver = Solver("HTEZRONIOPAHMORP", word_list_path=self.test_words)
-        solver.solve()
+        # solver.solve()
 
         assert "ANTHROPOMORPHIZE" in solver.raw_solution_words()
 
@@ -61,7 +75,7 @@ class TestSolver:
         by tracing a continuous line.
         """
         solver = Solver("HTEZRONIOPAHMORP", word_list_path=self.test_words)
-        solver.solve()
+        # solver.solve()
 
         assert "OPERA" not in solver.raw_solution_words()
 
@@ -70,27 +84,15 @@ class TestSolver:
         There should be no words that require repeated visit to same cell
         """
         solver = Solver(self.good_letters, word_list_path=self.test_words)
-        solver.solve()
+        # solver.solve()
         assert "CEDE" not in solver.raw_solution_words()
-
-    def test_exception_if_solutions_requested_before_solve_called(self):
-        """
-        Don't request solutions until they've been generated
-        """
-        solver = Solver("ABCD", word_list_path=self.test_words)
-
-        with pytest.raises(ValueError):
-            solver.raw_solution_words()
-
-        with pytest.raises(ValueError):
-            solver.formatted_solutions()
 
     def test_can_get_or_print_solutions_if_solve_called(self):
         """
         Okay to request solutions when the solution has been found.
         """
         solver = Solver(self.good_letters, word_list_path=self.test_words)
-        solver.solve()
+        # solver.solve()
 
         solutions = solver.raw_solution_words()
 

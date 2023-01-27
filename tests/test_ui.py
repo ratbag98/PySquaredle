@@ -16,7 +16,6 @@ def app(qtbot) -> MainWindow:
     solver = Solver(
         "ROBERTRAINTHORPE", "./test_word_list.txt"
     )  # , update_func=update_func)
-    solver.solve()
     test_squaredle_app = MainWindow(solver, False, False)
 
     print("Got here")
