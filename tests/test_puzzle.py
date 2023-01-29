@@ -5,6 +5,7 @@ Test the Puzzle class
 from pysquaredle.puzzle import Puzzle
 
 
+# pylint: disable=too-few-public-methods
 class TestPuzzle:
     """
     Operations on the Puzzle class

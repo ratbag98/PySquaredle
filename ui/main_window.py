@@ -12,6 +12,8 @@ from ui.letter_grid import LetterGridWidget
 from ui.solutions_tab_widget import SolutionsTabWidget
 
 
+# happy to disable this warning since they're mainly GUI-related
+# pylint: disable=too-many-instance-attributes
 class MainWindow(QMainWindow):
     """
     Main window for the application.

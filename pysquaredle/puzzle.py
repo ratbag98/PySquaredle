@@ -136,4 +136,4 @@ class Puzzle:
         return f'Puzzle("{self.letters}")'
 
     def __str__(self) -> str:
-        return self.grid()
+        return self.grid
