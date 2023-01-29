@@ -34,8 +34,8 @@ from a well-known word board game.
 
 ## Getting Started
 
-I use a conda environment, and there are now some dependencies, notably for the
-GUI. You can run the following to clone my conda setup.
+I use a conda environment, and there are some dependencies, notably for the
+GUI and development. You can run the following to clone my conda setup.
 
 ```bash
 conda create --name squaredle --file conda_requirements.txt
@@ -48,7 +48,7 @@ file but have no idea how you use that (I think PyQt6 was installed via pip but
 the rest came from conda).
 
 Clone the repo. Make sure you've got a recent Python installed (I'm using
-3.10.8).
+3.11 but it worked with 3.10 as well)).
 
 ### Minimal requirements
 
