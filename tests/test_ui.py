@@ -4,6 +4,7 @@ Test the GUI
 
 import pytest
 
+from pysquaredle.puzzle import Puzzle
 from pysquaredle.solver import Solver
 from ui.main_window import MainWindow
 
@@ -13,8 +14,9 @@ def app_fixture(qtbot) -> MainWindow:
     """
     Test fixture for the main window
     """
-    solver = Solver("TESTPUZZLEABCDEF", "./test_word_list.txt")
-    test_squaredle_app = MainWindow(solver, False, False)
+    puzzle = Puzzle("TESTPUZZLEABCDEF")
+    solver = Solver(puzzle, "./test_word_list.txt")
+    test_squaredle_app = MainWindow(puzzle, solver, False, False)
 
     print("Got here")
     qtbot.add_widget(test_squaredle_app)

@@ -6,6 +6,7 @@ from typing import Callable
 
 from PyQt6.QtWidgets import QHBoxLayout, QMainWindow, QTabWidget, QWidget
 
+from pysquaredle.puzzle import Puzzle
 from pysquaredle.solver import Solver
 from ui.letter_grid import LetterGridWidget
 from ui.solutions_tab_widget import SolutionsTabWidget
@@ -18,6 +19,7 @@ class MainWindow(QMainWindow):
 
     def __init__(
         self,
+        puzzle: Puzzle,
         solver: Solver,
         alpha_sort: bool,
         multiple: bool = False,
@@ -27,6 +29,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("PySquaredle")
 
         self.solver = solver
+        self.puzzle = puzzle
         self.multiple = multiple
 
         self.words: list[str] = solver.raw_solution_words(sort=alpha_sort, length=True)
@@ -39,7 +42,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(container)
 
         # big grid of letters to show the solution graphically
-        self.letter_grid = LetterGridWidget(solver.letters, solver.side_length)
+        self.letter_grid = LetterGridWidget(puzzle.letters, puzzle.side_length)
 
         # scrolling list of solutions grouped by word length
         # detect clicks and update the big grid of letters accordingly

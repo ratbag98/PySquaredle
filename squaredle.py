@@ -10,6 +10,7 @@ import sys
 
 from PyQt6.QtWidgets import QApplication
 
+from pysquaredle.puzzle import Puzzle
 from pysquaredle.solver import Solver
 from pysquaredle.web import get_letters_from_web
 from ui.main_window import MainWindow
@@ -20,10 +21,16 @@ class Application(QApplication):
     Main application for the GUI application. Ignored unless --gui is set.
     """
 
-    def __init__(self, solver: Solver, alpha_sort: bool = True, multiple: bool = False):
+    def __init__(
+        self,
+        puzzle: Puzzle,
+        solver: Solver,
+        alpha_sort: bool = True,
+        multiple: bool = False,
+    ):
         super().__init__(sys.argv)
 
-        self.main_window = MainWindow(solver, alpha_sort, multiple)
+        self.main_window = MainWindow(puzzle, solver, alpha_sort, multiple)
         self.main_window.show()
 
 
@@ -67,25 +74,27 @@ def main() -> int:
     if args.random:
         letters = "".join(random.sample(letters, len(letters)))
 
+    puzzle = Puzzle(letters.upper())
+
     if args.slow_mode:
 
         def report(word: str, chain: list[int], hit_count: int) -> None:
             print(f"Checking {word} at {chain}. Hits: {hit_count}")
 
-        solver = Solver(letters.upper(), args.word_list, report)
+        solver = Solver(puzzle, args.word_list, report)
     else:
-        solver = Solver(letters.upper(), args.word_list)
+        solver = Solver(puzzle, args.word_list)
 
     if args.neighbours:
-        print(solver.list_neighbours)
+        print(puzzle.list_neighbours)
 
     if args.gui:
-        app = Application(solver, args.sort, args.multiple)
+        app = Application(puzzle, solver, args.sort, args.multiple)
         sys.exit(app.exec())
 
     # no point showing grid if GUI is running
     if args.grid or args.random or args.square or args.auto_extend:
-        print(solver.grid)
+        print(puzzle.grid)
 
     print(
         solver.formatted_solutions(

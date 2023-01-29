@@ -55,6 +55,12 @@ class Puzzle:
         """
         return self._letters
 
+    @property
+    def unique_letters(self) -> str:
+        """A sorted string of unique letters in the puzzle"""
+        return "".join(sorted(set(self._letters)))
+
+    @property
     def grid(self) -> str:
         """
         Convert the puzzle grid to a string

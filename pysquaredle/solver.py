@@ -17,8 +17,6 @@ class Solver:
     """
     Solve a Squaredle Puzzle.
 
-    The puzzle is represented by a Puzzle object.
-
     We maintain a word list stored as a trie for speedy starts with searches
     We use a recursive chain builder to find solutions in the grid
     """
@@ -30,22 +28,19 @@ class Solver:
 
     def __init__(
         self,
-        letters: str,
+        puzzle: Puzzle,
         word_list_path: str,
         update_func: Optional[Callable[[str, list[int], int], None]] = None,
     ) -> None:
         # this can do "something" whilst the solutions are generated
         self._progress_reporter = update_func
 
-        self.puzzle = Puzzle(letters)
+        self._puzzle = puzzle
         self._word_trie: Trie = Trie()
         self._solutions: Solutions = Solutions()
 
         self.word_list_count = 0
 
-        # useful to optimise word list loading (ignore words that don't share
-        # letters with the puzzle)
-        self._unique_letters = "".join(sorted(set(letters)))
         self._load_words(word_list_path)
 
         # now for the good stuff
@@ -58,39 +53,11 @@ class Solver:
         """
         return self._solutions
 
-    @cached_property
-    def list_neighbours(self) -> str:
-        """
-        Get our puzzle's neighbour list
-        """
-        return self.puzzle.list_neighbours()
-
-    @cached_property
-    def grid(self) -> str:
-        """
-        Get our puzzle's grid
-        """
-        return self.puzzle.grid()
-
-    @cached_property
-    def letters(self) -> str:
-        """
-        Get our puzzle's letters
-        """
-        return self.puzzle.letters
-
-    @cached_property
-    def side_length(self) -> int:
-        """
-        Get our puzzle's side length
-        """
-        return self.puzzle.side_length
-
     def solve(self) -> None:
         """
         Solve a puzzle. Builds the `solutions` list.
         """
-        for index, letter in enumerate(self.letters):
+        for index, letter in enumerate(self._puzzle.letters):
             chain = [index]
             self._attempt(chain, letter)
 
@@ -131,11 +98,11 @@ class Solver:
         if hits[0] == word:
             self._solutions.add(word, index_chain)
 
-        for neighbour in self.puzzle.neighbours_of(index_chain[-1]):
+        for neighbour in self._puzzle.neighbours_of(index_chain[-1]):
             if neighbour not in index_chain:
                 self._attempt(
                     index_chain + [neighbour],
-                    "".join([word, self.letters[neighbour]]),
+                    "".join([word, self._puzzle.letters[neighbour]]),
                 )
 
     def _load_words(self, word_list_path: str) -> None:
@@ -156,10 +123,11 @@ class Solver:
         skip lines that don't start with a  letter from our puzzle
         skip lines with letters not in our puzzle
         """
+        candidate_letters = self._puzzle.unique_letters
         return (
-            len(word) <= self.puzzle.cell_count
-            and word[0] in self._unique_letters
-            and word_only_contains_puzzle_letters(word, self._unique_letters)
+            len(word) <= self._puzzle.cell_count
+            and word[0] in candidate_letters
+            and word_only_contains_puzzle_letters(word, candidate_letters)
         )
 
     def word_count(self) -> int:
