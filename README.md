@@ -40,6 +40,8 @@ poetry shell
 poetry install
 ```
 
+There's some conda-related stuff in the repo - you can ignore it.
+
 ### Setup TODOs
 
 * [x] setup `pyproject.toml`
