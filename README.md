@@ -34,32 +34,15 @@ from a well-known word board game.
 
 ## Getting Started
 
-I use a conda environment, and there are some dependencies, notably for the
-GUI and development. You can run the following to clone my conda setup.
-
 ```bash
-conda create --name squaredle --file conda_requirements.txt
-conda activate squaredle
+pip install poetry # or pipx or whatever
+poetry shell
+poetry install
 ```
-
-If you're using another package manager, take a quick look at the file and see
-if you're missing anything on the list. I've included a pip_requirements.txt
-file but have no idea how you use that (I think PyQt6 was installed via pip but
-the rest came from conda).
-
-Clone the repo. Make sure you've got a recent Python installed (I'm using
-3.11 but it worked with 3.10 as well)).
-
-### Minimal requirements
-
-* Python 3.10.8 (now using 3.11, and may work with older 3.x versions)
-* PyQt6 (for the GUI)
-* requests (for fetching the daily puzzle)
-* black (or blue), `pylint`, `pytest`, `pytest-qt`, `pytest-cov` (for development)
 
 ### Setup TODOs
 
-* [ ] setup `pyproject.toml`
+* [x] setup `pyproject.toml`
 * [ ] create an installer for Python-deficient Mac Users
 * [ ] consider creating other platform installers (Linux easy, Windows might be tough)
 
