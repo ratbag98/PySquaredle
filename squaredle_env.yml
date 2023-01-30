@@ -1,0 +1,14 @@
+name: squaredle_env
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.11.*
+  - pytest
+  - pytest-qt
+  - requests
+  - poetry
+  - coverage
+  - pylint
+  - pip:
+    - pyqt6
