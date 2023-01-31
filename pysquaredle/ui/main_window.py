@@ -8,8 +8,8 @@ from PyQt6.QtWidgets import QHBoxLayout, QMainWindow, QTabWidget, QWidget
 
 from pysquaredle.puzzle import Puzzle
 from pysquaredle.solver import Solver
-from ui.letter_grid import LetterGridWidget
-from ui.solutions_tab_widget import SolutionsTabWidget
+from pysquaredle.ui.letter_grid import LetterGridWidget
+from pysquaredle.ui.solutions_tab_widget import SolutionsTabWidget
 
 
 # happy to disable this warning since they're mainly GUI-related

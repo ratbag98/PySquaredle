@@ -6,7 +6,7 @@ from PyQt6.QtCore import QPoint, QRect, QSize, Qt
 from PyQt6.QtGui import QResizeEvent
 from PyQt6.QtWidgets import QGridLayout, QLabel, QSizePolicy, QWidget
 
-from ui.overlay import Overlay
+from pysquaredle.ui.overlay import Overlay
 
 
 class LetterWidget(QLabel):

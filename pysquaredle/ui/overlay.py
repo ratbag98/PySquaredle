@@ -8,8 +8,8 @@ from PyQt6.QtCore import QLine, QPoint, Qt
 from PyQt6.QtGui import QBrush, QColor, QPainter, QPaintEvent, QPalette, QPen
 from PyQt6.QtWidgets import QWidget
 
+from pysquaredle.ui.line_palette import LinePalette
 from pysquaredle.vector import Vector
-from ui.line_palette import LinePalette
 
 
 class Overlay(QWidget):

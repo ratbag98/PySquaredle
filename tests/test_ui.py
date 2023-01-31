@@ -6,7 +6,7 @@ import pytest
 
 from pysquaredle.puzzle import Puzzle
 from pysquaredle.solver import Solver
-from ui.main_window import MainWindow
+from pysquaredle.ui.main_window import MainWindow
 
 
 @pytest.fixture
