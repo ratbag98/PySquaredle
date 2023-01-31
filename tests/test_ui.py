@@ -18,7 +18,6 @@ def app_fixture(qtbot) -> MainWindow:
     solver = Solver(puzzle, "./test_word_list.txt")
     test_squaredle_app = MainWindow(puzzle, solver, False, False)
 
-    print("Got here")
     qtbot.add_widget(test_squaredle_app)
 
     return test_squaredle_app

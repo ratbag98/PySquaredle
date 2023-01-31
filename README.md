@@ -62,11 +62,11 @@ So we run the solver with the letters organized as a single string reading the
 grid from left to right, top to bottom:
 
 ```bash
-./squaredle.py GACSNEWID
+./squaredle GACSNEWID
 ```
 
 (upper or lower-case, live a little). If you're on Windows, sorry-not-sorry, but
-use ```python squaredle.py GACSNEWID``` instead or do something funky.
+use ```python squaredle GACSNEWID``` instead or do something funky.
 
 The program will check that the letters can represent a Squaredle grid. There
 should be a "square" number of letters (eg 3x3, 4x4, 5x5, etc). If the number of

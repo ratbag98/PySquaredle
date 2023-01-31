@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 """
 Solve Squaredle puzzles, main entry point.
+
+(c) Robert Rainthorpe 2023
 """
 
 import math
@@ -55,18 +57,17 @@ def main() -> int:
         def report(word: str, chain: list[int], hit_count: int) -> None:
             print(f"Checking {word} at {chain}. Hits: {hit_count}")
 
-        solver = Solver(puzzle, args.word_list, report)
+        solver = Solver(puzzle, args.file, report)
     else:
-        solver = Solver(puzzle, args.word_list)
+        solver = Solver(puzzle, args.file)
 
-    if args.neighbours:
+    if args.debug:
         print(puzzle.list_neighbours)
 
     if args.gui:
         app = Application(puzzle, solver, args.sort, args.multiple)
         sys.exit(app.exec())
 
-    # no point showing grid if GUI is running
     if args.grid or args.random or args.square or args.auto_extend:
         print(puzzle.grid)
 
@@ -74,7 +75,7 @@ def main() -> int:
         solver.formatted_solutions(
             alpha_sort=args.sort,
             length_group=args.length,
-            headers=not args.no_headers,
+            headers=args.headers,
             single_column=args.single_column,
         )
     )

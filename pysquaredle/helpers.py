@@ -11,9 +11,7 @@ def parse_args() -> argparse.Namespace:
     Interpret the command-line arguments and store for later use.
     """
     parser = argparse.ArgumentParser(
-        prog="PySquaredle",
         description="Solves the Squaredle puzzle, as seen on https://squaredle.app",
-        epilog="(C) 2022 Robert Rainthorpe.",
     )
 
     parser.add_argument(
@@ -27,62 +25,62 @@ def parse_args() -> argparse.Namespace:
         "-c",
         "--single-column",
         action="store_true",
-        help="display results as a single column.",
+        help="display results as a single column. (default: %(default)s)",
+    )
+    parser.add_argument(
+        "-d",
+        "--debug",
+        action="store_true",
+        help="display cell neighbour list for debugging (default: %(default)s)",
+    )
+    parser.add_argument(
+        "-f",
+        "--file",
+        help="specify word list (default: %(default)s)",
+        default="./word_list.txt",
     )
     parser.add_argument(
         "-g",
         "--grid",
         action="store_true",
-        help="display letters in grid layout.",
+        help="display letters grid. (default: %(default)s)",
+    )
+    parser.add_argument(
+        "-H",
+        "--headers",
+        dest="headers",
+        action="store_true",
+        help="display headers for length-grouped solutions (default: %(default)s)",
     )
     parser.add_argument(
         "-l",
         "--length",
         action="store_true",
-        help="group solutions by word length.",
+        help="group solutions by word length (default: %(default)s)",
     )
     parser.add_argument(
-        "-n",
-        "--neighbours",
+        "-m",
+        "--multiple",
+        help="in GUI mode, show all solutions for a given word (default: %(default)s)",
         action="store_true",
-        help="display cell neighbour list for debugging.",
-    )
-    parser.add_argument(
-        "-N",
-        "--no-headers",
-        dest="no_headers",
-        action="store_true",
-        help="don't display headers for length-grouped solutions.",
     )
     parser.add_argument(
         "-r",
         "--random",
         action="store_true",
-        help="randomise letter order. For setting puzzles. Automatically shows grid.",
+        help="randomise letter order, for setting puzzles. Shows grid (default: %(default)s)",
     )
     parser.add_argument(
         "-s",
         "--sort",
         action="store_true",
-        help="sort solutions alphabetically.",
-    )
-    parser.add_argument(
-        "-w",
-        "--word-list",
-        help="use different word list to default (./word_list.txt)",
-        default="./word_list.txt",
+        help="sort solutions alphabetically (default: %(default)s)",
     )
     parser.add_argument(
         "-u",
         "--gui",
         action="store_true",
-        help="run in GUI mode. Other flags affect text output, not GUI",
-    )
-    parser.add_argument(
-        "-m",
-        "--multiple",
-        help="in GUI mode, show all solutions for a given word. (messy)",
-        action="store_true",
+        help="run in GUI mode. Some flags only affect text output, not GUI (default: %(default)s)",
     )
     parser.add_argument(
         "-x",
@@ -95,11 +93,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "-t",
         "--auto-extend",
-        help="add extra letters to the grid to make it square",
+        help="add extra letters to the grid to make it square (default: %(default)s)",
         action="store_true",
     )
     parser.add_argument(
-        "-z", "--slow-mode", action="store_true", help="show progress as it goes"
+        "-z",
+        "--slow-mode",
+        action="store_true",
+        help="show progress as it goes (default: %(default)s)",
     )
 
     args = parser.parse_args()
