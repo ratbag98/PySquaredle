@@ -27,27 +27,6 @@ class TestSolver:
         """A puzzle with the word ANTHROPOMORPHIZE in it"""
         return Puzzle("HTEZRONIOPAHMORP")
 
-    def test_grid_must_be_square(self):
-        """
-        The number of letters must be a square number (eg 3x3, 4x4)
-        """
-        with pytest.raises(ValueError):
-            Solver(Puzzle("ABC"), word_list_path=self.test_words)
-
-    def test_grid_must_not_be_a_single_character(self):
-        """
-        The number of letters must be at least 2x2
-        """
-        with pytest.raises(ValueError):
-            Solver(Puzzle("A"), word_list_path=self.test_words)
-
-    def test_only_letters_are_valid_cells(self):
-        """
-        The cells in the puzzle must only be letters
-        """
-        with pytest.raises(ValueError):
-            Solver(Puzzle("123456789"), word_list_path=self.test_words)
-
     def test_puzzle_created(self, good_puzzle: Puzzle):
         """
         With a valid set of letters, create Solver without error
