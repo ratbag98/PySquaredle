@@ -14,14 +14,14 @@ files = [
 
 [[package]]
 name = "astroid"
-version = "2.13.3"
+version = "2.13.4"
 description = "An abstract syntax tree for Python with inference support."
 category = "dev"
 optional = false
 python-versions = ">=3.7.2"
 files = [
-    {file = "astroid-2.13.3-py3-none-any.whl", hash = "sha256:14c1603c41cc61aae731cad1884a073c4645e26f126d13ac8346113c95577f3b"},
-    {file = "astroid-2.13.3.tar.gz", hash = "sha256:6afc22718a48a689ca24a97981ad377ba7fb78c133f40335dfd16772f29bcfb1"},
+    {file = "astroid-2.13.4-py3-none-any.whl", hash = "sha256:fe430a1dcc6af3abbccd29ba9f2544dcafc0610d37018b5102c232ff917e4bbf"},
+    {file = "astroid-2.13.4.tar.gz", hash = "sha256:805d47d685a490f4024e3744064e919998b0eef6619e6ea6d2052deec5333fd5"},
 ]
 
 [package.dependencies]
@@ -55,7 +55,7 @@ tests-no-zope = ["cloudpickle", "cloudpickle", "hypothesis", "hypothesis", "mypy
 name = "black"
 version = "22.12.0"
 description = "The uncompromising code formatter."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -973,7 +973,7 @@ files = [
 name = "mypy-extensions"
 version = "0.4.3"
 description = "Experimental type system extensions for programs checked with the mypy typechecker."
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -1009,7 +1009,7 @@ files = [
 name = "pathspec"
 version = "0.11.0"
 description = "Utility library for gitignore style pattern matching of file paths."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1656,4 +1656,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "3b854c8b90aa8dfd3781af701f2473daf68324bdd3ef8b86b24f2da505405414"
+content-hash = "951bb4014db01917b3ff0aa767e30cc97b9de184ee0068d4b4d16f7029e5a94e"
