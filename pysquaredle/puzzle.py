@@ -6,6 +6,7 @@ Class:
 """
 
 import math
+import re
 
 
 class Puzzle:
@@ -14,6 +15,8 @@ class Puzzle:
     a bunch of letters
     a list of neighbours for each cell in a grid
     """
+
+    SMALLEST_PUZZLE = 4
 
     def __init__(self, letters: str):
         """
@@ -24,10 +27,10 @@ class Puzzle:
         The letters string's length must be a square number (9, 16, 25 etc).
         """
 
-        if not letters.isalpha():
+        if not re.compile(r"^[a-zA-Z_]+$").search(letters):
             raise ValueError("Letters must be alphabetic")
 
-        if len(letters) < 4:
+        if len(letters) < self.SMALLEST_PUZZLE:
             raise ValueError("Puzzle must have at least four letters")
 
         self.cell_count = len(letters)
@@ -43,7 +46,7 @@ class Puzzle:
         """
         side_length = math.sqrt(self.cell_count)
 
-        if side_length % 1 != 0:
+        if side_length % 1:
             raise ValueError("Puzzle must have a square number of letters eg 2x2, 3x3")
 
         return int(side_length)

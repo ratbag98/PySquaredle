@@ -31,9 +31,12 @@ def test_grid_must_not_be_a_single_character() -> None:
         Puzzle("A")
 
 
-def test_only_letters_are_valid_cells() -> None:
+def test_only_letters_and_underscore_are_valid_cells() -> None:
     """
     The cells in the puzzle must only be letters
     """
     with pytest.raises(ValueError):
         Puzzle("1BCDEFGHI")
+
+    # underscore is valid
+    Puzzle("ABCDEF_GH")
