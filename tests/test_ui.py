@@ -9,8 +9,8 @@ from pysquaredle.solver import Solver
 from pysquaredle.ui.main_window import MainWindow
 
 
-@pytest.fixture
-def app_fixture(qtbot) -> MainWindow:
+@pytest.fixture(name="main_window")
+def fixture_main_window(qtbot) -> MainWindow:
     """
     Test fixture for the main window
     """
@@ -23,12 +23,11 @@ def app_fixture(qtbot) -> MainWindow:
     return test_squaredle_app
 
 
-# pylint: disable=redefined-outer-name
-def test_status(app_fixture: MainWindow) -> None:
+def test_status(main_window: MainWindow) -> None:
     """
     The GUI is connected to the solver and updates the status bar
     """
     assert (
-        app_fixture.status_bar.currentMessage()
+        main_window.status_bar.currentMessage()
         == "3 unique words found, 4 total solutions"
     )

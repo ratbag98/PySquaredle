@@ -199,6 +199,16 @@ long or composed of letters not found in the puzzle
   a long-lived program that persisted as many puzzles were loaded then it might
   be appropriate to go the RadixTrie route.
 
+## Quality checks I try to maintain
+
+```bash
+mypy --strict  pysquaredle
+pylint --recursive .
+```
+
+and VSCode's Pylance linter (this one is a pain). Currently all errors are due
+to PyQt6 signal issues and its avoidance of snake_case.
+
 ## Roadmap
 
 * [ ] Optionally separate results for "common" vs "uncommon" words (struggling

@@ -65,9 +65,8 @@ class LetterGridWidget(QWidget):
 
         # we're a grid, don't forget it
         self.setLayout(self.grid)
-        self.current_chains: list[list[int]] = []
 
-    def set_drawing_paths(self, chains: list[list[int]]):
+    def set_drawing_paths(self, chains: list[list[int]]) -> None:
         """
         Tell the overlay canvas to draw the given paths. Remember the raw
         chains of grid coordinates so we can redraw them when the window
@@ -98,17 +97,16 @@ class LetterGridWidget(QWidget):
         center: QPoint = self.grid.cellRect(x, y).center()
         return center.x(), center.y()
 
-    # pylint: disable=arguments-differ,invalid-name
-    def resizeEvent(self, event: QResizeEvent) -> None:  # type: ignore
+    def resizeEvent(self, a0: QResizeEvent) -> None:
         """
         Make sure we're square and resize the overlay to match the grid size
         """
-
+        event = a0
         # kludgy code to keep us square
         super().resizeEvent(event)
-        l = min(event.size().width(), event.size().height())
+        side = min(event.size().width(), event.size().height())
         center = self.rect().center()
-        rect = QRect(0, 0, l, l)
+        rect = QRect(0, 0, side, side)
         rect.moveCenter(center)
         self.setGeometry(rect)
 

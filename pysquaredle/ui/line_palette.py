@@ -28,7 +28,7 @@ class LinePalette:
     ]
     ALPHA = 0.5
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._palette: list[QColor] = []
 
         for col in self.COLOUR_PALETTE:

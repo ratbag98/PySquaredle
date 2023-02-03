@@ -31,10 +31,10 @@ class Trie:
     tree. In this way speedy starts with searches can be performed
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.root = TrieNode("")
 
-    def insert(self, word: str):
+    def insert(self, word: str) -> None:
         """
         Add a word to the Trie by decomposing and navigating the existing
         trie, adding letters as new nodes or children of existing nodes
@@ -53,7 +53,7 @@ class Trie:
         # just added a complete word so flag that in the trie
         node.is_end = True
 
-    def dfs(self, output: list[str], node: TrieNode, pre: str):
+    def dfs(self, output: list[str], node: TrieNode, pre: str) -> None:
         """
         Depth-first search of the Trie. Down we go to find the prefix
         """

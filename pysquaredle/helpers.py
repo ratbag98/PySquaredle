@@ -20,7 +20,7 @@ def puzzle_letters(args: argparse.Namespace) -> str:
     if not args.letters:
         return get_letters_from_web()
 
-    letters = args.letters
+    letters = str(args.letters)
     length = len(letters)
     potential_side = math.sqrt(length)
 

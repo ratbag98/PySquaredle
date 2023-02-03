@@ -36,7 +36,7 @@ class Overlay(QWidget):
         # for multiple lines we use a palette to cycle through colours
         self.line_palette: LinePalette = LinePalette()
 
-    def set_paths(self, paths: list[list[tuple[int, int]]]):
+    def set_paths(self, paths: list[list[tuple[int, int]]]) -> None:
         """
         Set the drawing paths, one or more lists of coordinates.
 
@@ -46,8 +46,7 @@ class Overlay(QWidget):
         self._selected_paths = paths
         self.update()
 
-    # pylint: disable=arguments-differ,invalid-name
-    def paintEvent(self, _event: QPaintEvent) -> None:  # type: ignore
+    def paintEvent(self, a0: QPaintEvent) -> None:
         """
         Paint the lines
         """
@@ -75,7 +74,7 @@ class Overlay(QWidget):
             painter.drawLines(line_segments)  # type: ignore
 
             # draw a line across the end of the last line segment
-            self._drawEndBar(painter, path, offset)
+            self._draw_end_bar(painter, path, offset)
 
             # draw a filled circle centered on the first letter
             self._draw_start_circle(painter, path, offset, color)
@@ -86,17 +85,17 @@ class Overlay(QWidget):
         path: list[tuple[int, int]],
         offset: int,
         color: QColor,
-    ):
+    ) -> None:
         # save the current pen
         pen = painter.pen()
 
         brush = QBrush(color)
         brush.setStyle(Qt.BrushStyle.SolidPattern)
         painter.setBrush(brush)
-        ellipsePen = QPen()
-        ellipsePen.setStyle(Qt.PenStyle.NoPen)
+        ellipse_pen = QPen()
+        ellipse_pen.setStyle(Qt.PenStyle.NoPen)
 
-        painter.setPen(ellipsePen)
+        painter.setPen(ellipse_pen)
 
         painter.drawEllipse(
             QPoint(path[0][0] + offset, path[0][1] + offset),
@@ -107,7 +106,9 @@ class Overlay(QWidget):
         # restore the pen
         painter.setPen(pen)
 
-    def _drawEndBar(self, painter: QPainter, path: list[tuple[int, int]], offset: int):
+    def _draw_end_bar(
+        self, painter: QPainter, path: list[tuple[int, int]], offset: int
+    ) -> None:
         scaled_end_bar: Vector = self._calculate_end_bar_vector(
             path[-1][0] - path[-2][0], path[-1][1] - path[-2][1]
         )

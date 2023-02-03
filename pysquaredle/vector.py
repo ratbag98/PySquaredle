@@ -22,30 +22,32 @@ class Vector:
     def __str__(self) -> str:
         return f"({self.x!r}, {self.y!r})"
 
-    def __abs__(self):
+    def __abs__(self) -> float:
         return math.hypot(self.x, self.y)
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         return bool(abs(self))
 
-    def __add__(self, other: Vector):
+    def __add__(self, other: Vector) -> Vector:
         x: float = self.x + other.x
         y: float = self.y + other.y
         return Vector(x, y)
 
-    def __sub__(self, other: Vector):
+    def __sub__(self, other: Vector) -> Vector:
         x: float = self.x - other.x
         y: float = self.y - other.y
         return Vector(x, y)
 
-    def __radd__(self, other: Vector):
+    def __radd__(self, other: Vector) -> Vector:
         return self + other
 
-    def __mul__(self, scalar: float):
+    def __mul__(self, scalar: float) -> Vector:
         return Vector(self.x * scalar, self.y * scalar)
 
-    # pyright: reportIncompatibleMethodOverride=none
-    def __eq__(self, other: Vector) -> bool:
+    # avoid problem with Liskov substitution principle by using "object" instead of Vector
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Vector):
+            return NotImplemented
         return math.isclose(self.x, other.x, rel_tol=1e-6) and math.isclose(
             self.y, other.y, rel_tol=1e-6
         )

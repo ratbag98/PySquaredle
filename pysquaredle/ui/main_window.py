@@ -83,7 +83,7 @@ class MainWindow(QMainWindow):
         solutions_widget.setMovable(True)
         return solutions_widget
 
-    def current_text_changed(self, current_text: str):
+    def current_text_changed(self, current_text: str) -> None:
         """
         A user has clicked a word. Tell the letter grid to draw the path(s) for it
         """
