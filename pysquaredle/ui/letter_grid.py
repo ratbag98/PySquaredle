@@ -2,7 +2,7 @@
 A Squaredle-style letter grid using PyQt6
 """
 
-from PyQt6.QtCore import QPoint, QRect, QSize, Qt
+from PyQt6.QtCore import QPoint, QRect, Qt
 from PyQt6.QtGui import QResizeEvent
 from PyQt6.QtWidgets import QGridLayout, QLabel, QSizePolicy, QWidget
 
@@ -34,6 +34,8 @@ class LetterGridWidget(QWidget):
     Grid of letters.
     """
 
+    GAP_MARKER = "_"
+
     def __init__(self, letters: str, side_length: int):
         super().__init__()
 
@@ -57,7 +59,7 @@ class LetterGridWidget(QWidget):
                 letter = LetterWidget(f"{letters[row * side_length + col]}")
 
                 self.grid.addWidget(letter, row, col)
-                if letters[row * side_length + col] == "_":
+                if letters[row * side_length + col] == self.GAP_MARKER:
                     letter.setHidden(True)
 
         # use this for drawing lines over the grid
@@ -116,11 +118,3 @@ class LetterGridWidget(QWidget):
         # tell overlay to resize
 
         self.overlay.resize(rect.size())
-
-    def sizeHint(self) -> QSize:
-        """
-        At least start off square
-        """
-        return QSize(400, 400)
-
-    # pylint: enable=arguments-differ,invalid-name

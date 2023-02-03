@@ -2,7 +2,7 @@
 Manage color palettes for the lines drawn over the grid.
 """
 
-from typing import Iterator
+from collections.abc import Iterator
 
 from PyQt6.QtGui import QColor
 

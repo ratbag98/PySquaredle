@@ -147,7 +147,4 @@ def word_only_contains_puzzle_letters(word: str, letters: str) -> bool:
     """
     Check if a word contains only letters from a given set
     """
-    for letter in word:
-        if letter not in letters:
-            return False
-    return True
+    return not any(letter not in letters for letter in word)

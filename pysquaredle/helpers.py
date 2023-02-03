@@ -25,7 +25,7 @@ def puzzle_letters(args: argparse.Namespace) -> str:
     potential_side = math.sqrt(length)
 
     # must be square, optionally add letters
-    if potential_side % 1 != 0:
+    if potential_side % 1:
         if not args.auto_extend:
             print("Invalid puzzle: letters must form a square grid.")
             sys.exit(-1)

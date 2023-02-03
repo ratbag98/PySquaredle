@@ -52,6 +52,9 @@ class Vector:
             self.y, other.y, rel_tol=1e-6
         )
 
+    def __hash__(self) -> int:
+        return hash((self.x, self.y))
+
     def rotate_90(self) -> Vector:
         """
         Rotate a vector by 90 degrees

@@ -12,6 +12,18 @@ from pysquaredle.ui.line_palette import LinePalette
 from pysquaredle.vector import Vector
 
 
+def _build_line_segments(path: list[tuple[int, int]], offset: int) -> list[QLine]:
+    return [
+        QLine(
+            path[i][0] + offset,
+            path[i][1] + offset,
+            path[i + 1][0] + offset,
+            path[i + 1][1] + offset,
+        )
+        for i in range(len(path) - 1)
+    ]
+
+
 class Overlay(QWidget):
     """
     Provide a surface for drawing lines over the Puzzle.
@@ -70,7 +82,7 @@ class Overlay(QWidget):
             pen.setColor(color)
             painter.setPen(pen)
 
-            line_segments = self._build_line_segments(path, offset)
+            line_segments = _build_line_segments(path, offset)
             painter.drawLines(line_segments)  # type: ignore
 
             # draw a line across the end of the last line segment
@@ -120,20 +132,6 @@ class Overlay(QWidget):
             path[-1][1] + offset + int(scaled_end_bar.y),
         )
 
-    def _build_line_segments(
-        self, path: list[tuple[int, int]], offset: int
-    ) -> list[QLine]:
-        return [
-            QLine(
-                path[i][0] + offset,
-                path[i][1] + offset,
-                path[i + 1][0] + offset,
-                path[i + 1][1] + offset,
-            )
-            for i in range(len(path) - 1)
-        ]
-
-    # pylint: enable=arguments-differ,invalid-name
     def _calculate_end_bar_vector(self, x: int, y: int) -> Vector:
         """
         Calculate a vector to draw a line across the end of a line.
