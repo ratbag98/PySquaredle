@@ -40,3 +40,12 @@ def test_only_letters_and_underscore_are_valid_cells() -> None:
 
     # underscore is valid
     Puzzle("ABCDEF_GH")
+
+
+def test_puzzle_can_print_itself() -> None:
+    """
+    Can the puzzle print itself?
+    """
+    puzzle = Puzzle("ABCDEFGHI")
+    assert str(puzzle) == "ABC\nDEF\nGHI\n"
+    assert repr(puzzle) == 'Puzzle("ABCDEFGHI")'

@@ -4,9 +4,9 @@ Test my simple Vector class
 
 from math import isclose
 
-from pysquaredle.vector import Vector
+import pytest
 
-# import pytest
+from pysquaredle.vector import Vector
 
 
 def test_str() -> None:
@@ -76,3 +76,23 @@ def test_normalize() -> None:
     normalized = vec.normalize()
     assert isclose(normalized.x, 0.6)
     assert isclose(normalized.y, 0.8)
+
+
+def test_equality() -> None:
+    """
+    Vector equality works
+    """
+    vec_1 = Vector(3, 4)
+    vec_2 = Vector(3, 4)
+    assert vec_1 == vec_2
+    assert vec_1 != Vector(0, 0)
+    assert vec_1 != 3
+
+
+def test_truthiness() -> None:
+    """
+    Vector truthiness works
+    """
+    vec = Vector(3, 4)
+    assert vec
+    assert bool(Vector(0, 0)) is False

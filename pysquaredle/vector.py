@@ -38,9 +38,6 @@ class Vector:
         y: float = self.y - other.y
         return Vector(x, y)
 
-    def __radd__(self, other: Vector) -> Vector:
-        return self + other
-
     def __mul__(self, scalar: float) -> Vector:
         return Vector(self.x * scalar, self.y * scalar)
 
