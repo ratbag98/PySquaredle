@@ -2,7 +2,6 @@
 Test the Solver class
 """
 
-from stat import UF_OPAQUE
 from unittest.mock import Mock
 
 import pytest
@@ -13,14 +12,14 @@ from pysquaredle.solver import Solver
 TEST_WORDS = "test_word_list.txt"
 
 
-@pytest.fixture
-def good_puzzle() -> Puzzle:
+@pytest.fixture(name="good_puzzle")
+def fixture_good_puzzle() -> Puzzle:
     """Just a good puzzle"""
     return Puzzle("ABCDEFGHI")
 
 
-@pytest.fixture
-def anthropomorphize_puzzle() -> Puzzle:
+@pytest.fixture(name="anthropomorphize_puzzle")
+def fixture_anthropomorphize_puzzle() -> Puzzle:
     """A puzzle with the word ANTHROPOMORPHIZE in it"""
     return Puzzle("HTEZRONIOPAHMORP")
 

@@ -4,8 +4,6 @@ Test my simple Vector class
 
 from math import isclose
 
-import pytest
-
 from pysquaredle.vector import Vector
 
 
