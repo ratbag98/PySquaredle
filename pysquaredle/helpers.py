@@ -18,7 +18,7 @@ def puzzle_letters(args: argparse.Namespace) -> str:
         return random_letters(args.square**2)
 
     if not args.letters:
-        return get_letters_from_web()
+        return get_letters_from_web(args.express)
 
     letters = str(args.letters)
     length = len(letters)
@@ -47,7 +47,7 @@ def parse_args() -> argparse.Namespace:
         "letters",
         help="""the puzzle letters. If not specified will try to download
         from https://squaredle.app. For puzzles with gaps, use underscores
-        ('_') to represent the gaps.""",
+        ('_') to represent the gaps. See also --express""",
         nargs="?",
     )
     group.add_argument(
@@ -126,6 +126,14 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="display cell neighbour list for debugging (default: %(default)s)",
     )
+
+    advanced_group.add_argument(
+        "-e",
+        "--express",
+        action="store_true",
+        help="use express puzzle, otherwise standard. Only used when letters are downloaded (default: %(default)s)",
+    )
+
     advanced_group.add_argument(
         "-f",
         "--file",
