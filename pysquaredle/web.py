@@ -30,6 +30,9 @@ def get_letters_from_web(express: bool = False) -> str:
             case ("-xp", board):
                 if express:
                     letters = clean_board(board)
+            case _:
+                # Impossible to get here, but mypy doesn't know that
+                pass
 
     return letters.upper()
 
