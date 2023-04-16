@@ -156,11 +156,11 @@ def random_letters(count: int) -> str:
     Generate a string of count nicely distributed random letters
     """
     return "".join(
-        random.choice(
+        random.sample(
             "EEEEEEEEEEEEEEEEAAAAAAAAAIIIIIIIIIOOOOOOOONNNNNN"
-            "RRRRRRTTTTTTLLLLSSSSUUUDDDDGGGBBCCMMPPFFHHVVWWYYKJXQZ"
+            "RRRRRRTTTTTTLLLLSSSSUUUDDDDGGGBBCCMMPPFFHHVVWWYYKJXQZ",
+            count,
         )
-        for _ in range(count)
     )
 
 
