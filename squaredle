@@ -5,10 +5,13 @@ Solve Squaredle puzzles, main entry point.
 (c) Robert Rainthorpe 2023
 """
 
+
+import importlib
+import platform
+
 from pysquaredle.helpers import parse_args, puzzle_letters, shuffle
 from pysquaredle.puzzle import Puzzle
 from pysquaredle.solver import Solver
-from pysquaredle.ui.application import Application
 
 
 def main() -> int:
@@ -40,8 +43,15 @@ def main() -> int:
         print(puzzle.list_neighbours)
 
     if args.gui:
-        app = Application(puzzle, solver, args.sort, args.multiple)
-        return app.exec()
+        if platform.processor() != "aarch64":
+            # dynamic load if we're not on ARM
+            module = importlib.import_module("pysquaredle.ui.application")
+            app_class = getattr(module, "Application")
+
+            app = app_class(puzzle, solver, args.sort, args.multiple)
+            app.exec()
+            return 0
+        raise NotImplementedError("GUI not supported on ARM processor")
 
     if args.grid or args.random or args.square or args.auto_extend:
         print(puzzle.grid)
