@@ -4,7 +4,7 @@ Solve Squaredle puzzles, main entry point.
 
 (c) Robert Rainthorpe 2023
 """
-
+  # bad 
 
 import importlib
 import platform
@@ -12,7 +12,6 @@ import platform
 from pysquaredle.helpers import parse_args, puzzle_letters, shuffle
 from pysquaredle.puzzle import Puzzle
 from pysquaredle.solver import Solver
-
 
 def main() -> int:
     """

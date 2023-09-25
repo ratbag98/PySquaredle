@@ -54,8 +54,8 @@ def parse_args() -> argparse.Namespace:
         "-x",
         "--square",
         help="generate random square of x by x letters. Letter"
-        " distribution matches a popular grid-based word game rhyming"
-        " with scrabble",
+            " distribution matches a popular grid-based word game rhyming"
+            " with scrabble",
         type=int,
     )
 
@@ -158,7 +158,7 @@ def random_letters(count: int) -> str:
     return "".join(
         random.sample(
             "EEEEEEEEEEEEEEEEAAAAAAAAAIIIIIIIIIOOOOOOOONNNNNN"
-            "RRRRRRTTTTTTLLLLSSSSUUUDDDDGGGBBCCMMPPFFHHVVWWYYKJXQZ",
+                "RRRRRRTTTTTTLLLLSSSSUUUDDDDGGGBBCCMMPPFFHHVVWWYYKJXQZ",
             count,
         )
     )
