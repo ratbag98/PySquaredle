@@ -23,6 +23,7 @@ python = "^3.11"
 pyqt6 = "^6.4.0"
 conda-lock = "^1.4.0"
 requests = "^2.28.2"
+rich = "^13.5.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.1"
