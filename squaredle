@@ -4,7 +4,6 @@ Solve Squaredle puzzles, main entry point.
 
 (c) Robert Rainthorpe 2023
 """
-  # bad 
 
 import importlib
 import platform
@@ -12,6 +11,9 @@ import platform
 from pysquaredle.helpers import parse_args, puzzle_letters, shuffle
 from pysquaredle.puzzle import Puzzle
 from pysquaredle.solver import Solver
+from pysquaredle.console import console
+from pysquaredle.results import output_formatted_results
+
 
 def main() -> int:
     """
@@ -19,9 +21,11 @@ def main() -> int:
 
     If the --gui flag is set, the GUI is launched.
     """
+    
 
     args = parse_args()
 
+    
     letters = puzzle_letters(args)
 
     if args.random:
@@ -32,14 +36,14 @@ def main() -> int:
     if args.slow_mode:
 
         def report(word: str, chain: list[int], hit_count: int) -> None:
-            print(f"Checking {word} at {chain}. Hits: {hit_count}")
+            console.print(f"Checking {word} at {chain}. Hits: {hit_count}")
 
         solver = Solver(puzzle, args.file, report)
     else:
         solver = Solver(puzzle, args.file)
 
     if args.debug:
-        print(puzzle.list_neighbours)
+        console.print(puzzle.list_neighbours)
 
     if args.gui:
         if platform.processor() != "aarch64":
@@ -53,16 +57,25 @@ def main() -> int:
         raise NotImplementedError("GUI not supported on ARM processor")
 
     if args.grid or args.random or args.square or args.auto_extend:
-        print(puzzle.grid)
+        console.print(puzzle.grid)
 
-    print(
-        solver.formatted_solutions(
-            alpha_sort=args.sort,
-            length_group=args.length,
-            headers=args.headers,
-            single_column=args.single_column,
-        )
-    )
+
+    ordered_solutions = solver.raw_solution_words(args.sort, args.length)
+
+    output_formatted_results(ordered_solutions, 
+                               length_group=args.length,
+                               headers=args.headers,
+                               single_column=args.single_column,) 
+
+    # old method, with arguments that work
+    # console.print(
+    #     solver.formatted_solutions(
+    #         alpha_sort=args.sort,
+    #         length_group=args.length,
+    #         headers=args.headers,
+    #         single_column=args.single_column,
+    #     )
+    # )
 
     # be nice to pipelines
     return 0

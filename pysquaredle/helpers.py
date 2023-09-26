@@ -119,6 +119,14 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
     )
 
+    parser.add_argument(
+        "-p",
+        "--colour",
+        "--color",
+        help="adds painterly colour to the text version",
+        action="store_true",
+    )
+    
     advanced_group = parser.add_argument_group("advanced options")
     advanced_group.add_argument(
         "-d",

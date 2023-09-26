@@ -6,7 +6,6 @@ A solution path is the list of indexes in the puzzle grid that make up a word.
 from collections import defaultdict
 from itertools import groupby
 
-
 class Solutions:
     """
     Dictionary of unique words with path(s) to build them.
@@ -51,7 +50,7 @@ class Solutions:
         headers: bool = False,
     ) -> str:
         """
-        Print out a formatted list of solutions, modified by any bool arguments:
+        Return a formatted list of solutions, modified by any bool arguments:
             alpha_sort:             alphabetically sort the solutions
             length_group:           group solutions by word length
             single_column:          present results as a single column
