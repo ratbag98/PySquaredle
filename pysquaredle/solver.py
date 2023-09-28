@@ -83,8 +83,9 @@ class Solver:
 
     def _attempt(self, index_chain: list[int], word: str) -> None:
         """
-        The recursive word finder. Builds chains of letters by iterating through cell neighbours
-        Adds new found words to the solutions set, ignoring duplicates
+        The recursive word finder. Builds chains of letters by iterating
+        through cell neighbours Adds new found words to the solutions set,
+        ignoring duplicates
         """
 
         hits: list[str] = self._word_trie.search(word)

@@ -54,8 +54,8 @@ def parse_args() -> argparse.Namespace:
         "-x",
         "--square",
         help="generate random square of x by x letters. Letter"
-            " distribution matches a popular grid-based word game rhyming"
-            " with scrabble",
+        " distribution matches a popular grid-based word game rhyming"
+        " with scrabble",
         type=int,
     )
 
@@ -97,7 +97,8 @@ def parse_args() -> argparse.Namespace:
         "-r",
         "--random",
         action="store_true",
-        help="randomise letter order, for setting puzzles. Shows grid (default: %(default)s)",
+        help="randomise letter order, for setting puzzles. \
+        Shows grid (default: %(default)s)",
     )
     output_group.add_argument(
         "-s",
@@ -109,7 +110,8 @@ def parse_args() -> argparse.Namespace:
         "-u",
         "--gui",
         action="store_true",
-        help="run in GUI mode. Some flags only affect text output, not GUI (default: %(default)s)",
+        help="run in GUI mode. Some flags only affect text output, not GUI \
+        (default: %(default)s)",
     )
 
     parser.add_argument(
@@ -126,7 +128,7 @@ def parse_args() -> argparse.Namespace:
         help="adds painterly colour to the text version",
         action="store_true",
     )
-    
+
     advanced_group = parser.add_argument_group("advanced options")
     advanced_group.add_argument(
         "-d",
@@ -139,7 +141,8 @@ def parse_args() -> argparse.Namespace:
         "-e",
         "--express",
         action="store_true",
-        help="use express puzzle, otherwise standard. Only used when letters are downloaded (default: %(default)s)",
+        help="use express puzzle, otherwise standard. \
+        Only used when letters are downloaded (default: %(default)s)",
     )
 
     advanced_group.add_argument(
@@ -166,7 +169,7 @@ def random_letters(count: int) -> str:
     return "".join(
         random.sample(
             "EEEEEEEEEEEEEEEEAAAAAAAAAIIIIIIIIIOOOOOOOONNNNNN"
-                "RRRRRRTTTTTTLLLLSSSSUUUDDDDGGGBBCCMMPPFFHHVVWWYYKJXQZ",
+            "RRRRRRTTTTTTLLLLSSSSUUUDDDDGGGBBCCMMPPFFHHVVWWYYKJXQZ",
             count,
         )
     )

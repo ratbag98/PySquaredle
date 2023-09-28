@@ -41,7 +41,8 @@ class Vector:
     def __mul__(self, scalar: float) -> Vector:
         return Vector(self.x * scalar, self.y * scalar)
 
-    # avoid problem with Liskov substitution principle by using "object" instead of Vector
+    # avoid problem with Liskov substitution principle by
+    # using "object" instead of Vector
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Vector):
             return NotImplemented

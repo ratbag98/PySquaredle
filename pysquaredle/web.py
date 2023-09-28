@@ -2,8 +2,10 @@
 Module to handle web requests
 """
 import re
+import sys
 
 import requests
+from requests.exceptions import ReadTimeout
 
 
 def get_letters_from_web(express: bool = False) -> str:
@@ -11,7 +13,12 @@ def get_letters_from_web(express: bool = False) -> str:
     Get the letters from the web page.
     """
     url = "https://squaredle.app/api/today-puzzle-config.js"
-    response = requests.get(url, timeout=5)
+    try:
+        response = requests.get(url, timeout=5)
+    except ReadTimeout:
+        print("Web puzzle requested but nothing received in time.")
+
+        sys.exit(255)
 
     puzzle_config = response.text
 

@@ -70,7 +70,7 @@ class Trie:
         """
         node = self.root
         for char in target:
-            if not char in node.children:
+            if char not in node.children:
                 return []
             node = node.children[char]
         output: list[str] = []
