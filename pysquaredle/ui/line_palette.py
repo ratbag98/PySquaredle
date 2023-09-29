@@ -1,6 +1,4 @@
-"""
-Manage color palettes for the lines drawn over the grid.
-"""
+""" Manage color palettes for the lines drawn over the grid. """
 
 from collections.abc import Iterator
 
@@ -8,9 +6,7 @@ from PyQt6.QtGui import QColor
 
 
 class LinePalette:
-    """
-    Manage color palettes for the lines drawn over the grid.
-    """
+    """Manage color palettes for the lines drawn over the grid."""
 
     # palette of pleasant colours from seaborn
     # https://seaborn.pydata.org/tutorial/color_palettes.html
@@ -39,51 +35,35 @@ class LinePalette:
         self._index = 0
 
     def next(self) -> QColor:
-        """
-        Return the next color in the palette.
-        """
+        """Return the next color in the palette."""
         color = self._palette[self._index]
         self._index = (self._index + 1) % len(self)
         return color
 
     def reset(self) -> None:
-        """
-        Reset the palette index to the beginning.
-        """
+        """Reset the palette index to the beginning."""
         self._index = 0
 
     def __len__(self) -> int:
-        """
-        Return the number of colors in the palette.
-        """
+        """Return the number of colors in the palette."""
         return len(self._palette)
 
     def __getitem__(self, index: int) -> QColor:
-        """
-        Return the color at the given index.
-        """
+        """Return the color at the given index."""
         return self._palette[index]
 
     def __setitem__(self, index: int, color: QColor) -> None:
-        """
-        Set the color at the given index.
-        """
+        """Set the color at the given index."""
         self._palette[index] = color
 
     def __iter__(self) -> Iterator[QColor]:
-        """
-        Iterate over the colors in the palette.
-        """
+        """Iterate over the colors in the palette."""
         return iter(self._palette)
 
     def __contains__(self, color: QColor) -> bool:
-        """
-        Return True if the palette contains the given color.
-        """
+        """Return True if the palette contains the given color."""
         return color in self._palette
 
     def __repr__(self) -> str:
-        """
-        Return a string representation of the palette.
-        """
+        """Return a string representation of the palette."""
         return f"LinePalette({self._palette})"

@@ -1,17 +1,11 @@
-"""
-Represent Squaredle puzzles
-
-Class:
-    Puzzle
-"""
+""" Represent Squaredle puzzles """
 
 import math
 import re
 
 
 class Puzzle:
-    """
-    represent a Squaredle puzzle (httos://squaredle.app)
+    """represent a Squaredle puzzle (httos://squaredle.app)
     a bunch of letters
     a list of neighbours for each cell in a grid
     """
@@ -19,8 +13,7 @@ class Puzzle:
     SMALLEST_PUZZLE = 4
 
     def __init__(self, letters: str):
-        """
-        Create a Squaredle puzzle.
+        """Create a Squaredle puzzle.
 
         letters   a string of letters representing the puzzle, left to right, top to bottom
 
@@ -41,9 +34,8 @@ class Puzzle:
 
     @property
     def side_length(self) -> int:
-        """
-        The side length of the puzzle grid
-        """
+        """The side length of the puzzle grid"""
+
         side_length = math.sqrt(self.cell_count)
 
         if side_length % 1:
@@ -53,21 +45,20 @@ class Puzzle:
 
     @property
     def letters(self) -> str:
-        """
-        The letters in the puzzle
-        """
+        """The letters in the puzzle"""
+
         return self._letters
 
     @property
     def unique_letters(self) -> str:
         """A sorted string of unique letters in the puzzle"""
+
         return "".join(sorted(set(self._letters)))
 
     @property
     def grid(self) -> str:
-        """
-        Convert the puzzle grid to a string
-        """
+        """Convert the puzzle grid to a string"""
+
         grid = ""
         for y in range(self.side_length):
             start = self._idx(0, y)
@@ -76,15 +67,13 @@ class Puzzle:
         return grid
 
     def neighbours_of(self, cell: int) -> list[int]:
-        """
-        Return a list of neighbours for the referenced cell
-        """
+        """Return a list of neighbours for the referenced cell"""
+
         return self._neighbours[cell]
 
     def list_neighbours(self) -> str:
-        """
-        Generate a list of neighbours for each cell in the grid
-        """
+        """Generate a list of neighbours for each cell in the grid"""
+
         return ",\n".join(self._row_of_neighbours(y) for y in range(self.side_length))
 
     def _row_of_neighbours(self, y: int) -> str:
@@ -112,9 +101,8 @@ class Puzzle:
 
     # this only depends on the size of the puzzle, not the letters
     def _calculate_neighbours(self) -> list[list[int]]:
-        """
-        create list of list of neighbouring cells for every cell in the puzzle
-        """
+        """create list of list of neighbouring cells for every cell in the puzzle"""
+
         # neighbour coordinates for a cell
         # format off since it shows the shape of neighbours
         # fmt: off

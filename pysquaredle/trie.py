@@ -1,5 +1,4 @@
-"""
-Trie https://en.wikipedia.org/wiki/Trie
+""" Trie https://en.wikipedia.org/wiki/Trie
 
 Classes
     TrieNode
@@ -14,9 +13,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class TrieNode:
-    """
-    The basic unit stored in the Trie - a char
-    """
+    """The basic unit stored in the Trie - a char"""
 
     char: str
     children: dict[str, TrieNode] = field(default_factory=dict)
@@ -24,8 +21,7 @@ class TrieNode:
 
 
 class Trie:
-    """
-    A trie structure. Each node contains a letter and a dictionary of children.
+    """A trie structure. Each node contains a letter and a dictionary of children.
 
     Words can be loaded into the structure and retrieved by navigating the
     tree. In this way speedy starts with searches can be performed
@@ -35,8 +31,7 @@ class Trie:
         self.root = TrieNode("")
 
     def insert(self, word: str) -> None:
-        """
-        Add a word to the Trie by decomposing and navigating the existing
+        """Add a word to the Trie by decomposing and navigating the existing
         trie, adding letters as new nodes or children of existing nodes
         """
         # start from top of trie
@@ -54,9 +49,8 @@ class Trie:
         node.is_end = True
 
     def dfs(self, output: list[str], node: TrieNode, pre: str) -> None:
-        """
-        Depth-first search of the Trie. Down we go to find the prefix
-        """
+        """Depth-first search of the Trie. Down we go to find the prefix"""
+
         candidate = pre + node.char
         if node.is_end:
             output.append(candidate)
@@ -65,9 +59,8 @@ class Trie:
             self.dfs(output, child, candidate)
 
     def search(self, target: str) -> list[str]:
-        """
-        Attempt to find a prefix string in the Trie
-        """
+        """Attempt to find a prefix string in the Trie"""
+
         node = self.root
         for char in target:
             if char not in node.children:

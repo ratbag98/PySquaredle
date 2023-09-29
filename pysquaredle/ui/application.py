@@ -1,6 +1,4 @@
-"""
-A Qt application for the GUI application.
-"""
+""" A Qt application for the GUI application. """
 
 from PyQt6.QtWidgets import QApplication
 
@@ -10,9 +8,7 @@ from pysquaredle.ui.main_window import MainWindow
 
 
 class Application(QApplication):
-    """
-    Main application for the GUI application. Ignored unless --gui is set.
-    """
+    """Main application for the GUI application. Ignored unless --gui is set."""
 
     def __init__(
         self,

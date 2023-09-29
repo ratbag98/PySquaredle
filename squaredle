@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-"""
-Solve Squaredle puzzles, main entry point.
+""" Solve Squaredle puzzles, main entry point.
 
 (c) Robert Rainthorpe 2023
 """
@@ -14,10 +13,12 @@ from pysquaredle.puzzle import Puzzle
 from pysquaredle.results import output_formatted_results
 from pysquaredle.solver import Solver
 
+# ARM linux doesn't include Qt as far as I can tell
+ARM = "aarch64"
+
 
 def main() -> int:
-    """
-    Main entry point for pysquaredle. Solves or sets Squaredle-type puzzles.
+    """Main entry point for pysquaredle. Solves or sets Squaredle-type puzzles.
 
     If the --gui flag is set, the GUI is launched.
     """
@@ -44,7 +45,7 @@ def main() -> int:
         console.print(puzzle.list_neighbours)
 
     if args.gui:
-        if platform.processor() != "aarch64":
+        if platform.processor() != ARM:
             # dynamic load if we're not on ARM
             module = importlib.import_module("pysquaredle.ui.application")
             app_class = getattr(module, "Application")
@@ -65,16 +66,6 @@ def main() -> int:
         headers=args.headers,
         single_column=args.single_column,
     )
-
-    # old method, with arguments that work
-    # console.print(
-    #     solver.formatted_solutions(
-    #         alpha_sort=args.sort,
-    #         length_group=args.length,
-    #         headers=args.headers,
-    #         single_column=args.single_column,
-    #     )
-    # )
 
     # be nice to pipelines
     return 0

@@ -1,6 +1,4 @@
-"""
-GUI's main window class
-"""
+""" GUI's main window class """
 
 from PyQt6.QtWidgets import QHBoxLayout, QMainWindow, QTabWidget, QWidget
 
@@ -11,9 +9,7 @@ from pysquaredle.ui.solutions_tab_widget import SolutionsTabWidget
 
 
 class MainWindow(QMainWindow):
-    """
-    Main window for the application.
-    """
+    """Main window for the application."""
 
     def __init__(
         self,
@@ -60,9 +56,7 @@ class MainWindow(QMainWindow):
         self.show()
 
     def status(self) -> None:
-        """
-        Show the solution status in the status bar
-        """
+        """Show the solution status in the status bar"""
         word_count = self.solver.word_count()
         sol_count = self.solver.path_count()
         self.status_bar.showMessage(
@@ -70,9 +64,7 @@ class MainWindow(QMainWindow):
         )
 
     def current_text_changed(self, current_text: str) -> None:
-        """
-        A user has clicked a word. Tell the letter grid to draw the path(s) for it
-        """
+        """A user has clicked a word. Tell the letter grid to draw the path(s) for it"""
         if self.multiple:
             self.letter_grid.set_drawing_paths(
                 self.solver.solutions.paths(current_text)

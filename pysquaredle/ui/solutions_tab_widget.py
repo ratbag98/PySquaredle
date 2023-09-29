@@ -1,18 +1,14 @@
-"""
-A tab widget with lists of words of a particular length.
-"""
+""" A tab widget with lists of words of a particular length. """
 
+from collections.abc import Callable
 from itertools import groupby
-from typing import Callable
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QListWidget, QScrollArea, QSizePolicy, QTabWidget
 
 
 class WordListWidget(QListWidget):
-    """
-    Present list of words in the solution.
-    """
+    """Present list of words in the solution."""
 
     def __init__(self, words: list[str], target_for_word_change: Callable[[str], None]):
         super().__init__()
@@ -22,9 +18,7 @@ class WordListWidget(QListWidget):
 
 
 class SolutionsScroller(QScrollArea):
-    """
-    Scroller for solutions.
-    """
+    """Scroller for solutions."""
 
     def __init__(self, word_list_widget: WordListWidget):
         super().__init__()
@@ -37,8 +31,7 @@ class SolutionsScroller(QScrollArea):
 
 
 class SolutionsTabWidget(QTabWidget):
-    """
-    Tab widget to show solutions.
+    """Tab widget to show solutions.
 
     Takes list of words ordered by length/name. Creates a tab for each length.
 
@@ -66,8 +59,3 @@ class SolutionsTabWidget(QTabWidget):
             else:
                 word_list_widget = self.scrollers[key][1]
                 word_list_widget.addItems(list(group))
-
-
-# so now we can look up a scroller and if needs be create one
-# we'll search for the next scroller in the TabWidget and get its
-# index, then insert a new one there.

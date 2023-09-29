@@ -1,5 +1,4 @@
-"""
-Canvas class, provides surface for drawing solution lines
+""" Canvas class, provides surface for drawing solution lines
 
 Inspired by https://gist.github.com/zhanglongqi/78d7b5cd24f7d0c42f5d116d967923e7
 """
@@ -25,8 +24,7 @@ def _build_line_segments(path: list[tuple[int, int]], offset: int) -> list[QLine
 
 
 class Overlay(QWidget):
-    """
-    Provide a surface for drawing lines over the Puzzle.
+    """Provide a surface for drawing lines over the Puzzle.
 
     We're a transparent widget, created by the LetterGridWidget.
     """
@@ -49,8 +47,7 @@ class Overlay(QWidget):
         self.line_palette: LinePalette = LinePalette()
 
     def set_paths(self, paths: list[list[tuple[int, int]]]) -> None:
-        """
-        Set the drawing paths, one or more lists of coordinates.
+        """Set the drawing paths, one or more lists of coordinates.
 
         We'll loop through the lists, selecting a new colour and drawing the
         relevant lines.
@@ -59,9 +56,7 @@ class Overlay(QWidget):
         self.update()
 
     def paintEvent(self, a0: QPaintEvent) -> None:
-        """
-        Paint the lines
-        """
+        """Paint the lines"""
 
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
@@ -133,8 +128,7 @@ class Overlay(QWidget):
         )
 
     def _calculate_end_bar_vector(self, x: int, y: int) -> Vector:
-        """
-        Calculate a vector to draw a line across the end of a line.
+        """Calculate a vector to draw a line across the end of a line.
         x and y are the vector components for the last two points in the path.
         """
         vec = Vector(x, y)

@@ -1,6 +1,4 @@
-"""
-A single console for the application
-"""
+""" A single console for the application """
 
 from rich import console
 

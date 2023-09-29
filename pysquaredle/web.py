@@ -1,6 +1,5 @@
-"""
-Module to handle web requests
-"""
+""" Module to handle web requests """
+
 import re
 import sys
 
@@ -9,9 +8,8 @@ from requests.exceptions import ReadTimeout
 
 
 def get_letters_from_web(express: bool = False) -> str:
-    """
-    Get the letters from the web page.
-    """
+    """Get the letters from the web page."""
+
     url = "https://squaredle.app/api/today-puzzle-config.js"
     try:
         response = requests.get(url, timeout=5)
@@ -45,9 +43,7 @@ def get_letters_from_web(express: bool = False) -> str:
 
 
 def clean_board(raw_board: str) -> str:
-    """
-    Clean up the board string.
-    """
+    """Clean up the board string."""
 
     # first make a single-line string of quoted rows
     simple = re.sub(r"\n\s+", "", raw_board).strip().replace(" ", "_")
@@ -57,12 +53,9 @@ def clean_board(raw_board: str) -> str:
 
 
 def get_latest_puzzle_date(puzzle_config: str) -> str:
-    """
-    Find the latest puzzle date in the puzzle config.
-    """
-    date_match = re.search(r"const gTodayDateStr = '([0-9-/]+)';", puzzle_config)
+    """Find the latest puzzle date in the puzzle config."""
 
-    if date_match:
+    if date_match := re.search(r"const gTodayDateStr = '([0-9-/]+)';", puzzle_config):
         # escape the backslashes manually and then make sure regex likes them
         return re.escape(re.sub("/", "\\/", date_match.group(1)))
     return "Unknown"

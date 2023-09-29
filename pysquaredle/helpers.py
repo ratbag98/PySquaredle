@@ -1,6 +1,4 @@
-"""
-Support functions for PySquaredle.
-"""
+""" Support functions for PySquaredle. """
 
 import argparse
 import math
@@ -11,9 +9,7 @@ from pysquaredle.web import get_letters_from_web
 
 
 def puzzle_letters(args: argparse.Namespace) -> str:
-    """
-    Use the arguments to determine the letters to use.
-    """
+    """Use the arguments to determine the letters to use."""
     if args.square:
         return random_letters(args.square**2)
 
@@ -35,9 +31,7 @@ def puzzle_letters(args: argparse.Namespace) -> str:
 
 
 def parse_args() -> argparse.Namespace:
-    """
-    Interpret the command-line arguments and store for later use.
-    """
+    """Interpret the command-line arguments and store for later use."""
     parser = argparse.ArgumentParser(
         description="Solves the Squaredle puzzle, as seen on https://squaredle.app",
     )
@@ -163,9 +157,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def random_letters(count: int) -> str:
-    """
-    Generate a string of count nicely distributed random letters
-    """
+    """Generate a string of count nicely distributed random letters"""
     return "".join(
         random.sample(
             "EEEEEEEEEEEEEEEEAAAAAAAAAIIIIIIIIIOOOOOOOONNNNNN"
@@ -176,16 +168,12 @@ def random_letters(count: int) -> str:
 
 
 def shuffle(letters: str) -> str:
-    """
-    Reorder the letters
-    """
+    """Reorder the letters"""
     return "".join(random.sample(letters, len(letters)))
 
 
 def extend(letters: str, potential_side: float) -> str:
-    """
-    Add enough random letters to make the grid square
-    """
+    """Add enough random letters to make the grid square"""
     diff = (int(potential_side) + 1) ** 2 - len(letters)
     print(f"Adding {diff} letters to make a square grid.")
     letters += random_letters(diff)

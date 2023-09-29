@@ -1,6 +1,4 @@
-"""
-Represent a 2D vector
-"""
+""" Represent a 2D vector """
 
 from __future__ import annotations  # self-referential type annotations
 
@@ -8,9 +6,7 @@ import math
 
 
 class Vector:
-    """
-    Currently 2D, soon to be arbitrary dimensions
-    """
+    """Currently 2D, soon to be arbitrary dimensions"""
 
     def __init__(self, x: float, y: float):
         self.x = x
@@ -54,14 +50,12 @@ class Vector:
         return hash((self.x, self.y))
 
     def rotate_90(self) -> Vector:
-        """
-        Rotate a vector by 90 degrees
-        """
+        """Rotate a vector by 90 degrees"""
+
         return Vector(self.y, -self.x)
 
     def normalize(self) -> Vector:
-        """
-        Normalize a vector
-        """
+        """Normalize a vector"""
+
         # division by scalar not defined, so multiply by reciprocal
         return self * (1.0 / abs(self))

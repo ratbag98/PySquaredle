@@ -1,6 +1,4 @@
-"""
-A Squaredle-style letter grid using PyQt6
-"""
+""" A Squaredle-style letter grid using PyQt6 """
 
 from PyQt6.QtCore import QPoint, QRect, Qt
 from PyQt6.QtGui import QResizeEvent
@@ -10,9 +8,7 @@ from pysquaredle.ui.overlay import Overlay
 
 
 class LetterWidget(QLabel):
-    """
-    A single letter in the grid.
-    """
+    """A single letter in the grid."""
 
     def __init__(self, letter: str) -> None:
         super().__init__(letter)
@@ -30,9 +26,7 @@ class LetterWidget(QLabel):
 
 
 class LetterGridWidget(QWidget):
-    """
-    Grid of letters.
-    """
+    """Grid of letters."""
 
     GAP_MARKER = "_"
 
@@ -69,8 +63,7 @@ class LetterGridWidget(QWidget):
         self.setLayout(self.grid)
 
     def set_drawing_paths(self, chains: list[list[int]]) -> None:
-        """
-        Tell the overlay canvas to draw the given paths. Remember the raw
+        """Tell the overlay canvas to draw the given paths. Remember the raw
         chains of grid coordinates so we can redraw them when the window
         resizes.
         """
@@ -82,8 +75,7 @@ class LetterGridWidget(QWidget):
         self.overlay.set_paths(paths)
 
     def _path_from_indexes(self, indexes: list[int]) -> list[tuple[int, int]]:
-        """
-        Given a list of indexes, return a list of (x, y) tuples.
+        """Given a list of indexes, return a list of (x, y) tuples.
 
         This scales up from the grid coordinates to the Widget coordinates.
 
@@ -92,17 +84,13 @@ class LetterGridWidget(QWidget):
         return [(self._centre_of_cell(index)) for index in indexes]
 
     def _centre_of_cell(self, index: int) -> tuple[int, int]:
-        """
-        Calculate center of a given Grid cell
-        """
+        """Calculate center of a given Grid cell"""
         (x, y, _w, _h) = self.grid.getItemPosition(index)
         center: QPoint = self.grid.cellRect(x, y).center()
         return center.x(), center.y()
 
     def resizeEvent(self, a0: QResizeEvent) -> None:
-        """
-        Make sure we're square and resize the overlay to match the grid size
-        """
+        """Make sure we're square and resize the overlay to match the grid size"""
         event = a0
         # kludgy code to keep us square
         super().resizeEvent(event)
