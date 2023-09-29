@@ -1,7 +1,8 @@
 """ Solve a Squardle Puzzle """
 
+from collections.abc import Callable
 from functools import cached_property
-from typing import Callable, Optional
+from typing import Optional
 
 import rich.progress
 
