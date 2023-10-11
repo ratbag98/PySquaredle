@@ -120,7 +120,7 @@ rg -Nw '^[A-Z]{4,}$' > unacceptable.txt
 
 This retrieves the list, converts Unicode to ASCII, converts line-endings, upper-cases, sorts
 and prunes the list to 4-letter words and longer (stripping words with hyphens and spaces in
-the process
+the process.
 
 ## GUI
 
