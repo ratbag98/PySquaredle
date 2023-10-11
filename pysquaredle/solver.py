@@ -49,6 +49,10 @@ class Solver:
 
         return self._solutions
 
+    def has_unacceptable_words(self) -> bool:
+        """Does the list of solutions include any unacceptable words"""
+        return len(self._solutions.unacceptable_solutions()) > 0
+
     def solve(self) -> None:
         """Solve a puzzle. Builds the `solutions` list."""
 

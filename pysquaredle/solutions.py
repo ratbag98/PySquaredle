@@ -5,12 +5,16 @@ A solution path is the list of indexes in the puzzle grid that make up a word.
 from collections import defaultdict
 from itertools import groupby
 
+UNACCEPTABLE_WORDS = "./unacceptable.txt"
+
 
 class Solutions:
     """Dictionary of unique words with path(s) to build them."""
 
     def __init__(self) -> None:
         self._solutions: dict[str, list[list[int]]] = defaultdict(list[list[int]])
+        self._unacceptable_words: list[str]
+        self.load_unacceptable_words()
 
     def add(self, word: str, path: list[int]) -> None:
         """Add a solution path to the list of solutions."""
@@ -34,6 +38,19 @@ class Solutions:
     def path_count(self) -> int:
         """Total number of paths in the solutions"""
         return sum(len(paths) for paths in self._solutions.values())
+
+    def unacceptable_solutions(self) -> list[str]:
+        """Return list of unacceptable words found in the puzzle solutions"""
+        return [u for u in self._solutions.keys() if u in self._unacceptable_words]
+
+    def load_unacceptable_words(self) -> None:
+        """Read a list of dodgy words to test against the puzzle solutions_list"""
+        try:
+            with open(UNACCEPTABLE_WORDS, "rt") as unacceptable:
+                bad_words = unacceptable.read()
+                self._unacceptable_words = bad_words.split("\n")
+        except FileNotFoundError:
+            self._unacceptable_words = []
 
     def formatted_solutions(
         self,

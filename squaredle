@@ -60,6 +60,9 @@ def main() -> int:
 
     ordered_solutions = solver.raw_solution_words(args.sort, args.length)
 
+    if solver.has_unacceptable_words():
+        print("BAD WORDS!")
+
     output_formatted_results(
         ordered_solutions,
         length_group=args.length,

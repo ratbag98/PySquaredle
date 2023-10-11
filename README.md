@@ -98,10 +98,29 @@ it. You should trim short words from it (only include four letters and more). I
 used:
 
 ```bash
-rg -Nw '^[a-z]{4,}$' words.txt > word_list.txt
+rg -Nw '^[A-Z]{4,}$' words.txt > word_list.txt
 ```
 
 to trim the list appropriately.
+
+## Unacceptable words
+
+The program can check whether the puzzle includes any unacceptable words. To use
+this feature you'll need to create an unacceptable word list. I used the list from 
+https://potentiallyoffensive.com/lists with a bit of post-processing:
+
+```bash
+curl https://potentiallyoffensive.com/wp-content/uploads/2023/03/OffensiveWords.txt --output - | \
+iconv -f UTF-16 -t US-ASCII//translit | \
+dos2unix | \
+tr a-z A-Z | \
+sort | \
+rg -Nw '^[A-Z]{4,}$' > unacceptable.txt
+```
+
+This retrieves the list, converts Unicode to ASCII, converts line-endings, upper-cases, sorts
+and prunes the list to 4-letter words and longer (stripping words with hyphens ands spaces in
+the process
 
 ## GUI
 
