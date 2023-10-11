@@ -10,6 +10,8 @@ further ado, here's my first Python program:
 
 ## A Noddy Python program to solve the daily [Squaredle puzzle](https://squaredle.app/)
 
+![Screenshot](screenshots/gui.png?raw=true "Basic GUI screenshot")
+
 The puzzle involves a grid of letters. You start from any letter in the grid and
 then join them continuously and without repetition to make words of four of more
 letters. You have to find all the "normal" words in the grid in order to
