@@ -5,17 +5,12 @@ import re
 
 
 class Puzzle:
-    """represent a Squaredle puzzle (httos://squaredle.app)
-    a bunch of letters
-    a list of neighbours for each cell in a grid
-    """
+    """A Squaredle puzzle (httos://squaredle.app)"""
 
     SMALLEST_PUZZLE = 4
 
     def __init__(self, letters: str):
-        """Create a Squaredle puzzle.
-
-        letters   a string of letters representing the puzzle, left to right, top to bottom
+        """Create a Squaredle puzzle from a string of letters.
 
         The letters string's length must be a square number (9, 16, 25 etc).
         """
@@ -39,7 +34,9 @@ class Puzzle:
         side_length = math.sqrt(self.cell_count)
 
         if side_length % 1:
-            raise ValueError("Puzzle must have a square number of letters eg 2x2, 3x3")
+            raise ValueError(
+                "Puzzle must have a square number of letters eg 2x2, 3x3"
+            )
 
         return int(side_length)
 
@@ -74,7 +71,9 @@ class Puzzle:
     def list_neighbours(self) -> str:
         """Generate a list of neighbours for each cell in the grid"""
 
-        return ",\n".join(self._row_of_neighbours(y) for y in range(self.side_length))
+        return ",\n".join(
+            self._row_of_neighbours(y) for y in range(self.side_length)
+        )
 
     def _row_of_neighbours(self, y: int) -> str:
         return ", ".join(
@@ -101,7 +100,7 @@ class Puzzle:
 
     # this only depends on the size of the puzzle, not the letters
     def _calculate_neighbours(self) -> list[list[int]]:
-        """create list of list of neighbouring cells for every cell in the puzzle"""
+        """create list of list of neighbouring cells for all cells"""
 
         # neighbour coordinates for a cell
         # format off since it shows the shape of neighbours

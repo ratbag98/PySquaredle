@@ -11,7 +11,9 @@ from pysquaredle.ui.line_palette import LinePalette
 from pysquaredle.vector import Vector
 
 
-def _build_line_segments(path: list[tuple[int, int]], offset: int) -> list[QLine]:
+def _build_line_segments(
+        path: list[tuple[int, int]], offset: int
+    ) -> list[QLine]:
     return [
         QLine(
             path[i][0] + offset,
@@ -39,8 +41,8 @@ class Overlay(QWidget):
         palette = QPalette(self.palette())
         palette.setColor(palette.ColorRole.Base, Qt.GlobalColor.transparent)
 
-        # we're used to draw one or more "paths" representing the solution(s) for
-        # a given word.
+        # we're used to draw one or more "paths" representing the solution(s)
+        # for a given word.
         self._selected_paths: list[list[tuple[int, int]]] = []
 
         # for multiple lines we use a palette to cycle through colours
@@ -55,6 +57,7 @@ class Overlay(QWidget):
         self._selected_paths = paths
         self.update()
 
+    # pylint: disable=unused-argument,invalid-name
     def paintEvent(self, a0: QPaintEvent) -> None:
         """Paint the lines"""
 
@@ -85,6 +88,7 @@ class Overlay(QWidget):
 
             # draw a filled circle centered on the first letter
             self._draw_start_circle(painter, path, offset, color)
+    # pylint: enable=unused-variable,invalid-name
 
     def _draw_start_circle(
         self,

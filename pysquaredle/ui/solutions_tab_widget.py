@@ -10,7 +10,9 @@ from PyQt6.QtWidgets import QListWidget, QScrollArea, QSizePolicy, QTabWidget
 class WordListWidget(QListWidget):
     """Present list of words in the solution."""
 
-    def __init__(self, words: list[str], target_for_word_change: Callable[[str], None]):
+    def __init__(self,
+                 words: list[str],
+                 target_for_word_change: Callable[[str], None]):
         super().__init__()
         self.addItems(words)
 
@@ -44,15 +46,17 @@ class SolutionsTabWidget(QTabWidget):
         super().__init__()
 
         self.setDocumentMode(True)
-        policy = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Expanding)
+        policy = QSizePolicy(QSizePolicy.Policy.Maximum,
+                             QSizePolicy.Policy.Expanding)
         self.setSizePolicy(policy)
 
         # word length is the key
         self.scrollers: dict[int, tuple[SolutionsScroller, WordListWidget]] = {}
 
         for key, group in groupby(words, key=len):
-            if not key in self.scrollers:
-                word_list_widget = WordListWidget(list(group), current_text_changed)
+            if key not in self.scrollers:
+                word_list_widget = WordListWidget(list(group),
+                                                  current_text_changed)
                 scroller = SolutionsScroller(word_list_widget)
                 self.scrollers[key] = (scroller, word_list_widget)
                 self.addTab(scroller, f"{key}")

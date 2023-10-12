@@ -1,4 +1,5 @@
-""" Solutions class. Stores and formats a list of words and solution paths for those words.
+""" Solutions class. A list of words and solution paths for those words.
+
 A solution path is the list of indexes in the puzzle grid that make up a word.
 """
 
@@ -41,14 +42,17 @@ class Solutions:
 
     def unacceptable_solutions(self) -> list[str]:
         """Return list of unacceptable words found in the puzzle solutions"""
-        return [u for u in self._solutions.keys() if u in self._unacceptable_words]
+        return [
+            u for u in self._solutions.keys() if u in self._unacceptable_words
+        ]
 
     def load_unacceptable_words(self) -> None:
-        """Read a list of dodgy words to test against the puzzle solutions_list"""
+        """Read a list of dodgy words to test against the solutions_list"""
         try:
-            with open(UNACCEPTABLE_WORDS, "rt") as unacceptable:
-                bad_words = unacceptable.read()
-                self._unacceptable_words = bad_words.split("\n")
+            with open(UNACCEPTABLE_WORDS,
+                      "rt", 
+                      encoding="utf-8") as unacceptable:
+                self._unacceptable_words = unacceptable.read().split("\n")
         except FileNotFoundError:
             self._unacceptable_words = []
 
@@ -59,13 +63,23 @@ class Solutions:
         single_column: bool = False,
         headers: bool = False,
     ) -> str:
-        """Return a formatted list of solutions, modified by any bool arguments:
-        alpha_sort:             alphabetically sort the solutions
-        length_group:           group solutions by word length
-        single_column:          present results as a single column
-        headers:                for grouped results, include header by default
+        """Return a formatted list of solutions:
+
+        Args:
+
+            alpha_sort (bool):    alphabetically sort the solutions
+            length_group (bool):  group solutions by word length
+            single_column (bool): present results as a single column
+            headers (bool):       show group headers (grouping must be enabled)
+
+        Returns:
+            str: a formatted list of solutions suitable for printing
+
         """
-        solutions_list = self.raw_solution_words(sort=alpha_sort, length=length_group)
+        solutions_list = self.raw_solution_words(
+            sort=alpha_sort,
+            length=length_group
+        )
 
         divider = "\n" if single_column else "\t"
 
@@ -84,7 +98,9 @@ class Solutions:
 
         return formatted
 
-    def raw_solution_words(self, sort: bool = False, length: bool = False) -> list[str]:
+    def raw_solution_words(self,
+                           sort: bool = False,
+                           length: bool = False) -> list[str]:
         """Convert solutions set into list, honoring sort flag"""
 
         solutions: list[str] = self.words()

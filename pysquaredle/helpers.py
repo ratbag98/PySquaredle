@@ -33,7 +33,7 @@ def puzzle_letters(args: argparse.Namespace) -> str:
 def parse_args() -> argparse.Namespace:
     """Interpret the command-line arguments and store for later use."""
     parser = argparse.ArgumentParser(
-        description="Solves the Squaredle puzzle, as seen on https://squaredle.app",
+        description="Solves Squaredle puzzles",
     )
 
     group = parser.add_mutually_exclusive_group()
@@ -73,7 +73,8 @@ def parse_args() -> argparse.Namespace:
         "--headers",
         dest="headers",
         action="store_true",
-        help="display headers for length-grouped solutions (default: %(default)s)",
+        help="display headers for length-grouped solutions "
+             "(default: %(default)s)",
     )
     output_group.add_argument(
         "-l",
@@ -84,7 +85,8 @@ def parse_args() -> argparse.Namespace:
     output_group.add_argument(
         "-m",
         "--multiple",
-        help="in GUI mode, show all solutions for a given word (default: %(default)s)",
+        help="in GUI mode, show all solutions for a given word "
+             "(default: %(default)s)",
         action="store_true",
     )
     parser.add_argument(
@@ -111,7 +113,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "-t",
         "--auto-extend",
-        help="add extra letters to the grid to make it square (default: %(default)s)",
+        help="add extra letters to the grid to make it square "
+             "(default: %(default)s)",
         action="store_true",
     )
 

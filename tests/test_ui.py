@@ -34,6 +34,9 @@ def test_status(main_window: MainWindow) -> None:
     The GUI is connected to the solver and updates the status bar
     """
     assert (
+        main_window.status_bar is not None
+    )
+    assert (
         main_window.status_bar.currentMessage()
         == "3 unique words found, 4 total solutions"
     )

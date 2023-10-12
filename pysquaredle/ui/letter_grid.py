@@ -1,4 +1,5 @@
 """ A Squaredle-style letter grid using PyQt6 """
+# pyright: ignore
 
 from PyQt6.QtCore import QPoint, QRect, Qt
 from PyQt6.QtGui import QResizeEvent
@@ -6,6 +7,9 @@ from PyQt6.QtWidgets import QGridLayout, QLabel, QSizePolicy, QWidget
 
 from pysquaredle.ui.overlay import Overlay
 
+# developer note: there's some ugly lint overriding in here
+# since we're using Qt which is a C++ library coerced into
+# Python. So names are non-compliant, overrides are dodgy
 
 class LetterWidget(QLabel):
     """A single letter in the grid."""
@@ -15,7 +19,8 @@ class LetterWidget(QLabel):
 
         #        self.setAutoFillBackground(True)
         self.setStyleSheet(
-            "border: 3px solid gray; border-radius: 12px; background-color: #202020; color: white;"
+            "border: 3px solid gray; border-radius: 12px;"
+            " background-color: #202020; color: white;"
         )
 
         font = self.font()
@@ -41,7 +46,8 @@ class LetterGridWidget(QWidget):
 
         # grow, but keep square (see resizeEvent)
         policy = QSizePolicy(
-            QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding
+            QSizePolicy.Policy.MinimumExpanding,
+            QSizePolicy.Policy.MinimumExpanding
         )
         self.setSizePolicy(policy)
 
@@ -79,19 +85,36 @@ class LetterGridWidget(QWidget):
 
         This scales up from the grid coordinates to the Widget coordinates.
 
-        Must be called whenever we resize or the user changes their selected word
+        Must be called on resize or word selection
         """
         return [(self._centre_of_cell(index)) for index in indexes]
 
     def _centre_of_cell(self, index: int) -> tuple[int, int]:
         """Calculate center of a given Grid cell"""
-        (x, y, _w, _h) = self.grid.getItemPosition(index)
-        center: QPoint = self.grid.cellRect(x, y).center()
+        (x, y, _w, _h) = self.grid.getItemPosition(index) # pylint: disable=unused-variable,invalid-name
+
+
+
+        # shouldn't happen, but keeps linter happy
+        if x is None or y is None:
+            raise ValueError
+
+        # pylint: enable=unused-variable,invalid-name
+        cell = self.grid.cellRect(x,y)
+        center: QPoint = cell.center()
         return center.x(), center.y()
 
-    def resizeEvent(self, a0: QResizeEvent) -> None:
-        """Make sure we're square and resize the overlay to match the grid size"""
+
+    # pylint: disable=invalid-name
+    def resizeEvent( # type: ignore[override]
+            self,
+            a0: QResizeEvent
+        ) -> None:
+        """Resize the overlay to match the grid size"""
+
+
         event = a0
+
         # kludgy code to keep us square
         super().resizeEvent(event)
         side = min(event.size().width(), event.size().height())
@@ -106,3 +129,7 @@ class LetterGridWidget(QWidget):
         # tell overlay to resize
 
         self.overlay.resize(rect.size())
+    # reenable in case any code gets added
+    # if you put this straight after the def then it no-ops
+    # pylint: enable=invalid-name
+

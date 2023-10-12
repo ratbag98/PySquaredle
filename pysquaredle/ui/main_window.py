@@ -26,7 +26,8 @@ class MainWindow(QMainWindow):
         self.puzzle = puzzle
         self.multiple = multiple
 
-        self.words: list[str] = solver.raw_solution_words(sort=alpha_sort, length=True)
+        self.words: list[str] = solver.raw_solution_words(sort=alpha_sort,
+                                                          length=True)
 
         # set up the interface (a simple HBox)
         hbox = QHBoxLayout()
@@ -59,12 +60,14 @@ class MainWindow(QMainWindow):
         """Show the solution status in the status bar"""
         word_count = self.solver.word_count()
         sol_count = self.solver.path_count()
-        self.status_bar.showMessage(
-            f"{word_count} unique words found, {sol_count} total solutions"
-        )
+
+        if self.status_bar is not None:
+            self.status_bar.showMessage(
+                f"{word_count} unique words found, {sol_count} total solutions"
+            )
 
     def current_text_changed(self, current_text: str) -> None:
-        """A user has clicked a word. Tell the letter grid to draw the path(s) for it"""
+        """Tell the grid to display the selected path"""
         if self.multiple:
             self.letter_grid.set_drawing_paths(
                 self.solver.solutions.paths(current_text)

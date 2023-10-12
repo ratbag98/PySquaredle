@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 """ Solve Squaredle puzzles, main entry point.
 
+Solve a Squaredle puzzle and output solution to terminal or via
+a GUI. Examples:
+
+    ./squaredle  # solve today's puzzle on terminal
+    ./squaredle --gui # also display a gui
+    ./squaredle ABCDEFGHI # solve a 3x3 grid "ABC", "DEF", "GHI"
+    ./squaredle --help # program options
+
 (c) Robert Rainthorpe 2023
 """
 

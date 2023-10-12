@@ -21,7 +21,7 @@ class TrieNode:
 
 
 class Trie:
-    """A trie structure. Each node contains a letter and a dictionary of children.
+    """A trie structure. Nodes contain a letter and a dictionary of children.
 
     Words can be loaded into the structure and retrieved by navigating the
     tree. In this way speedy starts with searches can be performed

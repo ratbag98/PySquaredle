@@ -1,4 +1,4 @@
-""" Solve a Squardle Puzzle """
+"""Solve a Squardle Puzzle """
 
 from collections.abc import Callable
 from functools import cached_property
@@ -73,7 +73,9 @@ class Solver:
             alpha_sort, length_group, single_column, headers
         )
 
-    def raw_solution_words(self, sort: bool = False, length: bool = False) -> list[str]:
+    def raw_solution_words(self,
+                           sort: bool = False,
+                           length: bool = False) -> list[str]:
         """Pass the raw solution words from our solutions object"""
 
         return self._solutions.raw_solution_words(sort, length)
@@ -131,7 +133,7 @@ class Solver:
         return self._solutions.word_count()
 
     def path_count(self) -> int:
-        """Pass the number of paths for a given word from our solutions object"""
+        """The number of paths including duplicate words"""
 
         return self._solutions.path_count()
 
