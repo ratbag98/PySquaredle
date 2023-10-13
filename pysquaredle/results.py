@@ -1,4 +1,4 @@
-"""Output method for results"""
+"""Output method for results."""
 
 from itertools import groupby
 
@@ -12,7 +12,7 @@ from pysquaredle.console import console
 def output_formatted_results(
     words: list[str], length_group: bool, headers: bool, single_column: bool
 ) -> None:
-    """Output nicely formatted results to console"""
+    """Output nicely formatted results to console."""
     if not length_group:
         _output_block(words, single_column)
         return

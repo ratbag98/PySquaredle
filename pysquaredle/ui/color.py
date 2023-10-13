@@ -1,4 +1,4 @@
-""" A simple color widget for editing the line palette. """
+"""A simple color widget for editing the line palette."""
 
 from PyQt6.QtGui import QColor, QPalette
 from PyQt6.QtWidgets import QWidget

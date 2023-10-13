@@ -1,4 +1,4 @@
-""" A Squaredle-style letter grid using PyQt6 """
+"""A Squaredle-style letter grid using PyQt6."""
 # pyright: ignore
 
 from PyQt6.QtCore import QPoint, QRect, Qt
@@ -90,7 +90,7 @@ class LetterGridWidget(QWidget):
         return [(self._centre_of_cell(index)) for index in indexes]
 
     def _centre_of_cell(self, index: int) -> tuple[int, int]:
-        """Calculate center of a given Grid cell"""
+        """Calculate center of a given Grid cell."""
         (x, y, _w, _h) = self.grid.getItemPosition(index) # pylint: disable=unused-variable,invalid-name
 
 
@@ -110,9 +110,7 @@ class LetterGridWidget(QWidget):
             self,
             a0: QResizeEvent
         ) -> None:
-        """Resize the overlay to match the grid size"""
-
-
+        """Resize the overlay to match the grid size."""
         event = a0
 
         # kludgy code to keep us square

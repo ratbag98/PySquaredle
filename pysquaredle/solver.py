@@ -1,4 +1,4 @@
-"""Solve a Squardle Puzzle """
+"""Solve a Squardle Puzzle."""
 
 from collections.abc import Callable
 from functools import cached_property
@@ -45,17 +45,15 @@ class Solver:
 
     @cached_property
     def solutions(self) -> Solutions:
-        """Get our solutions"""
-
+        """Get our solutions."""
         return self._solutions
 
     def has_unacceptable_words(self) -> bool:
-        """Does the list of solutions include any unacceptable words"""
+        """Does the list of solutions include any unacceptable words."""
         return len(self._solutions.unacceptable_solutions()) > 0
 
     def solve(self) -> None:
         """Solve a puzzle. Builds the `solutions` list."""
-
         for index, letter in enumerate(self._puzzle.letters):
             chain = [index]
             self._attempt(chain, letter)
@@ -67,8 +65,7 @@ class Solver:
         single_column: bool = False,
         headers: bool = False,
     ) -> str:
-        """Pass the formatted solutions from our solutions object"""
-
+        """Pass the formatted solutions from our solutions object."""
         return self._solutions.formatted_solutions(
             alpha_sort, length_group, single_column, headers
         )
@@ -76,15 +73,14 @@ class Solver:
     def raw_solution_words(self,
                            sort: bool = False,
                            length: bool = False) -> list[str]:
-        """Pass the raw solution words from our solutions object"""
-
+        """Pass the raw solution words from our solutions object."""
         return self._solutions.raw_solution_words(sort, length)
 
     def _attempt(self, index_chain: list[int], word: str) -> None:
         """The recursive word finder. Builds chains of letters by iterating
         through cell neighbours. Adds new found words to the solutions set,
-        ignoring duplicates"""
-
+        ignoring duplicates.
+        """
         hits: list[str] = self._word_trie.search(word)
 
         if self._progress_reporter:
@@ -118,7 +114,7 @@ class Solver:
         """Check if a word is interesting
         skip lines that are too long
         skip lines that don't start with a  letter from our puzzle
-        skip lines with letters not in our puzzle
+        skip lines with letters not in our puzzle.
         """
         candidate_letters = self._puzzle.unique_letters
         return (
@@ -128,17 +124,14 @@ class Solver:
         )
 
     def word_count(self) -> int:
-        """Pass the word count from our solutions object"""
-
+        """Pass the word count from our solutions object."""
         return self._solutions.word_count()
 
     def path_count(self) -> int:
-        """The number of paths including duplicate words"""
-
+        """The number of paths including duplicate words."""
         return self._solutions.path_count()
 
 
 def word_only_contains_puzzle_letters(word: str, letters: str) -> bool:
-    """Check if a word contains only letters from a given set"""
-
+    """Check if a word contains only letters from a given set."""
     return not any(letter not in letters for letter in word)

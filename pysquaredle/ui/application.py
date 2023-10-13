@@ -1,4 +1,4 @@
-""" A Qt application for the GUI application. """
+"""A Qt application for the GUI application."""
 
 from PyQt6.QtWidgets import QApplication
 

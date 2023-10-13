@@ -1,4 +1,4 @@
-""" A tab widget with lists of words of a particular length. """
+"""A tab widget with lists of words of a particular length."""
 
 from collections.abc import Callable
 from itertools import groupby

@@ -1,4 +1,4 @@
-""" Canvas class, provides surface for drawing solution lines
+"""Canvas class, provides surface for drawing solution lines.
 
 Inspired by https://gist.github.com/zhanglongqi/78d7b5cd24f7d0c42f5d116d967923e7
 """
@@ -59,8 +59,7 @@ class Overlay(QWidget):
 
     # pylint: disable=unused-argument,invalid-name
     def paintEvent(self, a0: QPaintEvent) -> None:
-        """Paint the lines"""
-
+        """Paint the lines."""
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 

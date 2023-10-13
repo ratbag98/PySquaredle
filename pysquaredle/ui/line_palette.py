@@ -1,4 +1,4 @@
-""" Manage color palettes for the lines drawn over the grid. """
+"""Manage color palettes for the lines drawn over the grid."""
 
 from collections.abc import Iterator
 

@@ -1,4 +1,4 @@
-""" GUI's main window class """
+"""GUI's main window class."""
 
 from PyQt6.QtWidgets import QHBoxLayout, QMainWindow, QTabWidget, QWidget
 
@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
         self.show()
 
     def status(self) -> None:
-        """Show the solution status in the status bar"""
+        """Show the solution status in the status bar."""
         word_count = self.solver.word_count()
         sol_count = self.solver.path_count()
 
@@ -67,7 +67,7 @@ class MainWindow(QMainWindow):
             )
 
     def current_text_changed(self, current_text: str) -> None:
-        """Tell the grid to display the selected path"""
+        """Tell the grid to display the selected path."""
         if self.multiple:
             self.letter_grid.set_drawing_paths(
                 self.solver.solutions.paths(current_text)

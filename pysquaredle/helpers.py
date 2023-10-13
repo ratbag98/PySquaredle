@@ -1,4 +1,4 @@
-""" Support functions for PySquaredle. """
+"""Support functions for PySquaredle."""
 
 import argparse
 import math
@@ -160,7 +160,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def random_letters(count: int) -> str:
-    """Generate a string of count nicely distributed random letters"""
+    """Generate a string of count nicely distributed random letters."""
     return "".join(
         random.sample(
             "EEEEEEEEEEEEEEEEAAAAAAAAAIIIIIIIIIOOOOOOOONNNNNN"
@@ -171,12 +171,12 @@ def random_letters(count: int) -> str:
 
 
 def shuffle(letters: str) -> str:
-    """Reorder the letters"""
+    """Reorder the letters."""
     return "".join(random.sample(letters, len(letters)))
 
 
 def extend(letters: str, potential_side: float) -> str:
-    """Add enough random letters to make the grid square"""
+    """Add enough random letters to make the grid square."""
     diff = (int(potential_side) + 1) ** 2 - len(letters)
     print(f"Adding {diff} letters to make a square grid.")
     letters += random_letters(diff)
