@@ -42,16 +42,12 @@ class Solutions:
 
     def unacceptable_solutions(self) -> list[str]:
         """Return list of unacceptable words found in the puzzle solutions"""
-        return [
-            u for u in self._solutions.keys() if u in self._unacceptable_words
-        ]
+        return [u for u in self._solutions.keys() if u in self._unacceptable_words]
 
     def load_unacceptable_words(self) -> None:
         """Read a list of dodgy words to test against the solutions_list"""
         try:
-            with open(UNACCEPTABLE_WORDS,
-                      "rt", 
-                      encoding="utf-8") as unacceptable:
+            with open(UNACCEPTABLE_WORDS, "rt", encoding="utf-8") as unacceptable:
                 self._unacceptable_words = unacceptable.read().split("\n")
         except FileNotFoundError:
             self._unacceptable_words = []
@@ -76,10 +72,7 @@ class Solutions:
             str: a formatted list of solutions suitable for printing
 
         """
-        solutions_list = self.raw_solution_words(
-            sort=alpha_sort,
-            length=length_group
-        )
+        solutions_list = self.raw_solution_words(sort=alpha_sort, length=length_group)
 
         divider = "\n" if single_column else "\t"
 
@@ -98,9 +91,7 @@ class Solutions:
 
         return formatted
 
-    def raw_solution_words(self,
-                           sort: bool = False,
-                           length: bool = False) -> list[str]:
+    def raw_solution_words(self, sort: bool = False, length: bool = False) -> list[str]:
         """Convert solutions set into list, honoring sort flag"""
 
         solutions: list[str] = self.words()

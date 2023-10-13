@@ -34,9 +34,7 @@ class Puzzle:
         side_length = math.sqrt(self.cell_count)
 
         if side_length % 1:
-            raise ValueError(
-                "Puzzle must have a square number of letters eg 2x2, 3x3"
-            )
+            raise ValueError("Puzzle must have a square number of letters eg 2x2, 3x3")
 
         return int(side_length)
 
@@ -71,9 +69,7 @@ class Puzzle:
     def list_neighbours(self) -> str:
         """Generate a list of neighbours for each cell in the grid"""
 
-        return ",\n".join(
-            self._row_of_neighbours(y) for y in range(self.side_length)
-        )
+        return ",\n".join(self._row_of_neighbours(y) for y in range(self.side_length))
 
     def _row_of_neighbours(self, y: int) -> str:
         return ", ".join(

@@ -1,4 +1,4 @@
-""" Represent a 2D vector """
+"""Represent a 2D vector."""
 
 from __future__ import annotations  # self-referential type annotations
 
@@ -6,7 +6,7 @@ import math
 
 
 class Vector:
-    """Currently 2D, soon to be arbitrary dimensions"""
+    """Currently 2D, soon to be arbitrary dimensions."""
 
     def __init__(self, x: float, y: float):
         self.x = x

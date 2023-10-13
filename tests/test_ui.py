@@ -1,6 +1,4 @@
-"""
-Test the GUI
-"""
+"""Test the GUI."""
 
 import platform
 
@@ -17,9 +15,7 @@ else:
 
 @pytest.fixture(name="main_window")
 def fixture_main_window(qtbot) -> MainWindow:
-    """
-    Test fixture for the main window
-    """
+    """Test fixture for the main window."""
     puzzle = Puzzle("TESTPUZZLEABCDEF")
     solver = Solver(puzzle, "./test_word_list.txt")
     test_squaredle_app = MainWindow(puzzle, solver, False, False)
@@ -30,12 +26,8 @@ def fixture_main_window(qtbot) -> MainWindow:
 
 
 def test_status(main_window: MainWindow) -> None:
-    """
-    The GUI is connected to the solver and updates the status bar
-    """
-    assert (
-        main_window.status_bar is not None
-    )
+    """The GUI is connected to the solver and updates the status bar."""
+    assert main_window.status_bar is not None
     assert (
         main_window.status_bar.currentMessage()
         == "3 unique words found, 4 total solutions"
