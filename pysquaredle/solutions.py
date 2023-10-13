@@ -13,6 +13,7 @@ class Solutions:
     """Dictionary of unique words with path(s) to build them."""
 
     def __init__(self) -> None:
+        """Create empty solution."""
         self._solutions: dict[str, list[list[int]]] = defaultdict(list[list[int]])
         self._unacceptable_words: list[str]
         self.load_unacceptable_words()
@@ -56,7 +57,7 @@ class Solutions:
         single_column: bool = False,
         headers: bool = False,
     ) -> str:
-        """Return a formatted list of solutions:
+        """Return a formatted list of solutions.
 
         Args:
             alpha_sort (bool):    alphabetically sort the solutions

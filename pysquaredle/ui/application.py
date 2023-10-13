@@ -17,6 +17,14 @@ class Application(QApplication):
         alpha_sort: bool = True,
         multiple: bool = False,
     ):
+        """Create the Qt Application.
+
+        Args:
+            puzzle: Puzzle  the Squaredle puzzle to display
+            solver: Solver  a Solver for the Puzzle
+            alpha_sort: bool    sort results alphabetically (default)
+            multiple: bool      display all paths for a given word
+        """
         super().__init__([])
 
         self.main_window = MainWindow(puzzle, solver, alpha_sort, multiple)

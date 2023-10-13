@@ -18,6 +18,7 @@ class MainWindow(QMainWindow):
         alpha_sort: bool,
         multiple: bool = False,
     ):
+        """Create the main window for the solutions."""
         super().__init__()
 
         self.setWindowTitle("PySquaredle")
@@ -26,8 +27,7 @@ class MainWindow(QMainWindow):
         self.puzzle = puzzle
         self.multiple = multiple
 
-        self.words: list[str] = solver.raw_solution_words(sort=alpha_sort,
-                                                          length=True)
+        self.words: list[str] = solver.raw_solution_words(sort=alpha_sort, length=True)
 
         # set up the interface (a simple HBox)
         hbox = QHBoxLayout()

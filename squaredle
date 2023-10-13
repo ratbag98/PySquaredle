@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" Solve Squaredle puzzles, main entry point.
+"""Solve Squaredle puzzles, main entry point.
 
 Solve a Squaredle puzzle and output solution to terminal or via
 a GUI. Examples:
@@ -30,7 +30,6 @@ def main() -> int:
 
     If the --gui flag is set, the GUI is launched.
     """
-
     args = parse_args()
 
     letters = puzzle_letters(args)

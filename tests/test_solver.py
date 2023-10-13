@@ -36,19 +36,15 @@ def test_word_list_count(good_puzzle: Puzzle) -> None:
     assert solver2.word_list_count == 109
 
 
-def test_solution_includes_all_letter_word(
-        anthropomorphize_puzzle: Puzzle) -> None:
+def test_solution_includes_all_letter_word(anthropomorphize_puzzle: Puzzle) -> None:
     """Can we solve when the word is the same length as the letters? Bounds."""
     solver = Solver(anthropomorphize_puzzle, word_list_path=TEST_WORDS)
 
     assert "ANTHROPOMORPHIZE" in solver.raw_solution_words()
 
 
-def test_solution_excludes_unlinked_words(
-        anthropomorphize_puzzle: Puzzle) -> None:
-    """Solution shouldn't include impossible words that can't be formed
-    by tracing a continuous line.
-    """
+def test_solution_excludes_unlinked_words(anthropomorphize_puzzle: Puzzle) -> None:
+    """Exclude words that can't be formed by tracing a continuous line."""
     solver = Solver(anthropomorphize_puzzle, word_list_path=TEST_WORDS)
 
     assert "OPERA" not in solver.raw_solution_words()
@@ -60,8 +56,7 @@ def test_solution_excludes_repeat_visits(good_puzzle: Puzzle) -> None:
     assert "CEDE" not in solver.raw_solution_words()
 
 
-def test_can_get_or_print_solutions_if_solve_called(
-        good_puzzle: Puzzle) -> None:
+def test_can_get_or_print_solutions_if_solve_called(good_puzzle: Puzzle) -> None:
     """Okay to request solutions when the solution has been found."""
     solver = Solver(good_puzzle, word_list_path=TEST_WORDS)
 
@@ -72,8 +67,7 @@ def test_can_get_or_print_solutions_if_solve_called(
     solver.formatted_solutions()
 
 
-def test_solutions_are_generated_as_part_of_creation(
-        good_puzzle: Puzzle) -> None:
+def test_solutions_are_generated_as_part_of_creation(good_puzzle: Puzzle) -> None:
     """The solutions should be generated as part of the creation of the Solver."""
     solver = Solver(good_puzzle, word_list_path=TEST_WORDS)
     assert solver.solutions

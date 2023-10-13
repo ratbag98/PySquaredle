@@ -28,13 +28,14 @@ class Trie:
     """
 
     def __init__(self) -> None:
+        """Create an empty Trie."""
         self.root = TrieNode("")
 
     def insert(self, word: str) -> None:
-        """Add a word to the Trie by decomposing and navigating the existing
-        trie, adding letters as new nodes or children of existing nodes.
+        """Add a word to the Trie.
+
+        Walk the trie adding letters as new nodes or children appropriately.
         """
-        # start from top of trie
         node = self.root
 
         for char in word:

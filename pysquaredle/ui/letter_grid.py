@@ -11,10 +11,12 @@ from pysquaredle.ui.overlay import Overlay
 # since we're using Qt which is a C++ library coerced into
 # Python. So names are non-compliant, overrides are dodgy
 
+
 class LetterWidget(QLabel):
     """A single letter in the grid."""
 
     def __init__(self, letter: str) -> None:
+        """Create a widget containing a single letter."""
         super().__init__(letter)
 
         #        self.setAutoFillBackground(True)
@@ -36,6 +38,7 @@ class LetterGridWidget(QWidget):
     GAP_MARKER = "_"
 
     def __init__(self, letters: str, side_length: int):
+        """Construct a grid of LetterWidgets representing the puzzle."""
         super().__init__()
 
         # keep this for resize events, we need to
@@ -46,8 +49,7 @@ class LetterGridWidget(QWidget):
 
         # grow, but keep square (see resizeEvent)
         policy = QSizePolicy(
-            QSizePolicy.Policy.MinimumExpanding,
-            QSizePolicy.Policy.MinimumExpanding
+            QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding
         )
         self.setSizePolicy(policy)
 
@@ -69,10 +71,7 @@ class LetterGridWidget(QWidget):
         self.setLayout(self.grid)
 
     def set_drawing_paths(self, chains: list[list[int]]) -> None:
-        """Tell the overlay canvas to draw the given paths. Remember the raw
-        chains of grid coordinates so we can redraw them when the window
-        resizes.
-        """
+        """Convert letter chains to GUI paths and redraw."""
         self.current_chains = chains
         paths: list[list[tuple[int, int]]] = [
             self._path_from_indexes(chain) for chain in self.current_chains
@@ -91,25 +90,21 @@ class LetterGridWidget(QWidget):
 
     def _centre_of_cell(self, index: int) -> tuple[int, int]:
         """Calculate center of a given Grid cell."""
-        (x, y, _w, _h) = self.grid.getItemPosition(index) # pylint: disable=unused-variable,invalid-name
-
-
+        (x, y, _w, _h) = self.grid.getItemPosition(
+            index
+        )  # pylint: disable=unused-variable,invalid-name
 
         # shouldn't happen, but keeps linter happy
         if x is None or y is None:
             raise ValueError
 
         # pylint: enable=unused-variable,invalid-name
-        cell = self.grid.cellRect(x,y)
+        cell = self.grid.cellRect(x, y)
         center: QPoint = cell.center()
         return center.x(), center.y()
 
-
     # pylint: disable=invalid-name
-    def resizeEvent( # type: ignore[override]
-            self,
-            a0: QResizeEvent
-        ) -> None:
+    def resizeEvent(self, a0: QResizeEvent) -> None:  # type: ignore[override]
         """Resize the overlay to match the grid size."""
         event = a0
 
@@ -127,7 +122,7 @@ class LetterGridWidget(QWidget):
         # tell overlay to resize
 
         self.overlay.resize(rect.size())
+
     # reenable in case any code gets added
     # if you put this straight after the def then it no-ops
     # pylint: enable=invalid-name
-

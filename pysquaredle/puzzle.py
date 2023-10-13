@@ -111,7 +111,9 @@ class Puzzle:
     # size of the grid is the length of a side. So a 3x3 grid is size 3
 
     def __repr__(self) -> str:
+        """Pretty-print the object."""
         return f'Puzzle("{self.letters}")'
 
     def __str__(self) -> str:
+        """String representation of Puzzle is the grid."""
         return self.grid

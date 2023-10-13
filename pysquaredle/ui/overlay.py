@@ -11,9 +11,7 @@ from pysquaredle.ui.line_palette import LinePalette
 from pysquaredle.vector import Vector
 
 
-def _build_line_segments(
-        path: list[tuple[int, int]], offset: int
-    ) -> list[QLine]:
+def _build_line_segments(path: list[tuple[int, int]], offset: int) -> list[QLine]:
     return [
         QLine(
             path[i][0] + offset,
@@ -35,6 +33,7 @@ class Overlay(QWidget):
     CIRCLE_RADIUS = LINE_WIDTH + 4
 
     def __init__(self, parent: QWidget) -> None:
+        """Create a widget for drawing lines over the Puzzle grid."""
         super().__init__(parent)
 
         # we're transparent
@@ -87,6 +86,7 @@ class Overlay(QWidget):
 
             # draw a filled circle centered on the first letter
             self._draw_start_circle(painter, path, offset, color)
+
     # pylint: enable=unused-variable,invalid-name
 
     def _draw_start_circle(
@@ -119,9 +119,11 @@ class Overlay(QWidget):
     def _draw_end_bar(
         self, painter: QPainter, path: list[tuple[int, int]], offset: int
     ) -> None:
-        scaled_end_bar: Vector = self._calculate_end_bar_vector(
+        """Draws a perpendicular line touching the end of a path."""
+        last_segment_of_path: Vector = Vector(
             path[-1][0] - path[-2][0], path[-1][1] - path[-2][1]
         )
+        scaled_end_bar: Vector = self._calculate_end_bar_vector(last_segment_of_path)
 
         painter.drawLine(
             path[-1][0] + offset - int(scaled_end_bar.x),
@@ -130,10 +132,10 @@ class Overlay(QWidget):
             path[-1][1] + offset + int(scaled_end_bar.y),
         )
 
-    def _calculate_end_bar_vector(self, x: int, y: int) -> Vector:
+    def _calculate_end_bar_vector(self, last_segment: Vector) -> Vector:
         """Calculate a vector to draw a line across the end of a line.
-        x and y are the vector components for the last two points in the path.
-        """
-        vec = Vector(x, y)
 
-        return vec.rotate_90().normalize() * self.LINE_WIDTH * 2
+        Args:
+            last_segment: Vector    final line segment vector.
+        """
+        return last_segment.rotate_90().normalize() * self.LINE_WIDTH * 2

@@ -25,6 +25,7 @@ class LinePalette:
     ALPHA = 0.5
 
     def __init__(self) -> None:
+        """Create a palette from a list of colors."""
         self._palette: list[QColor] = []
 
         for col in self.COLOUR_PALETTE:

@@ -29,6 +29,13 @@ class Solver:
         word_list_path: str,
         update_func: Optional[Callable[[str, list[int], int], None]] = None,
     ) -> None:
+        """Create a Solver for Puzzle.
+
+        Args:
+            puzzle: Puzzle          the Squaredle puzzle to solve
+            word_list_path: str     a list of acceptable words
+            update_func: fn         callback to show progress
+        """
         # this can do "something" whilst the solutions are generated
         self._progress_reporter = update_func
 
@@ -70,16 +77,15 @@ class Solver:
             alpha_sort, length_group, single_column, headers
         )
 
-    def raw_solution_words(self,
-                           sort: bool = False,
-                           length: bool = False) -> list[str]:
+    def raw_solution_words(self, sort: bool = False, length: bool = False) -> list[str]:
         """Pass the raw solution words from our solutions object."""
         return self._solutions.raw_solution_words(sort, length)
 
     def _attempt(self, index_chain: list[int], word: str) -> None:
-        """The recursive word finder. Builds chains of letters by iterating
-        through cell neighbours. Adds new found words to the solutions set,
-        ignoring duplicates.
+        """The recursive word finder.
+
+        Builds chains of letters by iterating through cell neighbours.
+        Adds new found words to the solutions set, ignoring duplicates.
         """
         hits: list[str] = self._word_trie.search(word)
 
@@ -111,7 +117,8 @@ class Solver:
         # pylint: enable=unspecified-encoding
 
     def interesting_word(self, word: str) -> bool:
-        """Check if a word is interesting
+        """Check if a word is interesting.
+
         skip lines that are too long
         skip lines that don't start with a  letter from our puzzle
         skip lines with letters not in our puzzle.
