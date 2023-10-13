@@ -5,6 +5,7 @@ A solution path is the list of indexes in the puzzle grid that make up a word.
 
 from collections import defaultdict
 from itertools import groupby
+from pathlib import Path
 
 UNACCEPTABLE_WORDS = "./unacceptable.txt"
 
@@ -40,18 +41,23 @@ class Solutions:
 
     def unacceptable_solutions(self) -> list[str]:
         """Return list of unacceptable words found in the puzzle solutions."""
-        return [u for u in self._solutions.keys() if u in self._unacceptable_words]
+        return [
+            u
+            for u in self._solutions.keys()  # noqa: SIM118
+            if u in self._unacceptable_words
+        ]
 
     def load_unacceptable_words(self) -> None:
         """Read a list of dodgy words to test against the solutions_list."""
         try:
-            with open(UNACCEPTABLE_WORDS, encoding="utf-8") as unacceptable:
+            with Path(UNACCEPTABLE_WORDS).open(encoding="utf-8") as unacceptable:
                 self._unacceptable_words = unacceptable.read().split("\n")
         except FileNotFoundError:
             self._unacceptable_words = []
 
     def formatted_solutions(
         self,
+        *,
         alpha_sort: bool = False,
         length_group: bool = False,
         single_column: bool = False,
@@ -88,7 +94,7 @@ class Solutions:
 
         return formatted
 
-    def raw_solution_words(self, sort: bool = False, length: bool = False) -> list[str]:
+    def raw_solution_words(self, *, sort: bool, length: bool) -> list[str]:
         """Convert solutions set into list, honoring sort flag."""
         solutions: list[str] = self.words()
         if sort:

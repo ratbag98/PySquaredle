@@ -56,8 +56,7 @@ class Overlay(QWidget):
         self._selected_paths = paths
         self.update()
 
-    # pylint: disable=unused-argument,invalid-name
-    def paintEvent(self, a0: QPaintEvent) -> None:
+    def paintEvent(self, _a0: QPaintEvent) -> None:  # noqa: N802
         """Paint the lines."""
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
@@ -73,13 +72,13 @@ class Overlay(QWidget):
             # make lines more visible by offsetting successive lines
             offset = index * self.LINE_WIDTH
 
-            color = self.line_palette.next()
+            color = self.line_palette.next_color()
 
             pen.setColor(color)
             painter.setPen(pen)
 
             line_segments = _build_line_segments(path, offset)
-            painter.drawLines(line_segments)  # type: ignore
+            painter.drawLines(line_segments)
 
             # draw a line across the end of the last line segment
             self._draw_end_bar(painter, path, offset)

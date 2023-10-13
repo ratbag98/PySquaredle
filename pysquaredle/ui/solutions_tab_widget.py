@@ -10,7 +10,9 @@ from PyQt6.QtWidgets import QListWidget, QScrollArea, QSizePolicy, QTabWidget
 class WordListWidget(QListWidget):
     """Present list of words in the solution."""
 
-    def __init__(self, words: list[str], target_for_word_change: Callable[[str], None]):
+    def __init__(
+        self, words: list[str], target_for_word_change: Callable[[str], None]
+    ) -> None:
         """Create a GUI list of clickable words."""
         super().__init__()
         self.addItems(words)
@@ -21,13 +23,13 @@ class WordListWidget(QListWidget):
 class SolutionsScroller(QScrollArea):
     """Scroller for solutions."""
 
-    def __init__(self, word_list_widget: WordListWidget):
+    def __init__(self, word_list_widget: WordListWidget) -> None:
         """Create a scrolling container for a word list."""
         super().__init__()
 
         self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.setWidgetResizable(True)
+        self.setWidgetResizable(True)  # noqa: FBT003
 
         self.setWidget(word_list_widget)
 
@@ -46,7 +48,7 @@ class SolutionsTabWidget(QTabWidget):
         """Create a tabbed widget to contain the scrolling lists of words."""
         super().__init__()
 
-        self.setDocumentMode(True)
+        self.setDocumentMode(True)  # noqa: FBT003
         policy = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Expanding)
         self.setSizePolicy(policy)
 

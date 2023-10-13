@@ -48,13 +48,27 @@ venvPath = "."
 venv = ".venv"
 
 [tool.ruff]
-exclude = [".venv"]
-select = [
-    "E",  # pycodestyle
-    "F",  # pyflakes
-    "UP", # pyupgrade
-    "D",  # pydocstyle
-]
+exclude = [".venv", "tests"]
+ignore = ["ANN101", "COM812"]
+select = ["ALL"]
+target-version = "py311"      # check this matches tool.poetry.dependencies.python above
+#     "A",    # don't clobber builtins
+#     "ARG",  # flake8 unused arguments
+#     "B",    # bugbear: security warnings
+#     "D",    # pydocstyle
+#     "E",    # pycodestyle
+#     "ERA",  # don't allow commented out code
+#     "F",    # pyflakes
+#     "I",    # isort
+#     "ISC",  # implicit string concatenation
+#     "N",    # pep8-naming
+#     "PERF", # performance 
+#     "RUF",  # ruff developers' pet rules
+#     "SIM",  # flake8 simplify
+#     "TCH",  # flake8 type checking
+#     "UP",   # pyupgrade
+#     "W",    # pycodestyle
+# ]
 
 [tool.ruff.pydocstyle]
 convention = "google"

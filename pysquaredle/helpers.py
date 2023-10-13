@@ -5,6 +5,7 @@ import math
 import random
 import sys
 
+from pysquaredle.console import console
 from pysquaredle.web import get_letters_from_web
 
 
@@ -14,7 +15,7 @@ def puzzle_letters(args: argparse.Namespace) -> str:
         return random_letters(args.square**2)
 
     if not args.letters:
-        return get_letters_from_web(args.express)
+        return get_letters_from_web(express=args.express)
 
     letters = str(args.letters)
     length = len(letters)
@@ -23,7 +24,7 @@ def puzzle_letters(args: argparse.Namespace) -> str:
     # must be square, optionally add letters
     if potential_side % 1:
         if not args.auto_extend:
-            print("Invalid puzzle: letters must form a square grid.")
+            console.print("Invalid puzzle: letters must form a square grid.")
             sys.exit(-1)
 
         letters = extend(letters, potential_side)
@@ -73,8 +74,7 @@ def parse_args() -> argparse.Namespace:
         "--headers",
         dest="headers",
         action="store_true",
-        help="display headers for length-grouped solutions "
-             "(default: %(default)s)",
+        help="display headers for length-grouped solutions (default: %(default)s)",
     )
     output_group.add_argument(
         "-l",
@@ -86,7 +86,7 @@ def parse_args() -> argparse.Namespace:
         "-m",
         "--multiple",
         help="in GUI mode, show all solutions for a given word "
-             "(default: %(default)s)",
+        "(default: %(default)s)",
         action="store_true",
     )
     parser.add_argument(
@@ -114,7 +114,7 @@ def parse_args() -> argparse.Namespace:
         "-t",
         "--auto-extend",
         help="add extra letters to the grid to make it square "
-             "(default: %(default)s)",
+        "(default: %(default)s)",
         action="store_true",
     )
 
@@ -155,8 +155,7 @@ def parse_args() -> argparse.Namespace:
         help="show progress as it goes (default: %(default)s)",
     )
 
-    args = parser.parse_args()
-    return args
+    return parser.parse_args()
 
 
 def random_letters(count: int) -> str:
@@ -178,6 +177,6 @@ def shuffle(letters: str) -> str:
 def extend(letters: str, potential_side: float) -> str:
     """Add enough random letters to make the grid square."""
     diff = (int(potential_side) + 1) ** 2 - len(letters)
-    print(f"Adding {diff} letters to make a square grid.")
+    console.print(f"Adding {diff} letters to make a square grid.")
     letters += random_letters(diff)
     return letters

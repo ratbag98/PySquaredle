@@ -15,9 +15,10 @@ class MainWindow(QMainWindow):
         self,
         puzzle: Puzzle,
         solver: Solver,
+        *,
         alpha_sort: bool,
         multiple: bool = False,
-    ):
+    ) -> None:
         """Create the main window for the solutions."""
         super().__init__()
 
@@ -45,7 +46,7 @@ class MainWindow(QMainWindow):
             self.words, self.current_text_changed
         )
         self.solutions_widget.setTabPosition(QTabWidget.TabPosition.West)
-        self.solutions_widget.setMovable(True)
+        self.solutions_widget.setMovable(True)  # noqa: FBT003
 
         # the actual interface is just two widgets side-by-side
         hbox.addWidget(self.letter_grid, 100)

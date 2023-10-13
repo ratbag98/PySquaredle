@@ -3,22 +3,26 @@
 import math
 import re
 
+ALPHA_ONLY = "Letters must be alphabetic"
+LONG_ENOUGH = "Puzzle must have at least four letters"
+SQUARE_PUZZLE = "Puzzle must have a square number of letters eg 2x2, 3x3"
+
 
 class Puzzle:
     """A Squaredle puzzle (httos://squaredle.app)."""
 
     SMALLEST_PUZZLE = 4
 
-    def __init__(self, letters: str):
+    def __init__(self, letters: str) -> None:
         """Create a Squaredle puzzle from a string of letters.
 
         The letters string's length must be a square number (9, 16, 25 etc).
         """
         if not re.compile(r"^[a-zA-Z_]+$").search(letters):
-            raise ValueError("Letters must be alphabetic")
+            raise ValueError(ALPHA_ONLY)
 
         if len(letters) < self.SMALLEST_PUZZLE:
-            raise ValueError("Puzzle must have at least four letters")
+            raise ValueError(LONG_ENOUGH)
 
         self.cell_count = len(letters)
 
@@ -32,7 +36,7 @@ class Puzzle:
         side_length = math.sqrt(self.cell_count)
 
         if side_length % 1:
-            raise ValueError("Puzzle must have a square number of letters eg 2x2, 3x3")
+            raise ValueError(SQUARE_PUZZLE)
 
         return int(side_length)
 
@@ -81,8 +85,6 @@ class Puzzle:
 
     def _coord(self, index: int) -> tuple[int, int]:
         return divmod(index, self.side_length)
-
-    #        return index % self.side_length, index // self.side_length
 
     def _on_grid(self, x: int, y: int) -> bool:
         return x in range(self.side_length) and y in range(self.side_length)

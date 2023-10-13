@@ -8,7 +8,7 @@ import math
 class Vector:
     """Currently 2D, soon to be arbitrary dimensions."""
 
-    def __init__(self, x: float, y: float):
+    def __init__(self, x: float, y: float) -> None:
         """Build vector from coordinates."""
         self.x = x
         self.y = y

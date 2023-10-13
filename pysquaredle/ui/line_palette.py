@@ -10,7 +10,7 @@ class LinePalette:
 
     # palette of pleasant colours from seaborn
     # https://seaborn.pydata.org/tutorial/color_palettes.html
-    COLOUR_PALETTE = [
+    COLOUR_PALETTE = (
         (0.12156862745098039, 0.4666666666666667, 0.7058823529411765),
         (1.0, 0.4980392156862745, 0.054901960784313725),
         (0.17254901960784313, 0.6274509803921569, 0.17254901960784313),
@@ -21,7 +21,7 @@ class LinePalette:
         (0.4980392156862745, 0.4980392156862745, 0.4980392156862745),
         (0.7372549019607844, 0.7411764705882353, 0.13333333333333333),
         (0.09019607843137255, 0.7450980392156863, 0.8117647058823529),
-    ]
+    )
     ALPHA = 0.5
 
     def __init__(self) -> None:
@@ -35,7 +35,7 @@ class LinePalette:
 
         self._index = 0
 
-    def next(self) -> QColor:
+    def next_color(self) -> QColor:
         """Return the next color in the palette."""
         color = self._palette[self._index]
         self._index = (self._index + 1) % len(self)

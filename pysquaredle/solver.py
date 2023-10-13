@@ -27,7 +27,9 @@ class Solver:
         self,
         puzzle: Puzzle,
         word_list_path: str,
-        update_func: Optional[Callable[[str, list[int], int], None]] = None,
+        update_func: Optional[  # noqa: UP007
+            Callable[[str, list[int], int], None]
+        ] = None,
     ) -> None:
         """Create a Solver for Puzzle.
 
@@ -67,6 +69,7 @@ class Solver:
 
     def formatted_solutions(
         self,
+        *,
         alpha_sort: bool = False,
         length_group: bool = False,
         single_column: bool = False,
@@ -74,12 +77,17 @@ class Solver:
     ) -> str:
         """Pass the formatted solutions from our solutions object."""
         return self._solutions.formatted_solutions(
-            alpha_sort, length_group, single_column, headers
+            alpha_sort=alpha_sort,
+            length_group=length_group,
+            single_column=single_column,
+            headers=headers,
         )
 
-    def raw_solution_words(self, sort: bool = False, length: bool = False) -> list[str]:
+    def raw_solution_words(
+        self, *, sort: bool = False, length: bool = False
+    ) -> list[str]:
         """Pass the raw solution words from our solutions object."""
-        return self._solutions.raw_solution_words(sort, length)
+        return self._solutions.raw_solution_words(sort=sort, length=length)
 
     def _attempt(self, index_chain: list[int], word: str) -> None:
         """The recursive word finder.
@@ -101,7 +109,7 @@ class Solver:
         for neighbour in self._puzzle.neighbours_of(index_chain[-1]):
             if neighbour not in index_chain:
                 self._attempt(
-                    index_chain + [neighbour],
+                    [*index_chain, neighbour],
                     "".join([word, self._puzzle.letters[neighbour]]),
                 )
 

@@ -18,7 +18,7 @@ def fixture_main_window(qtbot) -> MainWindow:
     """Test fixture for the main window."""
     puzzle = Puzzle("TESTPUZZLEABCDEF")
     solver = Solver(puzzle, "./test_word_list.txt")
-    test_squaredle_app = MainWindow(puzzle, solver, False, False)
+    test_squaredle_app = MainWindow(puzzle, solver, multiple=False, alpha_sort=False)
 
     qtbot.add_widget(test_squaredle_app)
 

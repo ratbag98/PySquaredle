@@ -14,9 +14,10 @@ class Application(QApplication):
         self,
         puzzle: Puzzle,
         solver: Solver,
+        *,
         alpha_sort: bool = True,
         multiple: bool = False,
-    ):
+    ) -> None:
         """Create the Qt Application.
 
         Args:
@@ -27,5 +28,7 @@ class Application(QApplication):
         """
         super().__init__([])
 
-        self.main_window = MainWindow(puzzle, solver, alpha_sort, multiple)
+        self.main_window = MainWindow(
+            puzzle, solver, alpha_sort=alpha_sort, multiple=multiple
+        )
         self.main_window.show()

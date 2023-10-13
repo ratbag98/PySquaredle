@@ -21,8 +21,8 @@ from pysquaredle.puzzle import Puzzle
 from pysquaredle.results import output_formatted_results
 from pysquaredle.solver import Solver
 
-# ARM linux doesn't include Qt as far as I can tell
 ARM = "aarch64"
+NO_ARM_QT_EXCEPTION = "GUI not supported on ARM processor"
 
 
 def main() -> int:
@@ -55,20 +55,22 @@ def main() -> int:
         if platform.processor() != ARM:
             # dynamic load if we're not on ARM
             module = importlib.import_module("pysquaredle.ui.application")
-            app_class = getattr(module, "Application")
+            app_class = module.Application  # getattr(module, "Application")
 
-            app = app_class(puzzle, solver, args.sort, args.multiple)
+            app = app_class(
+                puzzle, solver, alpha_sort=args.sort, multiple=args.multiple
+            )
             app.exec()
             return 0
-        raise NotImplementedError("GUI not supported on ARM processor")
+        raise NotImplementedError(NO_ARM_QT_EXCEPTION)
 
     if args.grid or args.random or args.square or args.auto_extend:
         console.print(puzzle.grid)
 
-    ordered_solutions = solver.raw_solution_words(args.sort, args.length)
+    ordered_solutions = solver.raw_solution_words(sort=args.sort, length=args.length)
 
     if solver.has_unacceptable_words():
-        print("BAD WORDS!")
+        console.print("BAD WORDS!")
 
     output_formatted_results(
         ordered_solutions,

@@ -1,5 +1,4 @@
 """A Squaredle-style letter grid using PyQt6."""
-# pyright: ignore
 
 from PyQt6.QtCore import QPoint, QRect, Qt
 from PyQt6.QtGui import QResizeEvent
@@ -19,7 +18,6 @@ class LetterWidget(QLabel):
         """Create a widget containing a single letter."""
         super().__init__(letter)
 
-        #        self.setAutoFillBackground(True)
         self.setStyleSheet(
             "border: 3px solid gray; border-radius: 12px;"
             " background-color: #202020; color: white;"
@@ -27,7 +25,7 @@ class LetterWidget(QLabel):
 
         font = self.font()
         font.setPointSize(36)
-        font.setBold(True)
+        font.setBold(True)  # noqa: FBT003
         self.setFont(font)
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -37,7 +35,7 @@ class LetterGridWidget(QWidget):
 
     GAP_MARKER = "_"
 
-    def __init__(self, letters: str, side_length: int):
+    def __init__(self, letters: str, side_length: int) -> None:
         """Construct a grid of LetterWidgets representing the puzzle."""
         super().__init__()
 
@@ -62,7 +60,7 @@ class LetterGridWidget(QWidget):
 
                 self.grid.addWidget(letter, row, col)
                 if letters[row * side_length + col] == self.GAP_MARKER:
-                    letter.setHidden(True)
+                    letter.setHidden(True)  # noqa: FBT003
 
         # use this for drawing lines over the grid
         self.overlay = Overlay(self)
@@ -103,8 +101,7 @@ class LetterGridWidget(QWidget):
         center: QPoint = cell.center()
         return center.x(), center.y()
 
-    # pylint: disable=invalid-name
-    def resizeEvent(self, a0: QResizeEvent) -> None:  # type: ignore[override]
+    def resizeEvent(self, a0: QResizeEvent) -> None:  # noqa: N802
         """Resize the overlay to match the grid size."""
         event = a0
 
