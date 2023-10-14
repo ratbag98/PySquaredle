@@ -55,7 +55,7 @@ def main() -> int:
         if platform.processor() != ARM:
             # dynamic load if we're not on ARM
             module = importlib.import_module("pysquaredle.ui.application")
-            app_class = module.Application  # getattr(module, "Application")
+            app_class = module.Application
 
             app = app_class(
                 puzzle, solver, alpha_sort=args.sort, multiple=args.multiple

@@ -13,27 +13,25 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Topic :: Games/Entertainment :: Puzzle Games",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+packages = [{ include = "pysquaredle/**/*.py" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 pyqt6 = "^6.4.0"
-conda-lock = "^1.4.0"
 requests = "^2.28.2"
 rich = "^13.5.0"
 
 [tool.poetry.group.dev.dependencies]
-pynvim = "^0.4.3"
-pytest = "^7.2.1"
+pytest = "*"
 pytest-qt = "^4.2.0"
 pytest-cov = "^4.0.0"
 black = "^22.12.0"
-ipython = "^8.9.0"
 ruff = "^0.0.292"
-types-requests = "^2.28.11.8"
+#types-requests = "^2.28.11.8"
 pyright = "^1.1.331"
 
 [tool.poetry.scripts]
