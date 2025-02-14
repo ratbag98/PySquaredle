@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Solve Squaredle puzzles, main entry point.
 
 Solve a Squaredle puzzle and output solution to terminal or via

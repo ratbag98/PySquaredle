@@ -36,6 +36,8 @@ from a well-known word board game.
 
 ## Getting Started
 
+TODO convert to UV
+
 ```bash
 pip install poetry # or pipx or whatever
 poetry shell
@@ -44,9 +46,9 @@ poetry install
 
 ### Setup TODOs
 
-* [x] setup `pyproject.toml`
-* [ ] create an installer for Python-deficient Mac Users
-* [ ] consider creating other platform installers (Linux easy, Windows might be tough)
+- [x] setup `pyproject.toml`
+- [ ] create an installer for Python-deficient Mac Users
+- [ ] consider creating other platform installers (Linux easy, Windows might be tough)
 
 ### Running the solver
 
@@ -66,7 +68,7 @@ grid from left to right, top to bottom:
 ```
 
 (upper or lower-case, live a little). If you're on Windows, sorry-not-sorry, but
-use ```python squaredle GACSNEWID``` instead or do something funky.
+use `python squaredle GACSNEWID` instead or do something funky.
 
 The program will check that the letters can represent a Squaredle grid. There
 should be a "square" number of letters (eg 3x3, 4x4, 5x5, etc). If the number of
@@ -108,8 +110,8 @@ to trim the list appropriately.
 ## Unacceptable words
 
 The program can check whether the puzzle includes any unacceptable words. To use
-this feature you'll need to create an unacceptable word list. I used the list from 
-https://potentiallyoffensive.com/lists with a bit of post-processing:
+this feature you'll need to create an unacceptable word list. I used the list from
+<https://potentiallyoffensive.com/lists> with a bit of post-processing:
 
 ```bash
 curl https://potentiallyoffensive.com/wp-content/uploads/2023/03/OffensiveWords.txt --output - | \
@@ -209,10 +211,10 @@ long or composed of letters not found in the puzzle
 
 ### Possible things to try in the code as mental exercises
 
-* DONE. Relax the uniqueness requirement, in case we want to show the solution in some
+- DONE. Relax the uniqueness requirement, in case we want to show the solution in some
   graphical fashion on the grid and to include alternatives. The GUI now shows
   multiple solutions for a given word, in spangly technicolor
-* DONE: Consider RadixTrie for word list storage, but I think the efficiencies it
+- DONE: Consider RadixTrie for word list storage, but I think the efficiencies it
   gives (space, search) are less useful when set against the cost of initially
   adding the words. I was right about this, so I kept the Trie. If I was making
   a long-lived program that persisted as many puzzles were loaded then it might
@@ -230,23 +232,23 @@ to PyQt6 signal issues and its avoidance of snake_case.
 
 ## Roadmap
 
-* [ ] Optionally separate results for "common" vs "uncommon" words (struggling
-  to find appropriate wordlists or to decrypt Squaredle's lists)
-* [ ] Keep word list up to date (see above)
-* [ ] Live update of the search like in the movies (would need a rejig of the
-  Solver class to give access to the GUI as the solution is generated)
-* [ ] Reverse the logic somewhat in order to generate puzzles (still thinking
-  about this one - could generate a grid from a set of letters then iteratively
-  solve it until a desired word/complexity is present)
-* [ ] Automate dependency file creation (`conda list -e > req.txt`) on change.
-* [ ] Installer
-* [ ] [`pyproject.toml`](https://godatadriven.com/blog/a-practical-guide-to-setuptools-and-pyproject-toml/)
-* [ ] GUI preferences
-* [x] Handle gaps in the square. Presentation-side.
-* [x] Handle gaps:  download logic needs an overhaul
-* [x] Test suite (needs revisiting since I wasn't a good little TDDer)
-* [x] Make code more idiomatic (ongoing)
-* [x] Some graphical pizazz to show word formation in the grid
+- [ ] Optionally separate results for "common" vs "uncommon" words (struggling
+      to find appropriate wordlists or to decrypt Squaredle's lists)
+- [ ] Keep word list up to date (see above)
+- [ ] Live update of the search like in the movies (would need a rejig of the
+      Solver class to give access to the GUI as the solution is generated)
+- [ ] Reverse the logic somewhat in order to generate puzzles (still thinking
+      about this one - could generate a grid from a set of letters then iteratively
+      solve it until a desired word/complexity is present)
+- [ ] Automate dependency file creation (`conda list -e > req.txt`) on change.
+- [ ] Installer
+- [ ] [`pyproject.toml`](https://godatadriven.com/blog/a-practical-guide-to-setuptools-and-pyproject-toml/)
+- [ ] GUI preferences
+- [x] Handle gaps in the square. Presentation-side.
+- [x] Handle gaps: download logic needs an overhaul
+- [x] Test suite (needs revisiting since I wasn't a good little TDDer)
+- [x] Make code more idiomatic (ongoing)
+- [x] Some graphical pizazz to show word formation in the grid
 
 ## Contributing
 
@@ -264,14 +266,14 @@ Project link: <https://github.com/ratbag98/PySquaredle.git>
 
 ## Acknowledgements
 
-* Trie structure (basis):
+- Trie structure (basis):
   [AskPython](https://www.askpython.com/python/examples/trie-data-structure)
-* Word list from: [`dwyl`](https://github.com/dwyl/english-words.git)
-* Half way through this I started using Github Copilot. "It's a bit of a mixed
+- Word list from: [`dwyl`](https://github.com/dwyl/english-words.git)
+- Half way through this I started using Github Copilot. "It's a bit of a mixed
   bag, but it's fun to see what it comes up with. I've tried to keep the code
   idiomatic, but it's hard to resist the temptation to use some of the
   suggestions" is what it just typed for me! I agree entirely.
-* Made good use of [this book](https://www.pythonguis.com/pyqt6-book/) and the
+- Made good use of [this book](https://www.pythonguis.com/pyqt6-book/) and the
   site it's based on
-* I didn't look at anyone else's solver, since this is a learning exercise
+- I didn't look at anyone else's solver, since this is a learning exercise
   rather than something that aims to be "the best".

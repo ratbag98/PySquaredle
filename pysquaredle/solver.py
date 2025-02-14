@@ -140,6 +140,7 @@ class Solver:
 
     def word_count(self) -> int:
         """Pass the word count from our solutions object."""
+
         return self._solutions.word_count()
 
     def path_count(self) -> int:
