@@ -1,14 +1,38 @@
 # PySquaredle
 
+<!--toc:start-->
+
+- [PySquaredle](#pysquaredle)
+  - [About this project](#about-this-project)
+  - [A Noddy Python program to solve the daily Squaredle puzzle](#a-noddy-python-program-to-solve-the-daily-squaredle-puzzle)
+  - [Getting Started](#getting-started)
+    - [Setup TODOs](#setup-todos)
+    - [Running the solver](#running-the-solver)
+  - [Unacceptable words](#unacceptable-words)
+  - [GUI](#gui)
+  - [Scraping](#scraping)
+  - [Basic program logic](#basic-program-logic)
+    - [Optimizations](#optimizations)
+    - [Possible things to try in the code as mental exercises](#possible-things-to-try-in-the-code-as-mental-exercises)
+  - [Quality checks I try to maintain](#quality-checks-i-try-to-maintain)
+  - [Roadmap](#roadmap)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Contact](#contact)
+  - [Acknowledgements](#acknowledgements)
+  <!--toc:end-->
+
 ## About this project
 
 I'm learning Python as a 53-year old who grew up with BASIC, 6502, Pascal, C, C++,
 Java, Perl, SQL, HTML, Elixir and maybe some others (shunned JavaScript and
 avoid CSS like the plague). Always avoided Python due to the silly (to me)
-whitespace stuff. Held my nose, dived in and found I rather liked it. So without
+white-space stuff. Held my nose, dived in and found I rather liked it. So without
 further ado, here's my first Python program:
 
-## A Noddy Python program to solve the daily [Squaredle puzzle](https://squaredle.app/)
+## A Noddy Python program to solve the daily Squaredle puzzle
+
+The [Squaredle puzzle](https://squaredle.app/) is a daily word game.
 
 ![Screenshot](screenshots/gui.png?raw=true "Basic GUI screenshot")
 
@@ -114,7 +138,9 @@ this feature you'll need to create an unacceptable word list. I used the list fr
 <https://potentiallyoffensive.com/lists> with a bit of post-processing:
 
 ```bash
-curl https://potentiallyoffensive.com/wp-content/uploads/2023/03/OffensiveWords.txt --output - | \
+curl \
+https://potentiallyoffensive.com/wp-content/uploads/2023/03/OffensiveWords.txt \
+--output - | \
 iconv -f UTF-16 -t US-ASCII//translit | \
 dos2unix | \
 tr a-z A-Z | \
@@ -122,13 +148,13 @@ sort | \
 rg -Nw '^[A-Z]{4,}$' > unacceptable.txt
 ```
 
-This retrieves the list, converts Unicode to ASCII, converts line-endings, upper-cases, sorts
-and prunes the list to 4-letter words and longer (stripping words with hyphens and spaces in
-the process.
+This retrieves the list, converts Unicode to ASCII, converts line-endings,
+upper-cases, sorts and prunes the list to 4-letter words and longer (stripping
+words with hyphens and spaces in the process.
 
 ## GUI
 
-New feature: a PyQt6-based GUI that shows individual word solutions by the magic
+Nw feature: a PyQt6-based GUI that shows individual word solutions by the magic
 of squiggly lines.
 
 There's a video of it in action on the [Wiki](https://github.com/ratbag98/PySquaredle/wiki)
@@ -211,9 +237,9 @@ long or composed of letters not found in the puzzle
 
 ### Possible things to try in the code as mental exercises
 
-- DONE. Relax the uniqueness requirement, in case we want to show the solution in some
-  graphical fashion on the grid and to include alternatives. The GUI now shows
-  multiple solutions for a given word, in spangly technicolor
+- DONE. Relax the uniqueness requirement, in case we want to show the solution
+  in some graphical fashion on the grid and to include alternatives. The GUI now
+  shows multiple solutions for a given word, in spangly technicolor
 - DONE: Consider RadixTrie for word list storage, but I think the efficiencies it
   gives (space, search) are less useful when set against the cost of initially
   adding the words. I was right about this, so I kept the Trie. If I was making

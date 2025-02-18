@@ -10,6 +10,7 @@ from pysquaredle.puzzle import Puzzle
 from pysquaredle.solutions import Solutions
 from pysquaredle.trie import Trie
 
+
 class Solver:
     """Solve a Squaredle Puzzle.
 
@@ -27,8 +28,8 @@ class Solver:
         puzzle: Puzzle,
         word_list_path: str,
         update_func: Optional[  # noqa: UP007
-        Callable[[str, list[int], int], None]
-    ] = None,
+            Callable[[str, list[int], int], None]
+        ] = None,
     ) -> None:
         """Create a Solver for Puzzle.
 
