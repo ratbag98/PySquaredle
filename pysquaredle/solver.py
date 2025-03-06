@@ -14,14 +14,15 @@ from pysquaredle.trie import Trie
 class Solver:
     """Solve a Squaredle Puzzle.
 
-    We maintain a word list stored as a trie for speedy starts with searches
-    We use a recursive chain builder to find solutions in the grid
+    We maintain a word list stored as a trie for speedy starts with searches.
+    We use a recursive chain builder to find solutions in the grid.
     """
 
     # process the word_list.txt using the following command:
     # gsed -e 's/^\(.*\)\s*$/\U\1/g' raw_word_list.txt > word_list.txt
     # in other words, uppercase, no trailing whitespace
     # "gsed" is GNU sed or similar (MacOS sed is BSD sed)
+    # an extra line of comments
 
     def __init__(
         self,
