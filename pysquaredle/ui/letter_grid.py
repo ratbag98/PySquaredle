@@ -88,7 +88,7 @@ class LetterGridWidget(QWidget):
 
     def _centre_of_cell(self, index: int) -> tuple[int, int]:
         """Calculate center of a given Grid cell."""
-        (x, y, _w, _h) = self.grid.getItemPosition(
+        x, y, _w, _h = self.grid.getItemPosition(
             index
         )  # pylint: disable=unused-variable,invalid-name
 

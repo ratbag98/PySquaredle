@@ -22,7 +22,6 @@ class Solver:
     # gsed -e 's/^\(.*\)\s*$/\U\1/g' raw_word_list.txt > word_list.txt
     # in other words, uppercase, no trailing whitespace
     # "gsed" is GNU sed or similar (MacOS sed is BSD sed)
-    # an extra line of comments
 
     def __init__(
         self,

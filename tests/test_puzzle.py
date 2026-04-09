@@ -51,9 +51,6 @@ def test_neighbours_of(good_puzzle: Puzzle) -> None:
 
 def test_list_neighbours(good_puzzle: Puzzle) -> None:
     """Do we see the correct neighbours?"""
-    assert (
-        good_puzzle.list_neighbours()
-        == """1:3:4, 0:2:3:4:5, 1:4:5,
+    assert good_puzzle.list_neighbours() == """1:3:4, 0:2:3:4:5, 1:4:5,
 0:1:4:6:7, 0:1:2:3:5:6:7:8, 1:2:4:7:8,
 3:4:7, 3:4:5:6:8, 4:5:7"""
-    )

@@ -1,16 +1,16 @@
 """Test the GUI."""
 
-import platform
+# import platform
 
 import pytest
 
 from pysquaredle.puzzle import Puzzle
 from pysquaredle.solver import Solver
 
-if platform.processor() == "aarch64":
-    pytest.skip("Skipping UI tests on ARM", allow_module_level=True)
-else:
-    from pysquaredle.ui.main_window import MainWindow
+# if platform.processor() == "aarch64":
+#     pytest.skip("Skipping UI tests on ARM", allow_module_level=True)
+# else:
+from pysquaredle.ui.main_window import MainWindow
 
 
 @pytest.fixture(name="main_window")
